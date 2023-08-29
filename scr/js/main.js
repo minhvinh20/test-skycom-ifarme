@@ -204,7 +204,7 @@ function listenEventChangeFielsValidate() {
 listenEventChangeFielsValidate();
 // ===================================================================
 function addGclid() {
-    var gclidParam = getParam('c');
+    var gclidParam = getParam('gclid');
     var gclidFormFields = ['gclid_field', 'foobar'];
     var gclidRecord = null;
     var currGclidFormField;

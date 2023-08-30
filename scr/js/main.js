@@ -244,4 +244,4 @@ function addGclid() {
     console.log(gclidParam)
 }
 window.addEventListener('load', addGclid);
-console.log('windown.parent.location.href', windown.parent.location.href)
+console.log('window.parent.location.href', window.parent.location.href)

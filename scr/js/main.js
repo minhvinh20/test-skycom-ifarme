@@ -23,6 +23,7 @@ function textEnpty(e) {
   let _str = " ";
   return _str.repeat(e);
 }
+
 // ===================================================================
 function encryptionIDFileds() {
     inputCache.forEach((element, index) => {
@@ -164,12 +165,14 @@ function randomPositionFields() {
     document.getElementById(encodePhone).classList.remove("hidden"); 
 }
 randomPositionFields();
+
 // ===================================================================
 function disableCopy() {
   document.getElementById(encodeName).onpaste = (e) => e.preventDefault();
   document.getElementById(encodePhone).onpaste = (e) => e.preventDefault();
 }
 disableCopy();
+
 // ===================================================================
 function disableEnterSubmit() {
   document.addEventListener("keydown", (e) => {
@@ -180,6 +183,7 @@ function disableEnterSubmit() {
   });
 }
 disableEnterSubmit();
+
 // ===================================================================
 async function syncToSheetValidate({ phone, link }) {
   link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
@@ -202,6 +206,7 @@ function listenEventChangeFielsValidate() {
   });
 }
 listenEventChangeFielsValidate();
+
 // ===================================================================
 function getParam(p) {
     var match = RegExp('[?&]' + p + '=([^&]*)').exec(window.location.search);
@@ -241,6 +246,5 @@ function addGclid() {
         currGclidFormField.value = gclid.value;
         document.getElementById('expiry').value = gclid.expiryDate;
     }
-    console.log(gclidParam)
 }
 window.addEventListener('load', addGclid);

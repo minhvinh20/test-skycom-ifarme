@@ -120,7 +120,6 @@ const handlePostData = async ({ Ten1, Ten2, Address, name, phone, time }) => {
     });
 };
 
-
 function handleSubmit() {
   form.addEventListener('submit', (e) =>{
     e.preventDefault();

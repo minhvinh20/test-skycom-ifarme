@@ -1,7 +1,7 @@
 const bareURL = "https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
 const urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";
 const urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach";
-const urlSyncGoogleSheetSpam = "https://script.google.com/macros/s/AKfycbwY41riivxpKhDxprsXxp3zdO05F1LWn3OTDhyW-TXt0ytauHlUM6-9EFGjuyWT09Oecg/exec";
+const urlSyncGoogleSheetSpam ="https://script.google.com/macros/s/AKfycbzGbJQ83uGDjEGC5x8yqbIjKr0ATrzk6gNYcIxAI958cHpSfc-r6KHnylZNK7fxCpFgaQ/exec";
 
 // =================================================================== 
 
@@ -35,7 +35,7 @@ function encryptionIDFileds() {
         encodePhone = randomString;
         }
         if (index == 2) {
-            encodeAddress = randomString;
+          encodeAddress = randomString;
         }
         let placeholder = element.getAttribute("placeholder");
         placeholder += textEnpty(100) + randomString + "-" + randomString + textEnpty(getRandomInt(20)) + randomString + "-" + randomString;
@@ -49,6 +49,7 @@ encryptionIDFileds();
 
 function validateForm() {
     const valuePhone = document.getElementById(`${encodePhone}`).value;
+    const valueAddress = document.getElementById(`${encodeAddress}`).value;
     let validate = true;
 
     if (!regexPhone.test(valuePhone)) {
@@ -57,36 +58,36 @@ function validateForm() {
     }
     return validate;
 }
-const syncToSheetServerFail = async ({ name, phone, address, link, reasons }) => {
+const syncToSheetServerFail = async ({ name, phone, address,ad_channel, ad_account, link, reasons }) => {
     link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
     await fetch(
-        `${urlSyncGoogleSheetSpam}?name=${name}&phone=${phone}&address=${address}&link=${link}&reasons=${reasons}&SHEET_NAME=ErrorServer`,
+        `${urlSyncGoogleSheetSpam}?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}&address=${address}&utmSource=${ad_channel || ''}&utmMedium=${ad_account || ''}&link=${link}&reasons=${reasons}&SHEET_NAME=ErrorServer`,
         {
-            method: "GET",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            redirect: "follow",
+          method: "GET",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          redirect: "follow",
         }
     );
 };
-const syncToSheetDataSubmit = async ({ name, phone, address, link, spam, reasons }) => {
+const syncToSheetDataSubmit = async ({ name, phone, address, ad_channel, ad_account, link, spam, reasons }) => {
     link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
     await fetch(
-        `${urlSyncGoogleSheetSpam}?name=${name}&phone=${phone}&address=${address}&link=${link}&spam=${spam}&reasons=${reasons}&SHEET_NAME=TotalSDT`,
+        `${urlSyncGoogleSheetSpam}?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}&address=${address}&utmSource=${ad_channel || ''}&utmMedium=${ad_account || ''}&link=${link}&spam=${spam}&reasons=${reasons}&SHEET_NAME=TotalSDT`,
         {
-            method: "GET",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            redirect: "follow",
+          method: "GET",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          redirect: "follow",
         }
     );
 };
-const handlePostData = async ({ Ten1, Ten2, Address, name, phone, time }) => {
-    const params = { Ten1, Ten2, Address, name, phone, link: parentUrl, actionTime: time };
+const handlePostData = async ({ Ten1, Ten2, address, name, phone, time }) => {
+    const params = { Ten1, Ten2, address, name, phone, link: parentUrl, actionTime: time };
     const response = await fetch(bareURL, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(params),
     })
@@ -95,30 +96,34 @@ const handlePostData = async ({ Ten1, Ten2, Address, name, phone, time }) => {
     })
     .then((data) => {
         syncToSheetDataSubmit({
-            name: Ten1,
-            phone: Ten2,
-            address: Address,
-            link: parentUrl,
-            spam: data.spam,
-            reasons: data.reasons,
+          name: Ten1,
+          phone: Ten2,
+          address: address,
+          link: parentUrl,
+          spam: data.spam,
+          reasons: data.reasons,
+          ad_channel: data.ad_channel,
+          ad_account: data.ad_account,
         });
         if (data.spam) {
-            window.parent.location.replace(urlThankFake);
+          window.parent.location.replace(urlThankFake);
         } else {
-            window.parent.location.replace(urlThankReal);
+          window.parent.location.replace(urlThankReal);
         }
-        console.log(data)
     })
     .catch((error) => {
         syncToSheetServerFail({
-            name: Ten1,
-            phone: Ten2,
-            address: Address,
-            link: parentUrl,
-            reason: error.message,
+          name: Ten1,
+          phone: Ten2,
+          address: address,
+          link: parentUrl,
+          reason: error.message,
+          ad_channel: data.ad_channel,
+          ad_account: data.ad_account,
         });
     });
 };
+
 
 function handleSubmit() {
   form.addEventListener('submit', (e) =>{
@@ -134,14 +139,7 @@ function handleSubmit() {
         const buttonSubmit = document.getElementById("btn-submit");
         buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
         buttonSubmit.parentElement.classList.add("disable");
-        grecaptcha.ready(function() {
-            grecaptcha.execute(buttonSubmit.getAttribute('data-sitekey'), {
-                action: 'submit'
-            }).then(function(token) {
-                // Add your logic to submit to your backend server here.
-                handlePostData({ Ten1, Ten2, Address: address, name, phone, time: timeClickBuy });
-            });
-        });
+        handlePostData({ Ten1, Ten2, address: address, name, phone, time: timeClickBuy });
     }
   });
 }
@@ -151,7 +149,6 @@ function randomPositionFields() {
     const wrapper = document.querySelectorAll(".form-control");
     const fieldName  = document.getElementById(encodeName).parentElement.innerHTML;
     const fieldPhone = document.getElementById(encodePhone).parentElement.innerHTML;
-    const fieldAddress = document.getElementById(encodeAddress).parentElement.innerHTML;
     if (number % 2 === 0) {
         wrapper[0].innerHTML = fieldName;
         wrapper[1].innerHTML = fieldPhone;
@@ -169,6 +166,7 @@ randomPositionFields();
 function disableCopy() {
   document.getElementById(encodeName).onpaste = (e) => e.preventDefault();
   document.getElementById(encodePhone).onpaste = (e) => e.preventDefault();
+  document.getElementById(encodeAddress).onpaste = (e) => e.preventDefault();
 }
 disableCopy();
 

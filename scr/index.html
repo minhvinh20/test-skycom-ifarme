@@ -81,18 +81,19 @@
                   <input placeholder="&#272;l&#7840; CH&#7880;" id="" name="" autocomplete="off" required />
               </div>
           </div>
-          <div class="form-control" style="padding-right: 10px;">
-            <select
-              class="form-control--seclect"
-              data-selected="1 Hộp Nhỏ - 10 Viên (Giá dùng thử)"
-            >
-              <option value="" class="hidden">Chọn combo muốn mua</option>
-              <option value="1 Hộp Nhỏ - 10 Viên (Giá dùng thử)" selected>
-                1 Hộp Nhỏ - 10 Viên (Giá dùng thử)
-              </option>
-              <option value="1 Hộp Lớn - 30 viên">1 Hộp Lớn - 30 viên</option>
-              <option value="2 Hộp Lớn  - 60 viên">2 Hộp Lớn - 60 viên</option>
-            </select>
+          <div class="form-option--wrapper">
+            <div class="form-option">
+              <input type="checkbox" name="products" type="radio" id="combodungthu" value="1 Hộp Nhỏ - 10 Viên (Giá dùng thử)">
+              <label data-checked="false" for="combodungthu" >1 Hộp Nhỏ - 10 Viên (Giá dùng thử)</;>
+            </div>
+            <div class="form-option">
+              <input type="checkbox" name="products" type="radio" id="combo1" value="1 Hộp Lớn - 30 viên">
+              <label data-checked="false" for="combo1" >1 Hộp Lớn - 30 viên</label>
+            </div>
+            <div class="form-option">
+              <input type="checkbox" name="products" type="radio" id="combo2" value="2 Hộp Lớn - 60 viên">
+              <label data-checked="false" for="combo2">2 Hộp Lớn - 60 viên</label>
+            </div>
           </div>
           <div id="errorMessage"></div>
           <div class="form-submit">
@@ -100,7 +101,6 @@
               <button
                 type="submit"
                 id="btn-submit"
-                data-sitekey="6Lf5K9MnAAAAAACAkPZK5G-N5iHEOLI25oMPjOH8"
               >
                 ĐĂNG KÝ NGAY
               </button>

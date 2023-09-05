@@ -48,27 +48,8 @@ form{
             }
         }
     }
-    select{
-        background-color: transparent;
-        min-width: 100%;
-        min-height: 100%;
-        max-width: 100%;
-        max-height: 100%;
-        width: 100%;
-        height: 46px;
-        padding: 0 5px;
-        color: inherit;
-        font-size: inherit;
-        border: none;
-        outline: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background: transparent;
-        background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
-        background-repeat: no-repeat;
-        background-position-x: 100%;
-        background-position-y: 50%;
-        padding-right: 2rem;
+    .form-option--wrapper{
+        margin: 10px;
     }
     .form-submit{
         color: initial;

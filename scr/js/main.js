@@ -7,6 +7,7 @@ const urlSyncGoogleSheetSpam ="https://script.google.com/macros/s/AKfycbzGbJQ83u
 
 let encodeName = "", encodePhone = "", encodeAddress = "";
 const timeFirstRenderPage = new Date();
+let timeAdress = '';
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
 
 let parentUrl = window.location.href.indexOf("split=") > -1 ? window.location.href.split("split=")[1] : window.top.location.href;
@@ -86,8 +87,8 @@ const syncToSheetDataSubmit = async ({ name, phone, address, ad_channel, ad_acco
         }
     );
 };
-const handlePostData = async ({ Ten1, Ten2, address, name, phone, time }) => {
-    const params = { Ten1, Ten2, address, name, phone, link: parentUrl, actionTime: time };
+const handlePostData = async ({ Ten1, Ten2, address, name, phone,action_ad_time, time }) => {
+    const params = { Ten1, Ten2, address, name, phone, link: parentUrl, action_ad_time, actionTime: time };
     const response = await fetch(bareURL, {
         method: "POST",
         headers: {
@@ -112,7 +113,7 @@ const handlePostData = async ({ Ten1, Ten2, address, name, phone, time }) => {
         if (data.spam) {
           window.parent.location.replace(urlThankFake);
         } else {
-          window.parent.location.replace(`${urlThankReal}?name=${Ten1}&sdt=${Ten2}&diachia=${address}}`);
+          window.parent.location.replace(`${urlThankReal}?name=${Ten1}&phone=${Ten2}&address=${address}}`);
         }
     })
     .catch((error) => {
@@ -128,10 +129,15 @@ const handlePostData = async ({ Ten1, Ten2, address, name, phone, time }) => {
     });
 };
 
-
 function handleSubmit() {
+  document.getElementById(encodeAddress).addEventListener('focus', () =>{ 
+    if (timeAdress == '') {
+      timeAdress = new Date();
+    }
+  });
   form.addEventListener('submit', (e) =>{
     e.preventDefault();
+    const action_ad_time = Math.round(Math.abs(new Date() - timeAdress) / 1000);
     const invalid = validateForm();
     if (invalid) {
         const timeClickBuy = Math.round(Math.abs(new Date() - timeFirstRenderPage) / 1000);
@@ -143,7 +149,7 @@ function handleSubmit() {
         const buttonSubmit = document.getElementById("btn-submit");
         buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
         buttonSubmit.parentElement.classList.add("disable");
-        handlePostData({ Ten1, Ten2, address: address.trim(), name, phone, time: timeClickBuy });
+        handlePostData({ Ten1, Ten2, address: address.trim(), name, phone, action_ad_time, time: timeClickBuy });
     }
   });
 }
@@ -207,5 +213,3 @@ function listenEventChangeFielsValidate() {
   });
 }
 listenEventChangeFielsValidate();
-console.log(parentUrl);
-console.log(window.parent.location.href);

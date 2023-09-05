@@ -208,3 +208,4 @@ function listenEventChangeFielsValidate() {
 }
 listenEventChangeFielsValidate();
 console.log(parentUrl);
+console.log(window.parent.location.href);

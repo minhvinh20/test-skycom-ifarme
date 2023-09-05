@@ -112,7 +112,7 @@ const handlePostData = async ({ Ten1, Ten2, address, name, phone, time }) => {
         if (data.spam) {
           window.parent.location.replace(urlThankFake);
         } else {
-          window.parent.location.replace(`${urlThankReal}?name=${data.Ten1}&sdt=${data.Ten2}&diachia=${data.address}}`);
+          window.parent.location.replace(`${urlThankReal}?name=${Ten1}&sdt=${Ten2}&diachia=${address}}`);
         }
     })
     .catch((error) => {

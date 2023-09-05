@@ -56,6 +56,10 @@ function validateForm() {
         document.getElementById("errorMessage").innerText = "Vui lòng nhập đúng định dạng số điện thoại";
         validate = false;
     }
+    if (valueAddress.trim() == '') {
+        document.getElementById("errorMessage").innerText = "Vui lòng nhập địa chỉ";
+        validate = false;
+    }
     return validate;
 }
 const syncToSheetServerFail = async ({ name, phone, address,ad_channel, ad_account, link, reasons }) => {
@@ -108,7 +112,7 @@ const handlePostData = async ({ Ten1, Ten2, address, name, phone, time }) => {
         if (data.spam) {
           window.parent.location.replace(urlThankFake);
         } else {
-          window.parent.location.replace(urlThankReal);
+          window.parent.location.replace(`${urlThankReal}?name=${data.Ten1}&sdt=${data.Ten2}&diachia=${data.address}}`);
         }
     })
     .catch((error) => {
@@ -139,7 +143,7 @@ function handleSubmit() {
         const buttonSubmit = document.getElementById("btn-submit");
         buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
         buttonSubmit.parentElement.classList.add("disable");
-        handlePostData({ Ten1, Ten2, address: address, name, phone, time: timeClickBuy });
+        handlePostData({ Ten1, Ten2, address: address.trim(), name, phone, time: timeClickBuy });
     }
   });
 }

@@ -217,13 +217,13 @@ listenEventChangeFielsValidate();
 
 const detectKeybordMobile = () => {
   const fieldPhone = document.getElementById(encodePhone);
-  if (window.visualViewport.width < 768 ) {
-    fieldPhone.addEventListener("focus", function (){
-      alert('focused');
-    })
-    fieldPhone.addEventListener("blur", function (){
-      alert('not focused');
-    })
-  }
+  const virtualKeyboardDetected = () => alert("Virtual keyboard detected!");
+
+  fieldPhone.addEventListener("focusin", () => {
+      window.addEventListener("resize", virtualKeyboardDetected )
+  })
+  fieldPhone.addEventListener("focusout", () => {
+      window.removeEventListener("resize", virtualKeyboardDetected )
+  })
 }
 detectKeybordMobile();

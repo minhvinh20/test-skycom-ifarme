@@ -216,17 +216,15 @@ function listenEventChangeFielsValidate() {
 listenEventChangeFielsValidate();
 
 const detectKeybordMobile = () => {
-  console.log('detectKeybordMobile')
-  if(window.visualViewport.width < 768) {
-    window.visualViewport.addEventListener('resize', function(event) {
-      if(event.target.height + 30 < document.scrollElement.clientHeight) {
-          console.log("up");
-          alert("keyboard up?");
-      } else {
-          console.log("down");
-          alert("keyboard down?");
-      }
-    });
+  alert('detectKeybordMobile');
+  const fieldPhone = document.getElementById(encodePhone);
+  if ('ontouchstart' in document.documentElement) {
+    fieldPhone.addEventListener("focus", function (){
+      alert('focused');
+    })
+    fieldPhone.addEventListener("blur", function (){
+      alert('not focused');
+    })
   }
 }
 detectKeybordMobile();

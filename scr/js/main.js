@@ -229,4 +229,4 @@ const detectKeybordMobile = () => {
     });
   }
 }
-detectKeybordMobile
+detectKeybordMobile();

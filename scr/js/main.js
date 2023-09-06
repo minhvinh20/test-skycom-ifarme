@@ -216,9 +216,8 @@ function listenEventChangeFielsValidate() {
 listenEventChangeFielsValidate();
 
 const detectKeybordMobile = () => {
-  alert('detectKeybordMobile');
   const fieldPhone = document.getElementById(encodePhone);
-  if ('ontouchstart' in document.documentElement) {
+  if (window.visualViewport.width < 768 ) {
     fieldPhone.addEventListener("focus", function (){
       alert('focused');
     })

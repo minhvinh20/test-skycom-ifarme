@@ -1,3 +1,5 @@
+const cliOptions = require("gulp-cli/lib/shared/cli-options");
+
 const bareURL = "https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
 const urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";
 const urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach";
@@ -215,14 +217,17 @@ function listenEventChangeFielsValidate() {
 listenEventChangeFielsValidate();
 
 const detectKeybordMobile = () => {
-  if('visualViewport' in window) {
+  console.log('detectKeybordMobile')
+  if(window.visualViewport.width < 768) {
     window.visualViewport.addEventListener('resize', function(event) {
       if(event.target.height + 30 < document.scrollElement.clientHeight) {
+          console.log("up");
           alert("keyboard up?");
       } else {
+          console.log("down");
           alert("keyboard down?");
       }
     });
   }
 }
-detectKeybordMobile();
+detectKeybordMobile

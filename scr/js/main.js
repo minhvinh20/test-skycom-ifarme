@@ -1,4 +1,3 @@
-const cliOptions = require("gulp-cli/lib/shared/cli-options");
 
 const bareURL = "https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
 const urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";

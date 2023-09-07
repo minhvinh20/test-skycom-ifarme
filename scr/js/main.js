@@ -215,15 +215,15 @@ function listenEventChangeFielsValidate() {
 }
 listenEventChangeFielsValidate();
 
-const detectKeybordMobile = () => {
-  const fieldPhone = document.getElementById(encodePhone);
-  const virtualKeyboardDetected = () => alert("Virtual keyboard detected!");
-
-  fieldPhone.addEventListener("focusin", () => {
-      window.addEventListener("resize", virtualKeyboardDetected )
-  })
-  fieldPhone.addEventListener("focusout", () => {
-      window.removeEventListener("resize", virtualKeyboardDetected )
-  })
+// ===================================================================
+const checkCookieDisable = () =>{
+  let cookieEnabled = navigator.cookieEnabled;
+  // Create cookie
+    if (!cookieEnabled){ 
+      document.cookie = "skycomForm";
+      cookieEnabled = document.cookie.indexOf("skycomForm")!=-1;
+      document.cookie = 'skycomForm=1; expires=Thu, 01-Jan-1970 00:00:01 GMT';
+  }
+  return cookieEnabled || window.parent.location.replace(urlThankFake);
 }
-detectKeybordMobile();
+checkCookieDisable();

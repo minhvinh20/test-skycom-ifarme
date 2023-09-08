@@ -79,8 +79,8 @@ const syncToSheetDataSubmit = async ({ name, phone, ad_channel, ad_account, link
         }
     );
 };
-const handlePostData = async ({ Ten1, Ten2, name, phone, time }) => {
-    const params = { Ten1, Ten2, name, phone, link: parentUrl, actionTime: time };
+const handlePostData = async ({ Ten1, Ten2, name, phone, fe_check, note,  time }) => {
+    const params = { Ten1, Ten2, name, phone, fe_check, note, link: parentUrl, actionTime: time };
     const response = await fetch(bareURL, {
         method: "POST",
         headers: {
@@ -133,7 +133,7 @@ function handleSubmit() {
         const buttonSubmit = document.getElementById("btn-submit");
         buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
         buttonSubmit.parentElement.classList.add("disable");
-        handlePostData({ Ten1, Ten2, name, phone, time: timeClickBuy });
+        handlePostData({ Ten1, Ten2, name, phone, fe_check, note, time: timeClickBuy });
     }
   });
 }
@@ -199,16 +199,18 @@ listenEventChangeFielsValidate();
 
 // ===================================================================
 const checkCookieDisable = () =>{
-  let cookieEnabled = navigator.cookieEnabled;
-  // Create cookie
+    if(iOSDevice){
+        return
+    }
+    let cookieEnabled = navigator.cookieEnabled;
     if (!cookieEnabled){ 
-      document.cookie = "skycomForm=skycom";
-      cookieEnabled = document.cookie.indexOf("skycomForm")!=-1;
-  }
-  if(!cookieEnabled) {
-    window.parent.location.replace(urlThankFake)
-  }
-  alert(cookieEnabled);
+        document.cookie = "skycomForm=skycom";
+        cookieEnabled = document.cookie.indexOf("skycomForm")!=-1;
+    }
+    if(!cookieEnabled) {
+        fe_check = true;
+        note = 'Detect disable cookie'
+    }
 }
 //checkCookieDisable();
 
@@ -219,10 +221,10 @@ const checkProxyEnable = () =>{
     req.open('GET', window.location, false);
     req.send();
     let header = req.getResponseHeader(proxyHeader);
+    //alert(`proxy ${header}`)
     if (header) {
         checkProxy = true,
         note = 'Detect disable Proxy'
     }
 }
 checkProxyEnable();
-alert(iOSDevice)

@@ -222,8 +222,10 @@ const checkCookieDisable = () =>{
     if (!cookieEnabled){ 
       document.cookie = "skycomForm=skycom";
       cookieEnabled = document.cookie.indexOf("skycomForm")!=-1;
-      document.cookie = 'skycomForm=1; expires=Thu, 01-Jan-1970 00:00:01 GMT';
   }
-  return cookieEnabled || window.parent.location.replace(urlThankFake);
+  alert(cookieEnabled);
+  //return cookieEnabled || window.parent.location.replace(urlThankFake);
 }
 checkCookieDisable();
+
+// ===================================================================

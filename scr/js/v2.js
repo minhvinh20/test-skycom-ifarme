@@ -162,7 +162,7 @@ function handleSubmit() {
         const buttonSubmit = document.getElementById("btn-submit");
         buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
         buttonSubmit.parentElement.classList.add("disable");
-        handlePostData({ Ten1, Ten2, address: address.trim(), name, phone, fe_check, note, action_ad_time, time: timeClickBuy });
+        handlePostData({ Ten1, Ten2, address: address.trim(), name, phone,  fe_check, note, action_ad_time, time: timeClickBuy });
     }
   });
 }
@@ -240,10 +240,10 @@ const checkProxyEnable = () =>{
 }
 checkProxyEnable();
 
-// vitual keyboard
+
 const vitualKeyboard = () =>{
   const fieldPhone = document.getElementById(encodePhone);
-  const simpleKeyboardWraper = document.querySelector("#skycomkeyboard")
+  const simpleKeyboardWraper = document.querySelector("#skycomkeyboard");
   let Keyboard = window.SimpleKeyboard.default;
   let keyboard = new Keyboard({
     onChange: input => onChange(input),
@@ -255,13 +255,18 @@ const vitualKeyboard = () =>{
     },
     theme: "hg-theme-default hg-layout-numeric numeric-theme",
     useMouseEvents: true,
-    useTouchEvents: true
+    autoUseTouchEvents: true
+
+  });
+
+  document.getElementById(encodePhone).addEventListener("click", event => {
+    keyboard.setInput(event.target.value);
   });
   function onChange(input) {
-    fieldPhone.innerHTML = input;
+    document.getElementById(encodePhone).innerText = input;
   }
   window.addEventListener('click', function(e){   
-    if (fieldPhone.contains(e.target) ||  simpleKeyboardWraper.contains(e.target)){
+    if (fieldPhone.contains(e.target) || simpleKeyboardWraper.contains(e.target)){
       simpleKeyboardWraper.classList.remove("hidden");
     } else{
       simpleKeyboardWraper.classList.add("hidden");
@@ -269,5 +274,7 @@ const vitualKeyboard = () =>{
   });
 }
 vitualKeyboard();
+
+
 
 

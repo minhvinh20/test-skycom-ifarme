@@ -115,10 +115,10 @@ form{
     }
 }
 #skycomkeyboard{
-    position: fixed;
+    position: relative;
     width: 354px;
-    bottom: 0;
     z-index: 99999;
+    top: 20px;
 }
 #reload{
     animation-name: spin;

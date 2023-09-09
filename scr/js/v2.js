@@ -274,7 +274,7 @@ const vitualKeyboard = () =>{
   });
 }
 vitualKeyboard();
-console.log(document.querySelector(body));
+console.log(document.querySelector("body"));
 
 
 

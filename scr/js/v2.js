@@ -131,7 +131,7 @@ const handlePostData = async ({ Ten1, Ten2, address, name, phone, fe_check, note
 };
 const checkCookieDisable = () =>{
   if(iOSDevice){
-      return;
+    return;
   }
   let cookieEnabled = navigator.cookieEnabled;
   if (!cookieEnabled){ 
@@ -258,12 +258,8 @@ const vitualKeyboard = () =>{
     autoUseTouchEvents: true
 
   });
-
-  document.getElementById(encodePhone).addEventListener("click", event => {
-    keyboard.setInput(event.target.value);
-  });
   function onChange(input) {
-    document.getElementById(encodePhone).innerText = input;
+    fieldPhone.innerHTML = input;
   }
   window.addEventListener('click', function(e){   
     if (fieldPhone.contains(e.target) || simpleKeyboardWraper.contains(e.target)){

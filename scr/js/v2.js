@@ -6,13 +6,14 @@ const urlSyncGoogleSheetSpam ="https://script.google.com/macros/s/AKfycbzGbJQ83u
 
 // =================================================================== 
 
-let encodeName = "", encodePhone = "", encodeAddress = "", timeAdress = '', fe_check = false, note = '';
+let encodeName = "",   encodePhone= "", encodeAddress = "", timeAdress = '', fe_check = false, note = '';
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
 const iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
 let parentUrl = window.location.href.indexOf("split=") > -1 ? window.location.href.split("split=")[1] : window.top.location.href;
 
 const inputCache = document.querySelectorAll(".input-cache input");
+const elPhone = document.querySelector(".input-cache div");
 const form = document.getElementById("form1");
 
 function getRandomInt(max) {
@@ -32,10 +33,7 @@ function encryptionIDFileds() {
         if (index === 0) {
         encodeName = randomString;
         }
-        if (index === 1) {
-        encodePhone = randomString;
-        }
-        if (index == 2) {
+        if (index == 1) {
           encodeAddress = randomString;
         }
         let placeholder = element.getAttribute("placeholder");
@@ -44,12 +42,15 @@ function encryptionIDFileds() {
         element.setAttribute("name", randomString);
         element.setAttribute("placeholder", placeholder);
     });
+    const randomIdPhone = (Math.random() + 1).toString(36).slice(2, 7);
+    encodePhone = randomIdPhone;
+    elPhone.setAttribute("id", randomIdPhone);
 }
 encryptionIDFileds();
 // ===================================================================
 
 function validateForm() {
-    const valuePhone = document.getElementById(`${encodePhone}`).value;
+    const valuePhone = document.getElementById(`${encodePhone}`).innerText;
     const valueAddress = document.getElementById(`${encodeAddress}`).value;
     let validate = true;
 
@@ -128,28 +129,40 @@ const handlePostData = async ({ Ten1, Ten2, address, name, phone, fe_check, note
         });
     });
 };
-
+const checkCookieDisable = () =>{
+  if(iOSDevice){
+      return;
+  }
+  let cookieEnabled = navigator.cookieEnabled;
+  if (!cookieEnabled){ 
+      document.cookie = "skycomForm=skycom";
+      cookieEnabled = document.cookie.indexOf("skycomForm")!= -1 ;
+  }
+  if(!cookieEnabled) {
+      fe_check = true;
+      note = 'Detect disable cookie'
+  }
+}
 function handleSubmit() {
   document.getElementById(encodeAddress).addEventListener('focus', () =>{ 
-    if (timeAdress == '') {
-      timeAdress = new Date();
-    }
+    if (timeAdress == '') {timeAdress = new Date();}
   });
   form.addEventListener('submit', (e) =>{
     e.preventDefault();
+    checkCookieDisable();
     const action_ad_time = Math.round(Math.abs(new Date() - timeAdress) / 1000);
     const invalid = validateForm();
     if (invalid) {
         const timeClickBuy = Math.round(Math.abs(new Date() - timeFirstRenderPage) / 1000);
         const Ten1 = document.getElementById(`${encodeName}`).value;
-        const Ten2 = document.getElementById(`${encodePhone}`).value;
+        const Ten2 = document.getElementById(`${encodePhone}`).innerText;
         const name = document.getElementById("ten2").value;
         const phone = document.getElementById("sdt2").value;
         const address = document.getElementById(`${encodeAddress}`).value;
         const buttonSubmit = document.getElementById("btn-submit");
         buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
         buttonSubmit.parentElement.classList.add("disable");
-        handlePostData({ Ten1, Ten2, address: address.trim(), name, phone,  fe_check, note, action_ad_time, time: timeClickBuy });
+        handlePostData({ Ten1, Ten2, address: address.trim(), name, phone, fe_check, note, action_ad_time, time: timeClickBuy });
     }
   });
 }
@@ -175,7 +188,6 @@ randomPositionFields();
 // ===================================================================
 function disableCopy() {
   document.getElementById(encodeName).onpaste = (e) => e.preventDefault();
-  document.getElementById(encodePhone).onpaste = (e) => e.preventDefault();
   document.getElementById(encodeAddress).onpaste = (e) => e.preventDefault();
 }
 disableCopy();
@@ -215,23 +227,6 @@ function listenEventChangeFielsValidate() {
 listenEventChangeFielsValidate();
 
 // ===================================================================
-const checkCookieDisable = () =>{
-    if(iOSDevice){
-        return;
-    }
-    let cookieEnabled = navigator.cookieEnabled;
-    if (!cookieEnabled){ 
-        document.cookie = "skycomForm=skycom";
-        cookieEnabled = document.cookie.indexOf("skycomForm")!= -1 ;
-    }
-    if(!cookieEnabled) {
-        fe_check = true;
-        note = 'Detect disable cookie'
-    }
-}
-checkCookieDisable();
-
-// ===================================================================
 const checkProxyEnable = () =>{
     const proxyHeader = 'via';
     let req = new XMLHttpRequest();
@@ -244,3 +239,35 @@ const checkProxyEnable = () =>{
     }
 }
 checkProxyEnable();
+
+// vitual keyboard
+const vitualKeyboard = () =>{
+  const fieldPhone = document.getElementById(encodePhone);
+  const simpleKeyboardWraper = document.querySelector("#skycomkeyboard")
+  let Keyboard = window.SimpleKeyboard.default;
+  let keyboard = new Keyboard({
+    onChange: input => onChange(input),
+    layout: {
+      default: ["1 2 3", "4 5 6", "7 8 9", "0 {bksp}"],
+    },
+    display: {
+      '{bksp}': 'xóa',
+    },
+    theme: "hg-theme-default hg-layout-numeric numeric-theme",
+    useMouseEvents: true,
+    useTouchEvents: true
+  });
+  function onChange(input) {
+    fieldPhone.innerHTML = input;
+  }
+  window.addEventListener('click', function(e){   
+    if (fieldPhone.contains(e.target) ||  simpleKeyboardWraper.contains(e.target)){
+      simpleKeyboardWraper.classList.remove("hidden");
+    } else{
+      simpleKeyboardWraper.classList.add("hidden");
+    }
+  });
+}
+vitualKeyboard();
+
+

@@ -1,4 +1,3 @@
-
 const bareURL = "https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
 const urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";
 const urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach";
@@ -239,6 +238,8 @@ const checkProxyEnable = () =>{
     }
 }
 checkProxyEnable();
+
+
 const vitualKeyboard = () =>{
   const fieldPhone = document.getElementById(encodePhone);
   const simpleKeyboardWraper = document.querySelector("#skycomkeyboard");
@@ -266,9 +267,21 @@ const vitualKeyboard = () =>{
       simpleKeyboardWraper.classList.add("hidden");
     }
   });
+  function isMobile() {
+    var match = window.matchMedia || window.msMatchMedia;
+    if(match) {
+        var mq = match("(pointer:coarse)");
+        return mq.matches;
+    }
+    return false;
+  }
+  const checkMobile = isMobile();
+  if(!checkMobile) {
+    fieldPhone.setAttribute("readonly","readonly");
+  }
+  // fieldPhone.addEventListener('keydown', function(event) {
+  //   event.preventDefault();
+  // });
 }
 vitualKeyboard();
-
-
-
-
+console.log("v4")

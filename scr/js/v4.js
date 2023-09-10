@@ -260,12 +260,11 @@ const vitualKeyboard = () =>{
   function onChange(input) {
     fieldPhone.value = input;
   }
-  window.addEventListener('click', function(e){   
-    if (fieldPhone.contains(e.target) || simpleKeyboardWraper.contains(e.target)){
-      simpleKeyboardWraper.classList.remove("hidden");
-    } else{
-      simpleKeyboardWraper.classList.add("hidden");
-    }
+  fieldPhone.addEventListener('keydown', function(event) {
+    event.preventDefault(); // Prevent the default keyboard input behavior
+  });
+  fieldPhone.addEventListener('cut', function(event) {
+    event.preventDefault(); // Prevent cutting text from the input field
   });
   function isMobile() {
     var match = window.matchMedia || window.msMatchMedia;
@@ -277,11 +276,15 @@ const vitualKeyboard = () =>{
   }
   const checkMobile = isMobile();
   if(!checkMobile) {
-    fieldPhone.setAttribute("readonly","readonly");
+    fieldPhone.setAttribute("readonly");
   }
-  // fieldPhone.addEventListener('keydown', function(event) {
-  //   event.preventDefault();
-  // });
+  window.addEventListener('click', function(e){   
+    if (fieldPhone.contains(e.target) || simpleKeyboardWraper.contains(e.target)){
+      simpleKeyboardWraper.classList.remove("hidden");
+    } else{
+      simpleKeyboardWraper.classList.add("hidden");
+    }
+  });
+
 }
 vitualKeyboard();
-console.log("v4")

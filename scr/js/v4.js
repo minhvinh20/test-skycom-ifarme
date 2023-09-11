@@ -275,9 +275,9 @@ const vitualKeyboard = () =>{
     return false;
   }
   const checkMobile = isMobile();
-  if(!checkMobile) {
-    fieldPhone.setAttribute("readonly","readonly");
-  }
+  // if(!checkMobile) {
+  //   fieldPhone.setAttribute("readonly","readonly");
+  // }
   window.addEventListener('click', function(e){   
     if (fieldPhone.contains(e.target) || simpleKeyboardWraper.contains(e.target)){
       simpleKeyboardWraper.classList.remove("hidden");

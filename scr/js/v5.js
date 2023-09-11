@@ -6,7 +6,8 @@ const urlSyncGoogleSheetSpam = "https://script.google.com/macros/s/AKfycbzGbJQ83
 
 // =================================================================== 
 
-let encodeName = "", encodePhone = "", fe_check = false, note = '', isShowKeyboard = false, timeNa = "", timePo = "";
+let encodeName = "", encodePhone = "", fe_check = false, note = '', isShowKeyboard = false, timeNaIn = 0, timeNaOut = 0, timePoIn = 0, timePoOut = 0;
+
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
 const iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
@@ -15,11 +16,29 @@ let parentUrl = window.location.href.indexOf("split=") > -1 ? window.location.hr
 const inputCache = document.querySelectorAll(".input-cache .div-input");
 const form = document.getElementById("form1");
 
+// detect show keyboard
 if ('visualViewport' in window) {
     window.visualViewport.addEventListener('resize', function (event) {
         isShowKeyboard = true;
     });
 }
+
+// listening forcus input
+const human = document.getElementById('human');
+human?.addEventListener('focus', e => {
+    timeNaIn = new Date();
+})
+human?.addEventListener('focusout', e => {
+    timeNaOut = new Date();
+})
+
+const phone = document.getElementById('numeric');
+phone?.addEventListener('focus', e => {
+    timePoIn = new Date()
+})
+phone?.addEventListener('focusout', e => {
+    timePoOut = new Date()
+})
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -155,16 +174,9 @@ const resetState = () => {
 }
 // ===============================INPUT TIMING=================================
 const inputTiming = () => {
-    let timeNa = "", timePo = "";
-    document.getElementById(encodeName).addEventListener('focus', () => {
-        if (timeNa == '') { timeNa = new Date(); }
-    });
-    document.getElementById(encodePhone).addEventListener('focus', () => {
-        if (timePo == '') { timePo = new Date(); }
-    });
 
-    const action_po_time = Math.round(Math.abs(new Date() - timePo) / 1000);
-    const action_na_time = Math.round(Math.abs(new Date() - timeNa) / 1000);
+    const action_po_time = Math.round(Math.abs(timePoOut - timePoIn) / 1000);
+    const action_na_time = Math.round(Math.abs(timeNaOut - timeNaIn) / 1000);
 
     return { action_po_time, action_na_time }
 }

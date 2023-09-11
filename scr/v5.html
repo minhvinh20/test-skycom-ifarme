@@ -42,7 +42,13 @@
           <div class="form-control">
             <div class="control-wrapper">
               <div class="input-group input-cache">
-                <input class="div-input" placeholder="Họ và tên" autocomplete="off" required />
+                <input
+                  id="human"
+                  class="div-input"
+                  placeholder="Họ và tên"
+                  autocomplete="off"
+                  required
+                />
               </div>
             </div>
           </div>
@@ -53,6 +59,7 @@
                   type="number"
                   pattern="[0-9]*"
                   inputmode="numeric"
+                  id="numeric"
                   class="editor div-input"
                   contenteditable
                   placeholder="Số điện thoại(*)"

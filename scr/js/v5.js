@@ -143,11 +143,17 @@ function handleSubmit() {
             buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
             buttonSubmit.parentElement.classList.add("disable");
             handlePostData({ Ten1, Ten2, name, phone, fe_check, note, action_na_time, action_po_time, time: timeClickBuy });
+
+            resetState()
         }
     });
 }
 handleSubmit();
-// ===================================================================
+// ==================================RESET=============================
+const resetState = () => {
+    isShowKeyboard = false
+}
+// ===============================INPUT TIMING=================================
 const inputTiming = () => {
     let timeNa = "", timePo = "";
     document.getElementById(encodeName).addEventListener('focus', () => {
@@ -162,7 +168,7 @@ const inputTiming = () => {
 
     return { action_po_time, action_na_time }
 }
-// ===================================================================
+// =================================CHECK SHOW KEYBOARD===============================
 const handleCheckShowKeyboard = () => {
     if (isShowKeyboard) {
         fe_check = false;

@@ -276,7 +276,7 @@ const vitualKeyboard = () =>{
   }
   const checkMobile = isMobile();
   if(!checkMobile) {
-    fieldPhone.setAttribute("readonly");
+    fieldPhone.setAttribute("readonly","readonly");
   }
   window.addEventListener('click', function(e){   
     if (fieldPhone.contains(e.target) || simpleKeyboardWraper.contains(e.target)){

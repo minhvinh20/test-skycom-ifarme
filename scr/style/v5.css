@@ -1,0 +1,13 @@
+.editor {
+  /* width: 300px; */
+  /* height: 100px; */
+  /* padding: 6px; */
+  /* overflow: scroll; */
+  color: #000 !important;
+}
+[contenteditable][placeholder]:empty:before {
+  content: attr(placeholder);
+  position: absolute;
+  color: gray;
+  background-color: transparent;
+}

@@ -8,6 +8,7 @@
 [contenteditable][placeholder]:empty:before {
   content: attr(placeholder);
   position: absolute;
-  color: gray;
+  color: #ada9a9;
   background-color: transparent;
+  font-family: Arial, Helvetica, sans-serif;
 }

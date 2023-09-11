@@ -85,8 +85,8 @@ const syncToSheetDataSubmit = async ({ name, phone, address, ad_channel, ad_acco
         }
     );
 };
-const handlePostData = async ({ Ten1, Ten2, name, phone, fe_check, note, time }) => {
-    const params = { Ten1, Ten2, name, phone, fe_check, note, link: parentUrl, actionTime: time };
+const handlePostData = async ({ Ten1, Ten2, name, phone, fe_check, note, time, action_na_time, action_po_time, }) => {
+    const params = { Ten1, Ten2, name, phone, fe_check, note, link: parentUrl, actionTime: time, action_na_time, action_po_time, };
     const response = await fetch(bareURL, {
         method: "POST",
         headers: {

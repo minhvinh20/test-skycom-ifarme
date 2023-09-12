@@ -254,8 +254,8 @@ const vitualKeyboard = () =>{
       '{bksp}': 'xóa',
     },
     theme: "hg-theme-default hg-layout-numeric numeric-theme",
-    useMouseEvents: true,
-    autoUseTouchEvents: true
+    // useMouseEvents: true,
+    // autoUseTouchEvents: true
 
   });
   function onChange(input) {

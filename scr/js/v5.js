@@ -5,8 +5,9 @@ const urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach";
 const urlSyncGoogleSheetSpam = "https://script.google.com/macros/s/AKfycbzGbJQ83uGDjEGC5x8yqbIjKr0ATrzk6gNYcIxAI958cHpSfc-r6KHnylZNK7fxCpFgaQ/exec";
 
 // =================================================================== 
+const phonePlaceholder = "Nhập số điện thoại(*)"
 
-let encodeName = "", encodePhone = "", fe_check = false, note = '', isShowKeyboard = false, timeNaIn = 0, timeNaOut = 0, timePoIn = 0, timePoOut = 0;
+let encodeName = "", encodePhone = "", fe_check = false, note = '', isShowKeyboard = false, timeNaIn = 0, timeNaOut = 0, timePoIn = 0, timePoOut = 0, inputPhoneCount = 0;
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
@@ -25,19 +26,23 @@ if ('visualViewport' in window) {
 
 // listening forcus input
 const human = document.getElementById('human');
-human?.addEventListener('focus', e => {
-    timeNaIn = new Date();
+human.addEventListener('focus', e => {
+    if (!timeNaIn) {
+        timeNaIn = new Date();
+    }
 })
-human?.addEventListener('focusout', e => {
+human.addEventListener('focusout', e => {
     timeNaOut = new Date();
 })
 
 const phone = document.getElementById('numeric');
-phone?.addEventListener('focus', e => {
-    timePoIn = new Date()
+phone.addEventListener('focus', e => {
+    if (!timePoIn) {
+        timePoIn = new Date();
+    }
 })
-phone?.addEventListener('focusout', e => {
-    timePoOut = new Date()
+phone.addEventListener('focusout', e => {
+    timePoOut = new Date();
 })
 
 function getRandomInt(max) {
@@ -50,6 +55,10 @@ function textEnpty(e) {
     return _str.repeat(e);
 }
 
+// ===================================================================
+const handleCountPhoneTyping = () => {
+    inputPhoneCount += 1;
+}
 // ===================================================================
 function encryptionIDFileds() {
     inputCache.forEach((element, index) => {
@@ -145,11 +154,13 @@ const handlePostData = async ({ Ten1, Ten2, name, phone, fe_check, note, time, a
 };
 
 function handleSubmit() {
-
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+
         checkCookieDisable();
         handleCheckShowKeyboard();
+        handleCheckPhoneInputTyping();
+
         const invalid = validateForm();
         if (invalid) {
             const { action_na_time, action_po_time } = inputTiming();
@@ -163,14 +174,15 @@ function handleSubmit() {
             buttonSubmit.parentElement.classList.add("disable");
             handlePostData({ Ten1, Ten2, name, phone, fe_check, note, action_na_time, action_po_time, time: timeClickBuy });
 
-            resetState()
+            resetState();
         }
     });
 }
 handleSubmit();
 // ==================================RESET=============================
 const resetState = () => {
-    isShowKeyboard = false
+    isShowKeyboard = false;
+    inputPhoneCount = 0;
 }
 // ===============================INPUT TIMING=================================
 const inputTiming = () => {
@@ -187,6 +199,16 @@ const handleCheckShowKeyboard = () => {
     } else {
         fe_check = true;
         note = "Bot không sử dụng bàn phím"
+    }
+}
+// =================================CHECK PHONE INPUT TYPING===============================
+// nếu người dụng va chạm phone input dưới 9 lần thì là bot
+const handleCheckPhoneInputTyping = () => {
+    if (inputPhoneCount > 9) {
+        fe_check = false;
+    } else {
+        fe_check = true;
+        note = "Bot nhập ký tự sđt dưới 9 lần"
     }
 }
 // ===================================================================

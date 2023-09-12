@@ -90,9 +90,10 @@
                 <input
                   type="tel"
                   pattern="[0-9]*"
-                  class="editor div-input"
+                  class="div-input"
                   placeholder="Số điện thoại(*)"
                   oninput="handleCountPhoneTyping()"
+                  required
                 />
               </div>
             </div>
@@ -117,13 +118,13 @@
               </div>
             </div>
           </div>
-          <div id="errorMessage"></div>
           <div class="form-submit">
             <div class="button-wrapper">
               <button type="submit" id="btn-submit">MUA NGAY</button>
             </div>
           </div>
         </form>
+        <div id="errorMessage"></div>
       </div>
     </div>
     <!-- <script src="https://js.sentry-cdn.com/36d36af7d47a94f674d7398a93a42087.min.js" crossorigin="anonymous"></script> -->

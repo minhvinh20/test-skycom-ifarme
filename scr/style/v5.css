@@ -23,3 +23,9 @@ button {
   height: 46px !important;
   font-size: 14px !important;
 }
+
+#errorMessage {
+  font-size: 14px;
+  color: #e74c3c;
+  width: 400px;
+}

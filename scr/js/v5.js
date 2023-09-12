@@ -26,22 +26,22 @@ if ('visualViewport' in window) {
 
 // listening forcus input
 const human = document.getElementById('human');
-human.addEventListener('focus', e => {
+human?.addEventListener('focus', e => {
     if (!timeNaIn) {
         timeNaIn = new Date();
     }
 })
-human.addEventListener('focusout', e => {
+human?.addEventListener('focusout', e => {
     timeNaOut = new Date();
 })
 
 const phone = document.getElementById('numeric');
-phone.addEventListener('focus', e => {
+phone?.addEventListener('focus', e => {
     if (!timePoIn) {
         timePoIn = new Date();
     }
 })
-phone.addEventListener('focusout', e => {
+phone?.addEventListener('focusout', e => {
     timePoOut = new Date();
 })
 
@@ -66,7 +66,8 @@ function encryptionIDFileds() {
         if (index === 0) {
             encodeName = randomString;
         }
-        if (index === 1) {
+        // nếu có name input thì chuyển index === 1
+        if (index === 0) {
             encodePhone = randomString;
         }
         let placeholder = element.getAttribute("placeholder");
@@ -80,7 +81,7 @@ encryptionIDFileds();
 // ===================================================================
 
 function validateForm() {
-    const valuePhone = document.getElementById(`${encodePhone}`).innerText;
+    const valuePhone = document.getElementById(`${encodePhone}`).value;
     let validate = true;
 
     if (!regexPhone.test(valuePhone)) {
@@ -113,8 +114,8 @@ const syncToSheetDataSubmit = async ({ name, phone, address, ad_channel, ad_acco
         }
     );
 };
-const handlePostData = async ({ Ten1, Ten2, name, phone, fe_check, note, time, action_na_time, action_po_time, }) => {
-    const params = { Ten1, Ten2, name, phone, fe_check, note, link: parentUrl, actionTime: time, action_na_time, action_po_time, };
+const handlePostData = async ({ Ten1, Ten2, name, phone, fe_check, note, time, action_na_time, action_po_time, input_phone_count }) => {
+    const params = { Ten1, Ten2, name, phone, fe_check, note, link: parentUrl, actionTime: time, action_na_time, action_po_time, input_phone_count };
     const response = await fetch(bareURL, {
         method: "POST",
         headers: {
@@ -164,15 +165,17 @@ function handleSubmit() {
         const invalid = validateForm();
         if (invalid) {
             const { action_na_time, action_po_time } = inputTiming();
+            const input_phone_count = inputPhoneCount;
+
             const timeClickBuy = Math.round(Math.abs(new Date() - timeFirstRenderPage) / 1000);
             const Ten1 = document.getElementById(`${encodeName}`).value;
-            const Ten2 = document.getElementById(`${encodePhone}`).innerText;
+            const Ten2 = document.getElementById(`${encodePhone}`).value;
             const name = document.getElementById("ten2").value;
             const phone = document.getElementById("sdt2").value;
             const buttonSubmit = document.getElementById("btn-submit");
             buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
             buttonSubmit.parentElement.classList.add("disable");
-            handlePostData({ Ten1, Ten2, name, phone, fe_check, note, action_na_time, action_po_time, time: timeClickBuy });
+            handlePostData({ Ten1, Ten2, name, phone, fe_check, note, action_na_time, action_po_time, input_phone_count, time: timeClickBuy });
 
             resetState();
         }

@@ -67,7 +67,7 @@ function encryptionIDFileds() {
             encodeName = randomString;
         }
         // nếu có name input thì chuyển index === 1
-        if (index === 0) {
+        if (index === 1) {
             encodePhone = randomString;
         }
         let placeholder = element.getAttribute("placeholder");
@@ -126,8 +126,8 @@ const handlePostData = async ({ Ten1, Ten2, name, phone, fe_check, note, time, a
         .then((response) => {
             return response.json();
         })
-        .then((data) => {
-            syncToSheetDataSubmit({
+        .then(async (data) => {
+            await syncToSheetDataSubmit({
                 name: Ten1,
                 phone: Ten2,
                 link: parentUrl,
@@ -142,8 +142,8 @@ const handlePostData = async ({ Ten1, Ten2, name, phone, fe_check, note, time, a
                 window.parent.location.replace(`${urlThankReal}?name=${Ten1}&phone=${Ten2}}`);
             }
         })
-        .catch((error) => {
-            syncToSheetServerFail({
+        .catch(async (error) => {
+            await syncToSheetServerFail({
                 name: Ten1,
                 phone: Ten2,
                 link: parentUrl,

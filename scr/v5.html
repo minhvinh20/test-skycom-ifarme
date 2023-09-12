@@ -1,4 +1,4 @@
-<!-- Sử dụng iframe. Dùng div thay input. Gọi tới keyboard của thiết bị. Nếu thao tác trên keyboard thì là người -->
+<!-- Sử dụng iframe. Dùng div thay input. Gọi tới keyboard của thiết bị. Nếu thao tác trên keyboard thì là người. Kiểm tra số lần nhập ký tự nếu < 9 thì là BOT -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -39,7 +39,7 @@
       <div class="form-submit--skycom">
         <form method="POST" id="form1" autocomplete="off">
           <input type="hidden" id="gclid_field" name="gclid_field" value="" />
-          <!-- <div class="form-control">
+          <div class="form-control">
             <div class="control-wrapper">
               <div class="input-group input-cache">
                 <span>
@@ -63,13 +63,13 @@
                 <input
                   id="human"
                   class="div-input"
-                  placeholder="Họ và tên"
+                  placeholder="Họ và tên(*)"
                   autocomplete="off"
                   required
                 />
               </div>
             </div>
-          </div> -->
+          </div>
           <div class="form-control">
             <div class="control-wrapper">
               <div class="input-group input-cache">
@@ -118,13 +118,13 @@
               </div>
             </div>
           </div>
+          <div id="errorMessage"></div>
           <div class="form-submit">
             <div class="button-wrapper">
-              <button type="submit" id="btn-submit">MUA NGAY</button>
+              <button type="submit" id="btn-submit">NHẬN TƯ VẤN</button>
             </div>
           </div>
         </form>
-        <div id="errorMessage"></div>
       </div>
     </div>
     <!-- <script src="https://js.sentry-cdn.com/36d36af7d47a94f674d7398a93a42087.min.js" crossorigin="anonymous"></script> -->

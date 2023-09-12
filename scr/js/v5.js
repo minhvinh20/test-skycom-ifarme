@@ -158,9 +158,11 @@ function handleSubmit() {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
+        const mobile = isMobile();
+
         checkCookieDisable();
-        handleCheckShowKeyboard();
-        handleCheckPhoneInputTyping();
+        mobile && handleCheckShowKeyboard();
+        mobile && handleCheckPhoneInputTyping();
 
         const invalid = validateForm();
         if (invalid) {
@@ -194,6 +196,12 @@ const inputTiming = () => {
     const action_na_time = Math.round(Math.abs(timeNaOut - timeNaIn) / 1000);
 
     return { action_po_time, action_na_time }
+}
+const isMobile = () => {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        return true;
+    }
+    return false
 }
 // =================================CHECK SHOW KEYBOARD===============================
 const handleCheckShowKeyboard = () => {

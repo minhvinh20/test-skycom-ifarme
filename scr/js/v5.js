@@ -11,7 +11,6 @@ let encodeName = "", encodePhone = "", fe_check = false, note = '', isShowKeyboa
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
-const iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
 let parentUrl = window.location.href.indexOf("split=") > -1 ? window.location.href.split("split=")[1] : window.top.location.href;
 
 const inputCache = document.querySelectorAll(".input-cache .div-input");
@@ -158,11 +157,9 @@ function handleSubmit() {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const mobile = isMobile();
-
         checkCookieDisable();
-        mobile && handleCheckShowKeyboard();
-        mobile && handleCheckPhoneInputTyping();
+        handleCheckShowKeyboard();
+        handleCheckPhoneInputTyping();
 
         const invalid = validateForm();
         if (invalid) {
@@ -197,29 +194,49 @@ const inputTiming = () => {
 
     return { action_po_time, action_na_time }
 }
-const isMobile = () => {
+
+const isIphone = () => {
+
+}
+
+const detectDevice = () => {
+    let isIOS = false;
+    let isMobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        return true;
+        isMobile = true;
+        if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            isIOS = true
+        }
     }
-    return false
+    return { isIOS, isMobile }
 }
 // =================================CHECK SHOW KEYBOARD===============================
 const handleCheckShowKeyboard = () => {
-    if (isShowKeyboard) {
-        fe_check = false;
-    } else {
-        fe_check = true;
-        note = "Bot không sử dụng bàn phím"
+    if (!fe_check) {
+        const isMobile = detectDevice().isMobile;
+        if (isMobile) {
+            if (isShowKeyboard) {
+                fe_check = false;
+            } else {
+                fe_check = true;
+                note = "Bot không sử dụng bàn phím"
+            }
+        }
     }
 }
 // =================================CHECK PHONE INPUT TYPING===============================
 // nếu người dụng va chạm phone input dưới 9 lần thì là bot
 const handleCheckPhoneInputTyping = () => {
-    if (inputPhoneCount > 9) {
-        fe_check = false;
-    } else {
-        fe_check = true;
-        note = "Bot nhập ký tự sđt dưới 9 lần"
+    if (!fe_check) {
+        const isMobile = detectDevice().isMobile;
+        if (isMobile) {
+            if (inputPhoneCount > 9) {
+                fe_check = false;
+            } else {
+                fe_check = true;
+                note = "Bot nhập ký tự sđt dưới 9 lần"
+            }
+        }
     }
 }
 // ===================================================================
@@ -266,17 +283,21 @@ listenEventChangeFielsValidate();
 
 // ===================================================================
 const checkCookieDisable = () => {
-    if (iOSDevice) {
-        return;
-    }
-    let cookieEnabled = navigator.cookieEnabled;
-    if (!cookieEnabled) {
-        document.cookie = "skycomForm=skycom";
-        cookieEnabled = document.cookie.indexOf("skycomForm") != -1;
-    }
-    if (!cookieEnabled) {
-        fe_check = true;
-        note = 'Detect disable cookie'
+    if (!fe_check) {
+        const isIOS = detectDevice().isIOS;
+
+        if (isIOS) {
+            return;
+        }
+        let cookieEnabled = navigator.cookieEnabled;
+        if (!cookieEnabled) {
+            document.cookie = "skycomForm=skycom";
+            cookieEnabled = document.cookie.indexOf("skycomForm") != -1;
+        }
+        if (!cookieEnabled) {
+            fe_check = true;
+            note = 'Detect disable cookie'
+        }
     }
 }
 

@@ -16,10 +16,8 @@
     <noscript style="display:none" >
       <meta http-equiv="refresh" content="0; url=https://hoaianbeauty.com/pages/camon-quy-khach">
     </noscript>  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
-    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
     <!--  -->
-    <link rel="stylesheet" href="style/v2.css" />
+    <link rel="stylesheet" href="style/style.css" />
     <!--  -->
     <!-- Google Tag Manager -->
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -39,9 +37,10 @@
               <div class="control-wrapper">
                 <div class="input-group input-cache">
                   <input 
-                    class="hidden"
+                    class="hidden div-input human"
                     placeholder="H&#7884; V&Agrave; T&Ecirc;N(*)"
                     autocomplete="off"
+                    oninput="handleCountNameTyping()"
                     required
                   />
                 </div>
@@ -50,7 +49,15 @@
             <div class="form-control">
               <div class="control-wrapper">
                 <div class="input-group input-cache"> 
-                  <div>S&#7888; &#272;l&#7878;N THO&#7840;I(*)</div>
+                  <input
+                    type="tel"
+                    pattern="(\+84|0)(9|8|7|5|3)[0-9]{8}"
+                    class="hidden numeric div-input"
+                    placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)"
+                    oninput="handleCountPhoneTyping()"
+                    required
+                  />
+                  <!-- <input class="hidden"type="tel" placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)" pattern="(\+84|0)(9|8|7|5|3)[0-9]{8}" autocomplete="off"  required /> -->
                 </div>
               </div>
             </div>
@@ -58,7 +65,7 @@
               <div class="control-wrapper">
                 <div class="input-group">
                   <input placeholder="Ten"  id="ten2" name="ten2" tabindex="0" />
-                </div>
+                </div>div-input
               </div>
             </div>
             <div class="form-control hidden">
@@ -70,7 +77,7 @@
             </div>
             <div class="form-control">
                 <div class="input-group input-cache">
-                    <input placeholder="&#272;l&#7840; CH&#7880;(*)" autocomplete="off" required/>
+                    <input placeholder="&#272;l&#7840; CH&#7880;(*)" autocomplete="off"/>
                 </div>
             </div>
             <div id="errorMessage"></div>
@@ -84,14 +91,10 @@
                 </button>
               </div>
             </div>
-            
           </form>
         </div>
       </div>
-      <div id="skycomkeyboard" class="hidden">
-        <div class="simple-keyboard"></div>
-      </div>
-      <!-- <script src="https://js.sentry-cdn.com/36d36af7d47a94f674d7398a93a42087.min.js" crossorigin="anonymous"></script> -->
+      <script src="https://js.sentry-cdn.com/36d36af7d47a94f674d7398a93a42087.min.js" crossorigin="anonymous"></script>
       <script src="js/v2.js"></script>
       <!-- Google Tag Manager (noscript) -->
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7KLXRW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

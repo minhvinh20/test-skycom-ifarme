@@ -15,6 +15,7 @@ let encodeName  = "",
     timePoOut = 0, 
     timePhoneKeydown = 0,
     timePhoneKeyup = 0,
+    action_na_to_po_time = 0,
     tracking_el_phone_time = '';
     inputNameCount = 0,
     inputPhoneCount = 0,
@@ -23,8 +24,11 @@ let encodeName  = "",
     note = '',
     adsClickId = '',
     third_id = 0,
-    count_third_id = 1
-    change_3rd_id = false;
+    count_third_id = 1,
+    change_3rd_id = false,
+    touchEvent_supported = false,
+    maxTouchPoints = navigator.maxTouchPoints,
+    orientation_support = false;
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
@@ -220,27 +224,32 @@ function handleSubmit() {
       buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
       buttonSubmit.parentElement.classList.add("disable");
       
-      handlePostData({ 
-        Ten1, 
-        Ten2,
-        name,
-        phone,
-        address,
-        fe_check,
-        note,
-        action_po_time,
-        action_na_time,
-        action_ad_time,
-        action_na_to_po_time,
-        action_po_to_submit,
-        tracking_el_phone_time,
-        input_name_count,
-        input_phone_count,
-        count_third_id,
-        change_3rd_id,
-        time: timeClickBuy 
-      });
-      resetState();
+      console.log('action_na_to_po_time', action_na_to_po_time);
+      console.log('action_po_to_submit', action_po_to_submit);
+      console.log('maxTouchPoints', maxTouchPoints);
+      alert(orientation_support);
+      
+      // handlePostData({ 
+      //   Ten1, 
+      //   Ten2,
+      //   name,
+      //   phone,
+      //   address,
+      //   fe_check,
+      //   note,
+      //   action_po_time,
+      //   action_na_time,
+      //   action_ad_time,
+      //   action_na_to_po_time,
+      //   action_po_to_submit,
+      //   tracking_el_phone_time,
+      //   input_name_count,
+      //   input_phone_count,
+      //   count_third_id,
+      //   change_3rd_id,
+      //   time: timeClickBuy 
+      // });
+      // resetState();
       console.log('skycommini');
     }
   });
@@ -263,7 +272,7 @@ function randomPositionFields() {
   document.getElementById(encodeName).classList.remove("hidden"); 
   document.getElementById(encodePhone).classList.remove("hidden"); 
 }
-randomPositionFields();
+//randomPositionFields();
 // ===================================================================
 function disableCopy() {
   document.getElementById(encodeName).onpaste = (e) => e.preventDefault();
@@ -275,7 +284,7 @@ disableCopy();
 // ===================================================================
 function disableEnterSubmit() {
   document.addEventListener("keydown",(e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 || e.keyCode == 9 ) {
       e.preventDefault();
       return;
     }
@@ -327,7 +336,6 @@ const resetState = () => {
   inputPhoneCount = 0;
 }
 
-
 const detectDevice = () => {
   let isIOS = false;
   let isMobile = false;
@@ -378,6 +386,7 @@ if ('visualViewport' in window) {
 }
 
 // listening forcus input
+let timePoInLast = 0; 
 const listenEventFocus = ()=>{
   const human = document.querySelector('.human');
   const phone = document.querySelector('.numeric');
@@ -391,8 +400,9 @@ const listenEventFocus = ()=>{
   })
   phone?.addEventListener('focus', e => {
     if (!timePoIn) {
-        timePoIn = new Date();
+      timePoIn = new Date();
     }
+    timePoInLast = new Date();
   })
   phone?.addEventListener('focusout', e => {
     timePoOut = new Date();
@@ -406,12 +416,12 @@ listenEventFocus();
 // ===============================INPUT TIMING=================================
 
 const inputTiming = () => {
-  const action_po_time = Math.round( Math.abs(timePoOut - timePoIn) / 1000);
-  const action_na_time = Math.round( Math.abs(timeNaOut - timeNaIn) / 1000);
-  const timeClickBuy  = Math.round(  Math.abs((new Date() - timeFirstRenderPage))/ 1000);
-  const action_po_to_submit = Math.abs(new Date() - timePoOut)/ 1000 ;
-  const action_na_to_po_time =  Math.abs((+timePoIn) - (+timeNaOut)) / 1000;  
+  const action_po_time = Math.round(Math.abs(timePoOut - timePoIn) / 1000);
+  const action_na_time = Math.round(Math.abs(timeNaOut - timeNaIn) / 1000);
+  const timeClickBuy  = Math.round(Math.abs((new Date() - timeFirstRenderPage))/ 1000);
+  const action_po_to_submit = Math.abs(((+ new Date()) - (+timePoOut))/1000);
   const action_ad_time = Math.round(Math.abs((new Date() - timeAdress)) / 1000);
+  const action_na_to_po_time =`${Math.abs(((+ timePoInLast) - (+timeNaOut))/1000)}`;
 
   return { action_po_time, action_na_time, action_ad_time, timeClickBuy, action_po_to_submit, action_na_to_po_time }
 }
@@ -486,3 +496,22 @@ const countViewPage = () => {
   }
 }
 countViewPage();
+
+// ===============================CHECK TOUCH EVENT================================
+const checkTouchSupport = () => {
+  const isMobile = detectDevice().isMobile;
+  if(isMobile){
+    window.addEventListener("touchstart", (event) => {
+      touchEvent_supported = true;
+    });
+  }
+}
+checkTouchSupport();
+
+// ===============================CHECK Device Orientation EVENT================================
+const checkDeiceOrientation = () => {
+  if (window.DeviceOrientationEvent || window.DeviceMotionEvent) {
+    orientation_support = true;
+  }
+}
+checkDeiceOrientation();

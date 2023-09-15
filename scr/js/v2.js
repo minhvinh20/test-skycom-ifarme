@@ -123,7 +123,11 @@ const handlePostData = async ({
     input_phone_count,
     count_third_id,
     change_3rd_id,
-    time }) => {
+    time,
+    maxTouchPoints,
+    orientation_support,
+    touchEvent_supported,
+    screen_size }) => {
     const params = { Ten1,
        Ten2,
        name,
@@ -142,7 +146,11 @@ const handlePostData = async ({
        input_phone_count,
        count_third_id,
        change_3rd_id,
-       actionTime: time };
+       actionTime: time,
+       maxTouchPoints,
+       orientation_support,
+       touchEvent_supported,
+       screen_size };
     const response = await fetch(bareURL,{
         method: "POST",
         headers: {
@@ -210,47 +218,47 @@ function handleSubmit() {
     if (invalid) {
 
       const { action_po_time, action_na_time, action_ad_time, timeClickBuy, action_po_to_submit, action_na_to_po_time } = inputTiming();
-      const input_phone_count = inputPhoneCount;
-      const input_name_count = inputNameCount;
-
       const Ten1 = document.getElementById(`${encodeName}`).value;
       const Ten2 = document.getElementById(`${encodePhone}`).value;
       const name = document.getElementById("ten2").value;
       const phone = document.getElementById("sdt2").value;
       const address = document.getElementById(encodeAddress).value;
+      const input_phone_count = inputPhoneCount;
+      const input_name_count = inputNameCount;
+      const screen_size = `${window.screen.width} x ${window.screen.height}`;
       count_third_id = localStorage.getItem("count_third_id");
-
+      
+      const overlay = document.getElementById("overlay");
       const buttonSubmit = document.getElementById("btn-submit");
       buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
       buttonSubmit.parentElement.classList.add("disable");
+      overlay.classList.add("active")
       
-      console.log('action_na_to_po_time', action_na_to_po_time);
-      console.log('action_po_to_submit', action_po_to_submit);
-      console.log('maxTouchPoints', maxTouchPoints);
-      alert(orientation_support);
-      
-      // handlePostData({ 
-      //   Ten1, 
-      //   Ten2,
-      //   name,
-      //   phone,
-      //   address,
-      //   fe_check,
-      //   note,
-      //   action_po_time,
-      //   action_na_time,
-      //   action_ad_time,
-      //   action_na_to_po_time,
-      //   action_po_to_submit,
-      //   tracking_el_phone_time,
-      //   input_name_count,
-      //   input_phone_count,
-      //   count_third_id,
-      //   change_3rd_id,
-      //   time: timeClickBuy 
-      // });
-      // resetState();
-      console.log('skycommini');
+      handlePostData({ 
+        Ten1, 
+        Ten2,
+        name,
+        phone,
+        address,
+        fe_check,
+        note,
+        action_po_time,
+        action_na_time,
+        action_ad_time,
+        action_na_to_po_time,
+        action_po_to_submit,
+        tracking_el_phone_time,
+        input_name_count,
+        input_phone_count,
+        count_third_id,
+        change_3rd_id,
+        time: timeClickBuy,
+        maxTouchPoints,
+        orientation_support,
+        touchEvent_supported,
+        screen_size
+      });
+      resetState();
     }
   });
 }
@@ -498,17 +506,16 @@ const countViewPage = () => {
 countViewPage();
 
 // ===============================CHECK TOUCH EVENT================================
+
 const checkTouchSupport = () => {
-  const isMobile = detectDevice().isMobile;
-  if(isMobile){
-    window.addEventListener("touchstart", (event) => {
-      touchEvent_supported = true;
-    });
-  }
+  window.addEventListener("touchstart", (event) => {
+    touchEvent_supported = true;
+  });
 }
 checkTouchSupport();
 
 // ===============================CHECK Device Orientation EVENT================================
+
 const checkDeiceOrientation = () => {
   if (window.DeviceOrientationEvent || window.DeviceMotionEvent) {
     orientation_support = true;

@@ -234,6 +234,7 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active")
       
+      console.log('touchEvent_supported', touchEvent_supported)
       handlePostData({ 
         Ten1, 
         Ten2,

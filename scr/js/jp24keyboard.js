@@ -30,9 +30,8 @@ let encodeName  = "",
     orientation_support = false,
     touchEvent_support = false,
     visitorId = '',
-    check_device_motion ='',
     count_device_motion = 0,
-    count_device_motion_value = 0;
+    device_motion_value = [];
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
@@ -548,17 +547,17 @@ const checkDeviceEmotion = () =>{
         // Đăng ký sự kiện devicemotion
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-        });
-    
-        setInterval(()=>{
-            // Xử lý dữ liệu chuyển động
-            if (diff != count_device_motion_value) {
-                count_device_motion++;
+            device_motion_value.push(diff)
+            if (diff != device_motion_value.length-1) {
+              count_device_motion++ 
             }
+        });
+        setInterval(()=>{
+          document.getElementById("demo").innerHTML = `${device_motion_value} ${count_device_motion}`;
         },1000);
-        }
+    }
     else {
-        diff = 'Trình duyệt không hỗ trợ API DeviceMotion và API DeviceOrientation.';
+      device_motion_value = 'Trình duyệt không hỗ trợ API DeviceMotion và API DeviceOrientation.';
     }
 }
 checkDeviceEmotion();
@@ -574,7 +573,8 @@ if (window.DeviceMotionEvent) {
 
   setInterval(()=>{
     // Xử lý dữ liệu chuyển động
-    document.getElementById("demo").innerHTML = diff;
+    document.getElementById("demo").innerHTML = `${diff} - ${count_device_motion}`;
+    
   },1000);
   }else {
   diff = 'Trình duyệt không hỗ trợ API DeviceMotion và API DeviceOrientation.';

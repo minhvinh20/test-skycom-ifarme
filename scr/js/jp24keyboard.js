@@ -18,8 +18,8 @@ let encodeName  = "",
     tracking_el_phone_time = '';
     inputNameCount = 0,
     inputPhoneCount = 0,
+    typing_count_keyboard = 0,
     fe_check = false, 
-    checkKeyboard = true,
     isShowKeyboard = false
     note = '',
     adsClickId = '',
@@ -31,7 +31,7 @@ let encodeName  = "",
     touchEvent_support = false,
     visitorId = '',
     count_device_motion = 0,
-    device_motion_value = '0.1, 0.2, 0.3, ';
+    device_motion_value = '';
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
@@ -120,6 +120,7 @@ const handlePostData = async ({
     tracking_el_phone_time,
     input_name_count,
     input_phone_count,
+    typing_count_keyboard,
     count_third_id_view,
     change_3rd_id,
     time,
@@ -143,6 +144,7 @@ const handlePostData = async ({
        tracking_el_phone_time,
        input_name_count,
        input_phone_count,
+       typing_count_keyboard,
        count_third_id_view,
        change_3rd_id,
        actionTime: time,
@@ -232,7 +234,7 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active")
 
-      if (!fe_check && checkKeyboard == true) {
+      if (input_phone_count) {
         fe_check = true;
         note = 'bot sử dụng bàn phím'
       }      
@@ -251,6 +253,7 @@ function handleSubmit() {
         tracking_el_phone_time,
         input_name_count,
         input_phone_count,
+        typing_count_keyboard,
         count_third_id_view,
         change_3rd_id,
         time: timeClickBuy,
@@ -434,9 +437,7 @@ const inputTiming = () => {
 
 // ===============================COUNT KEYBOARD WHEN INPUT=================================
 const handleCountPhoneTyping = () => {
-  //inputPhoneCount += 1;
-    
-
+  inputPhoneCount += 1;  
 }
 const handleCountNameTyping = () => {
   inputNameCount += 1;
@@ -547,7 +548,7 @@ const checkDeviceEmotion = () =>{
         // Đăng ký sự kiện devicemotion
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-            device_motion_value != `${diff}, `
+            device_motion_value += `${diff}, `
         }); 
     }
     else {
@@ -584,11 +585,9 @@ const vitualKeyboard = () =>{
             return;
         }
         fieldPhone.value = input;
-        checkKeyboard = false;
     }
     function onKeyPress(button) {
-        inputPhoneCount++;
-        
+      typing_count_keyboard++ 
     }
     function isMobile() {
       var match = window.matchMedia || window.msMatchMedia;
@@ -618,4 +617,4 @@ const vitualKeyboard = () =>{
     });
   
   }
-  vitualKeyboard();
+vitualKeyboard();

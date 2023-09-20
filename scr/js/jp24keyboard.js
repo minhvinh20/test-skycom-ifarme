@@ -32,7 +32,7 @@ let encodeName  = "",
     visitorId = '',
     count_device_motion = 0,
     device_motion_compare = 0,
-    device_motion_status = 0,
+    device_motion_status = 'Không lấy được',
     touch_pixel = [];
 
 const timeFirstRenderPage = new Date();
@@ -220,7 +220,6 @@ function handleSubmit() {
     // handleCheckShowKeyboard();
     //checkCookieDisable();
     //handleCheckPhoneInputTyping();
-    handleDeviceMotionStatus();
 
     const invalid = validateForm();
     if (invalid) {
@@ -560,16 +559,15 @@ const checkDeviceEmotion = () =>{
     if (window.DeviceMotionEvent) {
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
+            handleDeviceMotionStatus();
         }); 
         setInterval(()=>{
           if (diff != device_motion_compare) {
             count_device_motion++;
             device_motion_compare = diff;
           }
+          document.getElementById("demo").innerHTML = device_motion_status;
         },1000);
-    }
-    else {
-      device_motion_status = 'Không lấy dc';
     }
 }
 function handleDeviceMotionStatus() {

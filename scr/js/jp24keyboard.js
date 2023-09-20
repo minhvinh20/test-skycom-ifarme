@@ -618,22 +618,23 @@ const vitualKeyboard = () =>{
     }
     const checkMobile = isMobile();
     if(checkMobile) {
-      fieldPhone.setAttribute("readonly","readonly");
+      fieldPhone.setAttribute("inputmode","none");
     }
     const buttonDone = document.querySelector(".hg-button[data-skbtnuid ='default-r3b0']");
     window.addEventListener('click', function(e){   
       if (buttonDone.contains(e.target)) {
         simpleKeyboardWraper.classList.remove("active");
-        inputCache[0].style.opacity = '1'
+        // inputCache[0].style.opacity = '1'
       }
       else if (fieldPhone.contains(e.target) || simpleKeyboardWraper.contains(e.target)){
         simpleKeyboardWraper.classList.add("active");
-        inputCache[0].style.opacity = '0.3'
+        // inputCache[0].style.opacity = '0.3'
       } else{
         simpleKeyboardWraper.classList.remove("active");
-        inputCache[0].style.opacity = '1'
+        // inputCache[0].style.opacity = '1'
       }
     });
   
   }
 vitualKeyboard();
+

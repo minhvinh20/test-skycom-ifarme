@@ -32,7 +32,7 @@ let encodeName  = "",
     visitorId = '',
     count_device_motion = 0,
     device_motion_compare = 0,
-    device_motion_value = 0,
+    device_motion_status = 0,
     touch_pixel = [];
 
 const timeFirstRenderPage = new Date();
@@ -132,7 +132,7 @@ const handlePostData = async ({
     orientation_support,
     touchEvent_support,
     screen_size,
-    count_device_motion,
+    device_motion_status,
     touch_pixel,
     visitorId }) => {
     const params = { Ten1,
@@ -157,7 +157,7 @@ const handlePostData = async ({
        orientation_support,
        touchEvent_support,
        screen_size,
-       count_device_motion,
+       device_motion_status,
        touch_pixel,
        visitorId };
     const response = await fetch(bareURL,{
@@ -219,7 +219,8 @@ function handleSubmit() {
 
     // handleCheckShowKeyboard();
     //checkCookieDisable();
-    handleCheckPhoneInputTyping();
+    //handleCheckPhoneInputTyping();
+    handleDeviceMotionStatus();
     
     const invalid = validateForm();
     if (invalid) {
@@ -265,7 +266,7 @@ function handleSubmit() {
         orientation_support,
         touchEvent_support,
         screen_size,
-        count_device_motion,
+        device_motion_status,
         touch_pixel,
         visitorId,
       });
@@ -561,27 +562,24 @@ const checkDeviceEmotion = () =>{
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
         }); 
         setInterval(()=>{
-          if (count_device_motion < 15) {
-            if (diff != device_motion_compare) {
-              device_motion_compare = diff;
-              count_device_motion++;
-              device_motion_value += `Thay đổi liên tục - ${diff}, `; 
-              document.getElementById("demo").innerHTML = device_motion_value;
-            }
-            else{
-              count_device_motion++;
-              device_motion_value += `Không thay đổi ${diff}, `;
-              document.getElementById("demo").innerHTML = device_motion_value;
-            }
+          if (diff != device_motion_compare) {
+            device_motion_compare = diff;
+            count_device_motion++;
           }
         },1000);
     }
     else {
-      device_motion_value = 'Không lấy dc';
+      device_motion_status = 'Không lấy dc';
     }
 }
-checkDeviceEmotion();
-
+function handleDeviceMotionStatus() {
+  if (count_device_motion > 3) {
+    device_motion_status = `Thay đổi liên tục - số lần thay đổi ${count_device_motion}`
+  }
+  else{
+    device_motion_status = `Không thay đổi - số lần thay đổi ${count_device_motion}`
+  }
+}
 // ===============================KEYBOARD VITUAL================================
 
 const vitualKeyboard = () =>{

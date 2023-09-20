@@ -31,7 +31,7 @@ let encodeName  = "",
     touchEvent_support = false,
     visitorId = '',
     count_device_motion = 0,
-    device_motion_value = [];
+    device_motion_value = '0.1, 0.2, 0.3, ';
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
@@ -547,38 +547,19 @@ const checkDeviceEmotion = () =>{
         // Đăng ký sự kiện devicemotion
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-            device_motion_value.push(diff)
-            if (diff != device_motion_value.length-1) {
-              count_device_motion++ 
-            }
-        });
-        setInterval(()=>{
-          document.getElementById("demo").innerHTML = `${device_motion_value} ${count_device_motion}`;
-        },1000);
+            device_motion_value != `${diff}, `
+        }); 
     }
     else {
-      device_motion_value = 'Trình duyệt không hỗ trợ API DeviceMotion và API DeviceOrientation.';
+      device_motion_value = 'Không lấy dc';
     }
+    setInterval(()=>{
+      document.getElementById("demo").innerHTML = device_motion_value;
+    },1000);
 }
 checkDeviceEmotion();
 
-// Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
-if (window.DeviceMotionEvent) {
-  diff = 'emotion'
-  // Đăng ký sự kiện devicemotion
-  window.addEventListener('devicemotion', function(event) {
-    diff = "devicemotion";
-    diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-  });
-
-  setInterval(()=>{
-    // Xử lý dữ liệu chuyển động
-    document.getElementById("demo").innerHTML = `${diff} - ${count_device_motion}`;
-    
-  },1000);
-  }else {
-  diff = 'Trình duyệt không hỗ trợ API DeviceMotion và API DeviceOrientation.';
-}
+// ===============================KEYBOARD VITUAL================================
 
 const vitualKeyboard = () =>{
     const fieldPhone = document.getElementById(encodePhone);

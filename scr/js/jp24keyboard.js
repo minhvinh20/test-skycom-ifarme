@@ -31,7 +31,8 @@ let encodeName  = "",
     touchEvent_support = false,
     visitorId = '',
     count_device_motion = 0,
-    device_motion_value = '';
+    device_motion_value = [],
+    touch_pixel = [];
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
@@ -42,6 +43,8 @@ let parentUrl = window.location.href.indexOf("split=") > -1 ? window.location.hr
 const inputCache = document.querySelectorAll(".input-cache");
 const elInputs = document.querySelectorAll(".input-cache input"); 
 const form = document.querySelector(".form-submit--skycom form");
+const overlay = document.getElementById("overlay");
+const buttonSubmit = document.getElementById("btn-submit");
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -228,8 +231,6 @@ function handleSubmit() {
       const screen_size = `${window.screen.width} x ${window.screen.height}`;
       count_third_id_view = localStorage.getItem("count_third_id_view");
       
-      const overlay = document.getElementById("overlay");
-      const buttonSubmit = document.getElementById("btn-submit");
       buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active")
@@ -509,8 +510,15 @@ countViewPage();
 // ===============================CHECK TOUCH EVENT================================
 
 const checkTouchSupport = () => {
-  window.addEventListener("touchstart", () => {
+  const fieldName = document.getElementById(encodeName);
+  const fieldPhone = document.getElementById(encodePhone);
+  window.addEventListener("touchstart", (e) => {
     touchEvent_support = true;
+    if (fieldName.parentElement.contains(e.target) || fieldPhone.parentElement.contains(e.target) || buttonSubmit.contains(e.target)  ) {
+      for (let i = 0; i < e.touches.length; i++) {
+        touch_pixel.push(`${e.touches[i].screenX},${e.touches[i].screenY}`)
+      }
+    }
   });
 
 }
@@ -544,19 +552,18 @@ createFingerID();
 const checkDeviceEmotion = () =>{
     // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
     if (window.DeviceMotionEvent) {
-        let diff = 0;
-        // Đăng ký sự kiện devicemotion
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-            device_motion_value += ` ,${diff}`
+            device_motion_value.push(`${diff}`);
         }); 
-        setInterval(()=>{
-          document.getElementById("demo").innerHTML = device_motion_value;
-        },1000);
+      
     }
     else {
       device_motion_value = 'Không lấy dc';
     }
+    setInterval(()=>{
+      document.getElementById("demo").innerHTML = device_motion_value;
+    },1000);
 }
 checkDeviceEmotion();
 

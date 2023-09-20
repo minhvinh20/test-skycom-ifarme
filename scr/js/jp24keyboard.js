@@ -566,7 +566,6 @@ const checkDeviceEmotion = () =>{
             count_device_motion++;
             device_motion_compare = diff;
           }
-          document.getElementById("demo").innerHTML = count_device_motion;
         },1000);
     }
     else {
@@ -581,7 +580,8 @@ function handleDeviceMotionStatus() {
     device_motion_status = `Không thay đổi - số lần thay đổi ${count_device_motion}`
   }
 }
-// ===============================KEYBOARD VITUAL================================
+checkDeviceEmotion();
+// ===============================KEYBOARDß VITUAL================================
 
 const vitualKeyboard = () =>{
     const fieldPhone = document.getElementById(encodePhone);

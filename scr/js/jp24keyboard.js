@@ -133,6 +133,7 @@ const handlePostData = async ({
     touchEvent_support,
     screen_size,
     count_device_motion,
+    touch_pixel,
     visitorId }) => {
     const params = { Ten1,
        Ten2,
@@ -157,6 +158,7 @@ const handlePostData = async ({
        touchEvent_support,
        screen_size,
        count_device_motion,
+       touch_pixel,
        visitorId };
     const response = await fetch(bareURL,{
         method: "POST",
@@ -263,8 +265,9 @@ function handleSubmit() {
         orientation_support,
         touchEvent_support,
         screen_size,
+        count_device_motion,
+        touch_pixel,
         visitorId,
-        count_device_motion
       });
       resetState();
     }
@@ -558,16 +561,18 @@ const checkDeviceEmotion = () =>{
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
         }); 
         setInterval(()=>{
-          if (diff != device_motion_compare) {
-            device_motion_compare = diff;
-            count_device_motion++;
-
-            device_motion_value += `${diff}, `; 
-            document.getElementById("demo").innerHTML = device_motion_value;
-          }
-          else{
-            device_motion_value += `${diff}, `;
-            document.getElementById("demo").innerHTML = device_motion_value;
+          if (count_device_motion < 15) {
+            if (diff != device_motion_compare) {
+              device_motion_compare = diff;
+              count_device_motion++;
+              device_motion_value += `Thay đổi liên tục - ${diff}, `; 
+              document.getElementById("demo").innerHTML = device_motion_value;
+            }
+            else{
+              count_device_motion++;
+              device_motion_value += `Không thay đổi ${diff}, `;
+              document.getElementById("demo").innerHTML = device_motion_value;
+            }
           }
         },1000);
     }

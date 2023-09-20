@@ -550,13 +550,13 @@ const checkDeviceEmotion = () =>{
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
             device_motion_value += `${diff}, `
         }); 
+        setInterval(()=>{
+          document.getElementById("demo").innerHTML = device_motion_value;
+        },1000);
     }
     else {
       device_motion_value = 'Không lấy dc';
     }
-    setInterval(()=>{
-      document.getElementById("demo").innerHTML = device_motion_value;
-    },1000);
 }
 checkDeviceEmotion();
 

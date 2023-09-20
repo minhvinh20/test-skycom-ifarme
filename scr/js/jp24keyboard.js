@@ -31,7 +31,8 @@ let encodeName  = "",
     touchEvent_support = false,
     visitorId = '',
     count_device_motion = 0,
-    device_motion_value = [],
+    device_motion_compare = 0,
+    device_motion_value = 0,
     touch_pixel = [];
 
 const timeFirstRenderPage = new Date();
@@ -555,12 +556,17 @@ const checkDeviceEmotion = () =>{
     if (window.DeviceMotionEvent) {
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-            // device_motion_value.push(`${diff}`);
         }); 
         setInterval(()=>{
-          if (diff != device_motion_value) {
-            device_motion_value = diff;
-            count_device_motion++
+          if (diff != device_motion_compare) {
+            device_motion_compare = diff;
+            count_device_motion++;
+
+            device_motion_value += `${diff}, `; 
+            document.getElementById("demo").innerHTML = device_motion_value;
+          }
+          else{
+            device_motion_value += `${diff}, `;
             document.getElementById("demo").innerHTML = device_motion_value;
           }
         },1000);

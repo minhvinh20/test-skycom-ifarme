@@ -548,7 +548,7 @@ const checkDeviceEmotion = () =>{
         // Đăng ký sự kiện devicemotion
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-            device_motion_value += `${diff}, `
+            device_motion_value += ` ,${diff}`
         }); 
         setInterval(()=>{
           document.getElementById("demo").innerHTML = device_motion_value;

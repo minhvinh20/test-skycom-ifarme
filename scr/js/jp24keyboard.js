@@ -550,20 +550,24 @@ createFingerID();
 
 // ===============================Check DEVICEEMOTION================================
 const checkDeviceEmotion = () =>{
+  let diff = 0;
     // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
     if (window.DeviceMotionEvent) {
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-            device_motion_value.push(`${diff}`);
+            // device_motion_value.push(`${diff}`);
         }); 
-      
+        setInterval(()=>{
+          if (diff != device_motion_value) {
+            device_motion_value = diff;
+            count_device_motion++
+            document.getElementById("demo").innerHTML = device_motion_value;
+          }
+        },1000);
     }
     else {
       device_motion_value = 'Không lấy dc';
     }
-    setInterval(()=>{
-      document.getElementById("demo").innerHTML = device_motion_value;
-    },1000);
 }
 checkDeviceEmotion();
 

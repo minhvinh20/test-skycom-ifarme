@@ -221,7 +221,7 @@ function handleSubmit() {
     //checkCookieDisable();
     //handleCheckPhoneInputTyping();
     handleDeviceMotionStatus();
-    
+
     const invalid = validateForm();
     if (invalid) {
 
@@ -563,9 +563,10 @@ const checkDeviceEmotion = () =>{
         }); 
         setInterval(()=>{
           if (diff != device_motion_compare) {
-            device_motion_compare = diff;
             count_device_motion++;
+            device_motion_compare = diff;
           }
+          document.getElementById("demo").innerHTML = count_device_motion;
         },1000);
     }
     else {

@@ -140,14 +140,22 @@ form{
 }
 #skycomkeyboard{
     position: fixed;
-    width: 418.833px;
+    width: 100%;
+    max-width: 450px;
     z-index: 99999909;
     bottom: 10px;
-    transform: translateY(110%);
+    transform: translate(0,110%);
+    opacity: 0;
+    margin: 0 auto;
+    visibility: hidden;
+    pointer-events: none;
     &.active{
         display: block;
-        transform: translateY(5%);
+        transform: translate(0,5%);
         transition: transform .3s;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
     }
     .simple-keyboard{
         &.hg-theme-default{
@@ -155,7 +163,7 @@ form{
         }
         .hg-button{
             font-size: 24px !important;
-            touch-action: none !important;
+            touch-action: manipulation !important;
         }
         .hg-button[data-skbtn ='{bksp}']{
             background: none !important;

@@ -1,12 +1,14 @@
 const bareURL = "https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
-const urlThankReal = "https://sp.jp24.vn/camon";
-const urlThankFake = "https://sp.jp24.vn/cam-on";
+const urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";
+const urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach";
 const urlSyncGoogleSheetSpam ="https://script.google.com/macros/s/AKfycbzGbJQ83uGDjEGC5x8yqbIjKr0ATrzk6gNYcIxAI958cHpSfc-r6KHnylZNK7fxCpFgaQ/exec";
 const URLFingerID = 'https://fpjscdn.net/v3/7aRN8UmVm1n7Qsda0mOm'
 // =================================================================== 
 
 let encodeName  = "", 
     encodePhone = "", 
+    encodeAddress = "",
+    timeAdress = '',
     timeNaIn = 0, 
     timeNaOut = 0, 
     timePoIn = 0, 
@@ -18,7 +20,6 @@ let encodeName  = "",
     tracking_el_phone_time = '';
     inputNameCount = 0,
     inputPhoneCount = 0,
-    typing_count_keyboard = 0,
     fe_check = false, 
     isShowKeyboard = false
     note = '',
@@ -41,11 +42,8 @@ const iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
 
 let parentUrl = window.location.href.indexOf("split=") > -1 ? window.location.href.split("split=")[1] : window.top.location.href;
 
-const inputCache = document.querySelectorAll(".input-cache");
 const elInputs = document.querySelectorAll(".input-cache input"); 
 const form = document.querySelector(".form-submit--skycom form");
-const overlay = document.getElementById("overlay");
-const buttonSubmit = document.getElementById("btn-submit");
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -63,6 +61,9 @@ function encryptionIDFileds() {
         }
         if (index === 1) {
           encodePhone = randomString;
+        }
+        if (index == 2) {
+            encodeAddress = randomString;
         }
         let placeholder = element.getAttribute("placeholder");
         placeholder += textEnpty(100) + randomString + "-" + randomString + textEnpty(getRandomInt(20)) + randomString + "-" + randomString;
@@ -86,10 +87,10 @@ function validateForm() {
     }
     return validate;
 }
-const syncToSheetServerFail = async ({ name, phone, ad_channel, ad_account, link, reasons }) => {
+const syncToSheetServerFail = async ({ name, phone, address, ad_channel, ad_account, link, reasons }) => {
     link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
     await fetch(
-        `${urlSyncGoogleSheetSpam}?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}&utmSource=${ad_channel || ''}&utmMedium=${ad_account || ''}&link=${link}&reasons=${reasons}&SHEET_NAME=ErrorServer`,
+        `${urlSyncGoogleSheetSpam}?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}&address=${address}&utmSource=${ad_channel || ''}&utmMedium=${ad_account || ''}&link=${link}&reasons=${reasons}&SHEET_NAME=ErrorServer`,
         {
           method: "GET",
           mode: "no-cors",
@@ -98,10 +99,10 @@ const syncToSheetServerFail = async ({ name, phone, ad_channel, ad_account, link
         }
     );
 };
-const syncToSheetDataSubmit = async ({ name, phone, ad_channel, ad_account, link, spam, reasons }) => {
+const syncToSheetDataSubmit = async ({ name, phone, address, ad_channel, ad_account, link, spam, reasons }) => {
     link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
     await fetch(
-        `${urlSyncGoogleSheetSpam}?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}&utmSource=${ad_channel || ''}&utmMedium=${ad_account || ''}&link=${link}&spam=${spam}&reasons=${reasons}&SHEET_NAME=TotalSDT`,
+        `${urlSyncGoogleSheetSpam}?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}&address=${address}&utmSource=${ad_channel || ''}&utmMedium=${ad_account || ''}&link=${link}&spam=${spam}&reasons=${reasons}&SHEET_NAME=TotalSDT`,
         {
           method: "GET",
           mode: "no-cors",
@@ -115,16 +116,17 @@ const handlePostData = async ({
     Ten2,
     name,
     phone,
+    address,
     fe_check,
     note,
     action_po_time,
     action_na_time,
+    action_ad_time,
     action_na_to_po_time,
     action_po_to_submit,
     tracking_el_phone_time,
     input_name_count,
     input_phone_count,
-    typing_count_keyboard,
     count_third_id_view,
     change_3rd_id,
     time,
@@ -139,17 +141,18 @@ const handlePostData = async ({
        Ten2,
        name,
        phone,
+       address,
        fe_check,
        note,
        link: parentUrl,
        action_po_time,
        action_na_time,
+       action_ad_time,
        action_na_to_po_time,
        action_po_to_submit,
        tracking_el_phone_time,
        input_name_count,
        input_phone_count,
-       typing_count_keyboard,
        count_third_id_view,
        change_3rd_id,
        actionTime: time,
@@ -175,6 +178,7 @@ const handlePostData = async ({
           name: Ten1,
           phone: Ten2,
           link: parentUrl,
+          address : address,
           spam: data.spam,
           reasons: data.reasons,
           ad_channel: data.ad_channel,
@@ -183,13 +187,14 @@ const handlePostData = async ({
         if (data.spam) {
           window.parent.location.replace(urlThankFake);
         } else {
-          window.parent.location.replace(`${urlThankReal}?name=${Ten1}&phone=${Ten2}`);
+          window.parent.location.replace(`${urlThankReal}?name=${Ten1}&phone=${Ten2}&address=${address}`);
         }
     })
     .catch(async (error) => {
         await syncToSheetServerFail({
           name: Ten1,
           phone: Ten2,
+          address : address,
           link: parentUrl,
           reason: error.message,
           ad_channel: data.ad_channel,
@@ -217,47 +222,46 @@ function handleSubmit() {
   form.addEventListener('submit', (e) =>{
     e.preventDefault();
 
-    // handleCheckShowKeyboard();
+    //handleCheckShowKeyboard();
     //checkCookieDisable();
-    //handleCheckPhoneInputTyping();
-
+    handleCheckPhoneInputTyping();
+    
     const invalid = validateForm();
     if (invalid) {
 
-      const { action_po_time, action_na_time, timeClickBuy, action_po_to_submit, action_na_to_po_time } = inputTiming();
+      const { action_po_time, action_na_time, action_ad_time, timeClickBuy, action_po_to_submit, action_na_to_po_time } = inputTiming();
       const Ten1 = document.getElementById(`${encodeName}`).value;
       const Ten2 = document.getElementById(`${encodePhone}`).value;
       const name = document.getElementById("ten2").value;
       const phone = document.getElementById("sdt2").value;
+      const address = document.getElementById(encodeAddress).value;
       const input_phone_count = inputPhoneCount;
       const input_name_count = inputNameCount;
       const screen_size = `${window.screen.width} x ${window.screen.height}`;
       count_third_id_view = localStorage.getItem("count_third_id_view");
       
+      const overlay = document.getElementById("overlay");
+      const buttonSubmit = document.getElementById("btn-submit");
       buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active")
-
-      if (input_phone_count) {
-        fe_check = true;
-        note = 'bot sử dụng bàn phím'
-      }      
 
       handlePostData({ 
         Ten1, 
         Ten2,
         name,
         phone,
+        address,
         fe_check,
         note,
         action_po_time,
         action_na_time,
+        action_ad_time,
         action_na_to_po_time,
         action_po_to_submit,
         tracking_el_phone_time,
         input_name_count,
         input_phone_count,
-        typing_count_keyboard,
         count_third_id_view,
         change_3rd_id,
         time: timeClickBuy,
@@ -267,7 +271,7 @@ function handleSubmit() {
         screen_size,
         device_motion_status,
         touch_pixel,
-        visitorId,
+        visitorId
       });
       resetState();
     }
@@ -296,6 +300,7 @@ function randomPositionFields() {
 function disableCopy() {
   document.getElementById(encodeName).onpaste = (e) => e.preventDefault();
   document.getElementById(encodePhone).onpaste = (e) => e.preventDefault();
+  document.getElementById(encodeAddress).onpaste = (e) => e.preventDefault();
 }
 disableCopy();
 
@@ -425,6 +430,9 @@ const listenEventFocus = ()=>{
   phone?.addEventListener('focusout', e => {
     timePoOut = new Date();
   })
+  document.getElementById(encodeAddress).addEventListener('focus', () =>{ 
+    if (timeAdress == '') {timeAdress = new Date();}
+  });
 }
 listenEventFocus();
 
@@ -435,14 +443,15 @@ const inputTiming = () => {
   const action_na_time = Math.round(Math.abs(timeNaOut - timeNaIn) / 1000);
   const timeClickBuy  = Math.round(Math.abs((new Date() - timeFirstRenderPage))/ 1000);
   const action_po_to_submit = Math.abs(((+ new Date()) - (+timePoOut))/1000);
+  const action_ad_time = Math.round(Math.abs((new Date() - timeAdress)) / 1000);
   const action_na_to_po_time =`${Math.abs(((+ timePoInLast) - (+timeNaOut))/1000)}`;
 
-  return { action_po_time, action_na_time, timeClickBuy, action_po_to_submit, action_na_to_po_time }
+  return { action_po_time, action_na_time, action_ad_time, timeClickBuy, action_po_to_submit, action_na_to_po_time }
 }
 
 // ===============================COUNT KEYBOARD WHEN INPUT=================================
 const handleCountPhoneTyping = () => {
-  inputPhoneCount += 1;  
+  inputPhoneCount += 1;
 }
 const handleCountNameTyping = () => {
   inputNameCount += 1;
@@ -514,14 +523,10 @@ countViewPage();
 // ===============================CHECK TOUCH EVENT================================
 
 const checkTouchSupport = () => {
-  const fieldName = document.getElementById(encodeName);
-  const fieldPhone = document.getElementById(encodePhone);
   window.addEventListener("touchstart", (e) => {
     touchEvent_support = true;
-    if (fieldName.parentElement.contains(e.target) || fieldPhone.parentElement.contains(e.target) || buttonSubmit.contains(e.target)  ) {
-      for (let i = 0; i < e.touches.length; i++) {
-        touch_pixel.push(`${e.touches[i].screenX},${e.touches[i].screenY}`)
-      }
+    for (let i = 0; i < e.touches.length; i++) {
+      touch_pixel.push(`${e.touches[i].screenX},${e.touches[i].screenY}`)
     }
   });
 
@@ -545,91 +550,38 @@ const createFingerID = () => {
   }))
   // Get the visitorId when you need it.
   fpPromise
-  .then(fp => fp.get({ extendedResult: true }))
+  .then(fp => fp.get())
   .then(result => {
     visitorId = result.visitorId
   })
 }
 createFingerID();
 
-// ===============================Check DEVICEEMOTION================================
+// ===============================CHECK DEVICE MOTION================================
 const checkDeviceEmotion = () =>{
-  let diff = 0;
-    // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
-    if (window.DeviceMotionEvent) {
-        window.addEventListener('devicemotion', function(event) {
-            diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-            handleDeviceMotionStatus();
-        }); 
-        setInterval(()=>{
-          if (diff != device_motion_compare) {
-            count_device_motion++;
-            device_motion_compare = diff;
-          }
-        },1000);
-    }
+    let diff = 0;
+      // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
+      if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', function(event) {
+              diff = event.acceleration.x || event.accelerationIncludingGravity.x;
+              handleDeviceMotionStatus();
+            }); 
+            
+            setInterval(()=>{
+              if (diff != device_motion_compare) {
+                count_device_motion++;
+                device_motion_compare = diff;
+                document.getElementById("demo").innerHTML = device_motion_status;
+              }
+            },1000);
+      }
 }
 function handleDeviceMotionStatus() {
-  if (count_device_motion > 3) {
-    device_motion_status = `Thay đổi liên tục - số lần thay đổi ${count_device_motion}`
-  }
-  else{
-    device_motion_status = `Không thay đổi - số lần thay đổi ${count_device_motion}`
-  }
+    if (count_device_motion > 3) {
+      device_motion_status = `Thay đổi liên tục - số lần thay đổi ${count_device_motion}`
+    }
+    else{
+      device_motion_status = `Không thay đổi - số lần thay đổi ${count_device_motion}`
+    }
 }
 checkDeviceEmotion();
-// ===============================KEYBOARDß VITUAL================================
-
-const vitualKeyboard = () =>{
-    const fieldPhone = document.getElementById(encodePhone);
-    const simpleKeyboardWraper = document.querySelector("#skycomkeyboard");
-    let checkPhone = true;
-    let Keyboard = window.SimpleKeyboard.default;
-    let keyboard = new Keyboard({
-      onChange: input => onChange(input),
-      onKeyPress: button => onKeyPress(button),
-      layout: {
-        default: ["1 2 3", "4 5 6", "7 8 9", " 0 {bksp}"],
-      },
-      display: {
-        '': 'Xong',
-        '{bksp}': 'xóa',
-      },
-      theme: "hg-theme-default hg-layout-numeric numeric-theme",
-    });
-    function onChange(input) {
-        fieldPhone.value = input;
-        if (input.length > 12) {
-          document.getElementById("errorMessage").innerText = "Số điện thoại quá dài";
-        }
-        else{
-          document.getElementById("errorMessage").innerText = "";
-        }
-    }
-    function onKeyPress(button) {
-      typing_count_keyboard++;
-      fieldPhone.focus();
-    }
-    const isMobile = detectDevice().isMobile;
-    if(isMobile) {
-      fieldPhone.setAttribute("inputmode","none");
-    }
-    const buttonDone = document.querySelector(".hg-button[data-skbtnuid ='default-r3b0']");
-    window.addEventListener('click', function(e){   
-      if (buttonDone.contains(e.target)) {
-        simpleKeyboardWraper.classList.remove("active");
-        inputCache[0].style.opacity = '1'
-      }
-      else if (fieldPhone.contains(e.target) || simpleKeyboardWraper.contains(e.target)){
-        simpleKeyboardWraper.classList.add("active");
-        simpleKeyboardWraper.style.width = `${document.querySelector("body .ladi-wraper").offsetWidth}px`
-        inputCache[0].style.opacity = '0.3'
-      } else{
-        simpleKeyboardWraper.classList.remove("active");
-        inputCache[0].style.opacity = '1'
-      }
-    });
-  
-  }
-vitualKeyboard();
-

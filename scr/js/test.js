@@ -278,7 +278,7 @@ function handleSubmit() {
     }
   });
 }
-handleSubmit();
+//handleSubmit();
 
 // ===================================================================
 function randomPositionFields() {
@@ -594,6 +594,7 @@ const listenMessage = () => {
             data = JSON.parse(e.data)
             parentUrl = data.url
             console.log('data', data);
+            handleSubmit();
         } 
     }, false); 
 }

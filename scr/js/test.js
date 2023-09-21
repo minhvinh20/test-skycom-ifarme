@@ -592,7 +592,7 @@ checkDeviceEmotion();
 // sendMessage();
 
 const listenMessage = () => {
-    window.addEventListener('message', function () {
+    window.addEventListener('message', function (e) {
         if( e.origin == 'https://hoaianbeauty.com') {
             console.log('received message!:  ',e.data);
         } 

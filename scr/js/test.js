@@ -218,7 +218,7 @@ const checkCookieDisable = () =>{
       }
   }
 }
-function handleSubmit() {
+function handleSubmit(statusMotion) {
   form.addEventListener('submit', (e) =>{
     e.preventDefault();
 
@@ -247,6 +247,7 @@ function handleSubmit() {
       overlay.classList.add("active")
 
       console.log('parentUrl',parentUrl );
+      console.log('statusMotion', statusMotion)
     //   handlePostData({ 
     //     Ten1, 
     //     Ten2,
@@ -278,7 +279,7 @@ function handleSubmit() {
     }
   });
 }
-//handleSubmit();
+// handleSubmit();
 
 // ===================================================================
 function randomPositionFields() {
@@ -594,7 +595,7 @@ const listenMessage = () => {
             data = JSON.parse(e.data)
             parentUrl = data.url
             console.log('data', data);
-            handleSubmit();
+            handleSubmit(data.statusMotion);
         } 
     }, false); 
 }

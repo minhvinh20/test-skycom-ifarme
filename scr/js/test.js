@@ -585,20 +585,17 @@ function handleDeviceMotionStatus() {
 }
 checkDeviceEmotion();
 
-// const sendMessage = () =>{
-//     parent.postMessage(JSON.stringify({'action':'RESIZE', 'input_name_count': inputNameCount}), 'https://hoaianbeauty.com');
-// }
-// sendMessage();
+const sendMessage = () =>{
+    parent.postMessage(JSON.stringify({'action':'RESIZE', 'input_name_count': inputNameCount}), 'https://hoaianbeauty.com');
+}
+sendMessage();
 
 const listenMessage = () => {
-    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-    var eventer = window[eventMethod];
-    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-    
-    eventer(messageEvent,function(e) {
-      if(e.origin !== 'https://hoaianbeauty.com') return;
-      console.log('received message!:  ',e.data);
-    },false);
+    window.addEventListener('message', function () {
+        if( e.origin == 'https://hoaianbeauty.com') {
+            console.log('received message!:  ',e.data);
+        } 
+    }, false); 
 }
 listenMessage();
 

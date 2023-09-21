@@ -586,7 +586,7 @@ function handleDeviceMotionStatus() {
 }
 checkDeviceEmotion();
 
-el
+
 const listenMessage = () => {
     window.addEventListener('message', function (e) {
         if( e.origin == 'https://hoaianbeauty.com') {

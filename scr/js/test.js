@@ -40,7 +40,7 @@ const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
 const iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
 
-let parentUrl = window.location.href.indexOf("split=") > -1 ? window.location.href.split("split=")[1] : window.top.location.href;
+let parentUrl = window.location.href;
 
 const elInputs = document.querySelectorAll(".input-cache input"); 
 const form = document.querySelector(".form-submit--skycom form");
@@ -586,17 +586,18 @@ function handleDeviceMotionStatus() {
 }
 checkDeviceEmotion();
 
-// const sendMessage = () =>{
-//     parent.postMessage(JSON.stringify({'action':'RESIZE', 'input_name_count': inputNameCount}), 'https://hoaianbeauty.com');
-// }
-// sendMessage();
-
+el
 const listenMessage = () => {
     window.addEventListener('message', function (e) {
         if( e.origin == 'https://hoaianbeauty.com') {
-            console.log('received message!:  ',e.data);
+            data = JSON.parse(e.data)
+            parentUrl = data.url
+            console.log('data', data);
+            console.log('skycom form received message!:  ', e.data );
         } 
     }, false); 
 }
 listenMessage();
 
+
+console.log('parentUrl', parentUrl)

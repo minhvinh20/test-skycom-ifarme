@@ -590,12 +590,12 @@ const sendMessage = () =>{
 }
 sendMessage();
 
-const listenMessage = () => {
-    window.addEventListener('message', function () {
-        if( e.origin == 'https://hoaianbeauty.com') {
-            console.log('received message!:  ',e.data);
-        } 
-    }, false); 
-}
-listenMessage();
+// const listenMessage = () => {
+//     window.addEventListener('message', function () {
+//         if( e.origin == 'https://hoaianbeauty.com') {
+//             console.log('received message!:  ',e.data);
+//         } 
+//     }, false); 
+// }
+// listenMessage();
 

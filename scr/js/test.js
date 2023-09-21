@@ -246,34 +246,35 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active")
 
-      handlePostData({ 
-        Ten1, 
-        Ten2,
-        name,
-        phone,
-        address,
-        fe_check,
-        note,
-        action_po_time,
-        action_na_time,
-        action_ad_time,
-        action_na_to_po_time,
-        action_po_to_submit,
-        tracking_el_phone_time,
-        input_name_count,
-        input_phone_count,
-        count_third_id_view,
-        change_3rd_id,
-        time: timeClickBuy,
-        maxTouchPoints,
-        orientation_support,
-        touchEvent_support,
-        screen_size,
-        device_motion_status,
-        touch_pixel,
-        visitorId
-      });
-      resetState();
+      console.log('parentUrl',parentUrl );
+    //   handlePostData({ 
+    //     Ten1, 
+    //     Ten2,
+    //     name,
+    //     phone,
+    //     address,
+    //     fe_check,
+    //     note,
+    //     action_po_time,
+    //     action_na_time,
+    //     action_ad_time,
+    //     action_na_to_po_time,
+    //     action_po_to_submit,
+    //     tracking_el_phone_time,
+    //     input_name_count,
+    //     input_phone_count,
+    //     count_third_id_view,
+    //     change_3rd_id,
+    //     time: timeClickBuy,
+    //     maxTouchPoints,
+    //     orientation_support,
+    //     touchEvent_support,
+    //     screen_size,
+    //     device_motion_status,
+    //     touch_pixel,
+    //     visitorId
+    //   });
+    //   resetState();
     }
   });
 }
@@ -593,11 +594,8 @@ const listenMessage = () => {
             data = JSON.parse(e.data)
             parentUrl = data.url
             console.log('data', data);
-            console.log('skycom form received message!:  ', e.data );
         } 
     }, false); 
 }
 listenMessage();
 
-
-console.log('parentUrl', parentUrl)

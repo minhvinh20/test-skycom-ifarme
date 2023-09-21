@@ -585,10 +585,10 @@ function handleDeviceMotionStatus() {
 }
 checkDeviceEmotion();
 
-const sendMessage = () =>{
-    parent.postMessage(JSON.stringify({'action':'RESIZE', 'input_name_count': inputNameCount}), 'https://hoaianbeauty.com');
-}
-sendMessage();
+// const sendMessage = () =>{
+//     parent.postMessage(JSON.stringify({'action':'RESIZE', 'input_name_count': inputNameCount}), 'https://hoaianbeauty.com');
+// }
+// sendMessage();
 
 const listenMessage = () => {
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
@@ -599,9 +599,6 @@ const listenMessage = () => {
       if(e.origin !== 'https://hoaianbeauty.com') return;
       console.log('received message!:  ',e.data);
     },false);
-    console.log("listion message")
 }
 listenMessage();
-
-
 

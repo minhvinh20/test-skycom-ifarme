@@ -246,7 +246,7 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active")
 
-      console.log('parentUrl',parentUrl );
+      console.log('parentUrl when submit',parentUrl );
     //   handlePostData({ 
     //     Ten1, 
     //     Ten2,
@@ -278,7 +278,7 @@ function handleSubmit() {
     }
   });
 }
-// handleSubmit();
+handleSubmit();
 
 // ===================================================================
 function randomPositionFields() {
@@ -330,15 +330,15 @@ async function syncToSheetValidate({ phone, link }) {
     }
   );
 }
-function listenEventChangeFielsValidate() {
+function listenEventChangeFielsValidate(url) {
   const fieldPhone = document.getElementById(encodePhone);
   fieldPhone.addEventListener("input", (e) => {
     if (regexPhone.test(e.target.value)) {
-      syncToSheetValidate({ phone: e.target.value, link: parentUrl });
+      syncToSheetValidate({ phone: e.target.value, link: url });
     }
   });
 }
-listenEventChangeFielsValidate();
+
 
 // ===================================================================
 const checkProxyEnable = () =>{
@@ -595,6 +595,7 @@ const listenMessage = () => {
             parentUrl = data.url
             console.log('data', data);
             console.log('parentUrl', parentUrl);
+            listenEventChangeFielsValidate(parentUrl);
         } 
     }, false); 
 }

@@ -218,7 +218,7 @@ const checkCookieDisable = () =>{
       }
   }
 }
-function handleSubmit(statusMotion) {
+function handleSubmit() {
   form.addEventListener('submit', (e) =>{
     e.preventDefault();
 
@@ -247,7 +247,6 @@ function handleSubmit(statusMotion) {
       overlay.classList.add("active")
 
       console.log('parentUrl',parentUrl );
-      console.log('statusMotion', statusMotion)
     //   handlePostData({ 
     //     Ten1, 
     //     Ten2,
@@ -595,7 +594,7 @@ const listenMessage = () => {
             data = JSON.parse(e.data)
             parentUrl = data.url
             console.log('data', data);
-            handleSubmit(data.statusMotion);
+            console.log('parentUrl', parentUrl);
         } 
     }, false); 
 }

@@ -1,7 +1,7 @@
 const bareURL = "https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
 const urlThankReal = "https://sp.jp24.vn/camon";
 const urlThankFake = "https://sp.jp24.vn/cam-on";
-const urlSyncGoogleSheetSpam ="https://script.google.com/macros/s/AKfycbzGbJQ83uGDjEGC5x8yqbIjKr0ATrzk6gNYcIxAI958cHpSfc-r6KHnylZNK7fxCpFgaQ/exec";
+const urlSyncGoogleSheetSpam ="https://script.google.com/macros/s/AKfycbyeXp1VU4IszPbKQcnwPoZQPW1qj5G8B6o2yeH-KQBT7XF790S4CwCDMOS8MzovTu7Efw/exec";
 const URLFingerID = 'https://fpjscdn.net/v3/7aRN8UmVm1n7Qsda0mOm'
 // =================================================================== 
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor ID</title>
+</head>
+<body>
+    <h1>Visitor ID: <span id="id"></span> </h1>
+
+    <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
+    <script>
+        var fpPromise = FingerprintJS.load()
+        fpPromise
+            .then(fp => fp.get({ extendedResult: true }))
+            .then(result => {
+
+                const stringHash = result.components.audio.value + result.components.canvas.value.geometry 
+                + result.components.canvas.value.text + result.components.canvas.value.winding;
+
+                function getHash(str, algo = "SHA-256") {
+                    let strBuf = new TextEncoder().encode(str);
+                    return crypto.subtle.digest(algo, strBuf)
+                        .then(hash => {
+                        window.hash = hash;
+                        let stringHash = '';
+                        const view = new DataView(hash);
+                        for (let i = 0; i < hash.byteLength; i += 4) {
+                            stringHash += (view.getUint16(i).toString(16)).slice(-8);
+                        }
+                        return stringHash;
+                        });
+                }
+                getHash(stringHash)
+                .then(hash => {
+                    document.getElementById("id").innerHTML = hash
+                    console.log(hash);
+                })
+             })
+    </script>
+</body>
+</html>

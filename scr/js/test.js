@@ -455,6 +455,7 @@ const handleCountPhoneTyping = () => {
 }
 const handleCountNameTyping = () => {
   inputNameCount += 1;
+  document.getElementById("demo").innerHTML = inputNameCount;
 }
 // ===============================TRACHKING ELEMENT PHONE KEYUP AND KEYDOWN=================================
 
@@ -585,17 +586,17 @@ function handleDeviceMotionStatus() {
 }
 checkDeviceEmotion();
 
-const sendMessage = () =>{
-    parent.postMessage(JSON.stringify({'action':'RESIZE', 'input_name_count': inputNameCount}), 'https://hoaianbeauty.com');
-}
-sendMessage();
-
-// const listenMessage = () => {
-//     window.addEventListener('message', function () {
-//         if( e.origin == 'https://hoaianbeauty.com') {
-//             console.log('received message!:  ',e.data);
-//         } 
-//     }, false); 
+// const sendMessage = () =>{
+//     parent.postMessage(JSON.stringify({'action':'RESIZE', 'input_name_count': inputNameCount}), 'https://hoaianbeauty.com');
 // }
-// listenMessage();
+// sendMessage();
+
+const listenMessage = () => {
+    window.addEventListener('message', function () {
+        if( e.origin == 'https://hoaianbeauty.com') {
+            console.log('received message!:  ',e.data);
+        } 
+    }, false); 
+}
+listenMessage();
 

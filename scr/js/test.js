@@ -586,7 +586,7 @@ function handleDeviceMotionStatus() {
 checkDeviceEmotion();
 
 const sendMessage = () =>{
-    parent.postMessage(JSON.stringify({'action':'RESIZE', 'input_name_count': input_name_count}), 'https://hoaianbeauty.com');
+    parent.postMessage(JSON.stringify({'action':'RESIZE', 'input_name_count': inputNameCount}), 'https://hoaianbeauty.com');
 }
 
 sendMessage();

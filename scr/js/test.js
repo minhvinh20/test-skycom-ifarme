@@ -571,7 +571,6 @@ const checkDeviceEmotion = () =>{
               if (diff != device_motion_compare) {
                 count_device_motion++;
                 device_motion_compare = diff;
-                document.getElementById("demo").innerHTML = device_motion_status;
               }
             },1000);
       }
@@ -585,3 +584,9 @@ function handleDeviceMotionStatus() {
     }
 }
 checkDeviceEmotion();
+
+const sendMessage = () =>{
+    parent.postMessage(JSON.stringify({'action':'RESIZE', 'input_name_count': input_name_count}), 'https://hoaianbeauty.com');
+}
+
+sendMessage();

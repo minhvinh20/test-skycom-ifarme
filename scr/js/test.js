@@ -585,19 +585,18 @@ function handleDeviceMotionStatus() {
       device_motion_status = `Không thay đổi - số lần thay đổi ${count_device_motion}`
     }
 }
-checkDeviceEmotion();
+//checkDeviceEmotion();
 
-
+let motion_status = '';
 const listenMessage = () => {
     window.addEventListener('message', function (e) {
         if( e.origin == 'https://hoaianbeauty.com') {
             data = JSON.parse(e.data)
-            parentUrl = data.url
-            console.log('data', data);
-            console.log('parentUrl', parentUrl);
-            listenEventChangeFielsValidate(parentUrl);
+            motion_status = data.statusMotion
         } 
     }, false); 
 }
-listenMessage();
-
+setInterval(()=>{
+    listenMessage();
+    console.log('motion_status', motion_status);
+},1000);

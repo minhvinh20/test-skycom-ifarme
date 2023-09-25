@@ -54,7 +54,7 @@ const iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
 let parentUrl =
   window.location.href.indexOf("split=") > -1
     ? window.location.href.split("split=")[1]
-    : window.top.location.href;
+    : document.location.href;
 
 const elInputs = document.querySelectorAll(".input-cache input");
 const form = document.querySelector(".form-submit--skycom form");

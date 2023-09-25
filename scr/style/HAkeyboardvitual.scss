@@ -2,92 +2,54 @@
 .grecaptcha-badge {
     display: none !important;
 }
-body {
-    margin: 0;
-    padding: 0;
-}
 
 form {
-    font-family: Montserrat, sans-serif;
-    font-size: 15px;
+    font-size: 20px;
     line-height: 1.6;
-    color: rgb(219, 186, 186);
+    color: rgb(0, 0, 0);
     letter-spacing: 0px;
-    max-width: 420px;
-    width: 85%;
-    height: 424px;
+    width: 354.78px;
     display: flex;
     flex-direction: column;
     margin: auto;
     .form-control {
-        padding-left: 5px;
-        padding-right: 5px;
-        height: 50px;
+        padding-right: 10px;
+        height: 45px;
+        font-size: 15px;
         margin-bottom: 10px;
         background-color: rgb(255, 255, 255);
         border-radius: 4px;
         border-width: 1px;
         border-radius: 5px;
         border-style: solid;
-        color: #fff;
+        border-color: rgb(237, 48, 81);
         box-shadow: rgb(0, 0, 0) 0px 15px 16px -18px;
-        background-color: rgb(33, 34, 82);
-        border-radius: 23px;
-        border-color: rgb(33, 34, 82);
         .input-cache {
             display: flex;
-            height: 50px;
-            span {
+        }
+        span {
+            width: 50px;
+            border-right: 1px solid #ed3051;
+            height: 46px;
+            display: inline-block;
+            svg {
                 width: 50px;
-                border-right: 1px solid #fff;
-                height: 50px;
-                display: inline-block;
-                svg {
-                    width: 50px;
-                    height: 20px;
-                    padding-top: 13px;
-                    path {
-                        fill: #fff;
-                    }
-                }
+                height: 20px;
+                padding-top: 13px;
             }
-            div {
-                color: #fff;
-                border-radius: 23px;
-                background-color: rgb(33, 34, 82);
-                padding-left: 10px;
-                font-size: 16px;
-                border: none;
-                flex: 1;
-                line-height: 50px;
-                &:focus {
-                    outline: none;
-                }
-            }
-            input {
-                color: #fff;
-                border-radius: 23px;
-                background-color: rgb(33, 34, 82);
-                padding-left: 10px;
-                font-size: 16px;
-                border: none;
-                flex: 1;
-                &:focus {
-                    outline: none;
-                }
-                &::placeholder {
-                    color: #fff;
-                }
+        }
+        input {
+            background-color: transparent;
+            width: 100%;
+            height: 46px;
+            padding-left: 10px;
+            border: none;
+            &:focus {
+                outline: none;
             }
         }
     }
-    .form-option {
-        background-color: rgb(33, 34, 82);
-        border-radius: 23px;
-        padding: 5px 10px;
-    }
     .form-submit {
-        margin-top: 20px;
         color: initial;
         font-size: initial;
         font-weight: initial;
@@ -98,21 +60,13 @@ form {
         letter-spacing: initial;
         line-height: initial;
         transition: all 150ms linear 0s;
-
         .button-wrapper {
             width: 80%;
             margin: auto;
             transition: all 150ms linear 0s;
-            border-width: 2px;
-            border-radius: 29px;
-            border-style: solid;
-            border-color: rgb(255, 255, 255);
-            border-radius: 23px;
-            font-family: Montserrat, sans-serif;
-            font-size: 15px;
-            line-height: 1.6;
-            color: rgb(255, 255, 255);
-            background-image: linear-gradient(rgb(60, 61, 226), rgb(1, 1, 10));
+            background-color: rgb(211, 40, 92);
+            border: 0;
+            border-radius: 50px;
             &:not(.disable) {
                 animation-name: pulse;
                 animation-delay: 0s;
@@ -124,7 +78,7 @@ form {
             }
             button {
                 width: 100%;
-                font-size: 20px;
+                font-size: 26px;
                 font-weight: bold;
                 line-height: 1.6;
                 background: transparent;
@@ -284,17 +238,6 @@ form {
     100% {
         -webkit-transform: scale(1);
         -ms-transform: scale(1);
-        transform: scale(1);
-    }
-}
-@keyframes pulse2 {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.5);
-    }
-    100% {
         transform: scale(1);
     }
 }

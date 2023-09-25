@@ -745,15 +745,20 @@ const listenMessage = () => {
       if (e.origin == "https://hoaianbeauty.com") {
         data = JSON.parse(e.data);
         src = data.src;
-        console.log("src", src);
+        console.log("data", data);
       }
     },
     false
   );
+  console.log("src", src);
 };
 listenMessage();
-console.log("src", src);
-// setInterval(()=>{
-//     listenMessage();
-//     console.log('motion_status', motion_status);
-// },1000);
+
+function GetReferrer() {
+  var preUrl = document.referrer;
+  if (preUrl == null)
+    return "The previous page url is empty";
+  else
+    return preUrl;
+}
+console.log('GetReferrer', GetReferrer());

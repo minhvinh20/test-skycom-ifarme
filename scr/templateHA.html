@@ -8,95 +8,54 @@
   .grecaptcha-badge {
     display: none !important;
   }
-  body {
-    margin: 0;
-    padding: 0;
-  }
   form {
-    font-family: Montserrat, sans-serif;
-    font-size: 15px;
+    font-size: 20px;
     line-height: 1.6;
-    color: #dbbaba;
+    color: #000;
     letter-spacing: 0px;
-    max-width: 420px;
-    width: 85%;
-    height: 424px;
+    width: 354.78px;
     display: flex;
     flex-direction: column;
     margin: auto;
   }
   form .form-control {
-    padding-left: 5px;
-    padding-right: 5px;
-    height: 50px;
+    padding-right: 10px;
+    height: 45px;
+    font-size: 15px;
     margin-bottom: 10px;
     background-color: #fff;
     border-radius: 4px;
     border-width: 1px;
     border-radius: 5px;
     border-style: solid;
-    color: #fff;
+    border-color: #ed3051;
     box-shadow: #000 0px 15px 16px -18px;
-    background-color: #212252;
-    border-radius: 23px;
-    border-color: #212252;
   }
   form .form-control .input-cache {
     display: flex;
-    height: 50px;
   }
-  form .form-control .input-cache span {
+  form .form-control span {
     width: 50px;
-    border-right: 1px solid #fff;
-    height: 50px;
+    border-right: 1px solid #ed3051;
+    height: 46px;
     display: inline-block;
   }
-  form .form-control .input-cache span svg {
+  form .form-control span svg {
     width: 50px;
     height: 20px;
     padding-top: 13px;
   }
-  form .form-control .input-cache span svg path {
-    fill: #fff;
-  }
-  form .form-control .input-cache div {
-    color: #fff;
-    border-radius: 23px;
-    background-color: #212252;
+  form .form-control input {
+    background-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    height: 46px;
     padding-left: 10px;
-    font-size: 16px;
     border: none;
-    flex: 1;
-    line-height: 50px;
   }
-  form .form-control .input-cache div:focus {
+  form .form-control input:focus {
     outline: none;
-  }
-  form .form-control .input-cache input {
-    color: #fff;
-    border-radius: 23px;
-    background-color: #212252;
-    padding-left: 10px;
-    font-size: 16px;
-    border: none;
-    flex: 1;
-  }
-  form .form-control .input-cache input:focus {
-    outline: none;
-  }
-  form .form-control .input-cache input::-moz-placeholder {
-    color: #fff;
-  }
-  form .form-control .input-cache input::placeholder {
-    color: #fff;
-  }
-  form .form-option {
-    background-color: #212252;
-    border-radius: 23px;
-    padding: 5px 10px;
   }
   form .form-submit {
-    margin-top: 20px;
     color: initial;
     font-size: initial;
     font-weight: initial;
@@ -112,16 +71,9 @@
     width: 80%;
     margin: auto;
     transition: all 150ms linear 0s;
-    border-width: 2px;
-    border-radius: 29px;
-    border-style: solid;
-    border-color: #fff;
-    border-radius: 23px;
-    font-family: Montserrat, sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    color: #fff;
-    background-image: linear-gradient(rgb(60, 61, 226), rgb(1, 1, 10));
+    background-color: #d3285c;
+    border: 0;
+    border-radius: 50px;
   }
   form .form-submit .button-wrapper:not(.disable) {
     animation-name: pulse;
@@ -134,7 +86,7 @@
   }
   form .form-submit .button-wrapper button {
     width: 100%;
-    font-size: 20px;
+    font-size: 26px;
     font-weight: bold;
     line-height: 1.6;
     background: rgba(0, 0, 0, 0);
@@ -290,17 +242,6 @@
       transform: scale(1);
     }
   }
-  @keyframes pulse2 {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.5);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
   @keyframes spin {
     0% {
       transform: rotate(0deg);
@@ -339,7 +280,6 @@
               class="div-input human"
               placeholder="H&#7884; V&Agrave; T&Ecirc;N(*)"
               autocomplete="off"
-              oninput="handleCountNameTyping()"
               required
             />
           </div>
@@ -348,8 +288,8 @@
       <div class="form-control">
         <div class="control-wrapper">
           <div class="input-group input-cache">
-            <span
-              ><svg
+            <span>
+              <svg
                 width="17"
                 height="17"
                 viewBox="0 0 17 17"
@@ -366,7 +306,6 @@
               type="text"
               class="numeric div-input"
               placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)"
-              oninput="handleCountPhoneTyping()"
               required
             />
             <!-- <input class="hidden"type="tel" placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)" pattern="(\+84|0)(9|8|7|5|3)[0-9]{8}" autocomplete="off"  required /> -->
@@ -378,6 +317,7 @@
           <div class="input-group">
             <input placeholder="Ten" id="ten2" name="ten2" tabindex="0" />
           </div>
+          div-input
         </div>
       </div>
       <div class="form-control hidden">
@@ -392,7 +332,7 @@
           </div>
         </div>
       </div>
-      <div id="errorMessage" style="color: red"></div>
+      <div id="errorMessage"></div>
       <div class="form-submit">
         <div class="button-wrapper">
           <button type="submit" id="btn-submit">ĐĂNG KÝ NGAY</button>
@@ -419,13 +359,14 @@
   </div>
   <div class="simple-keyboard"></div>
 </div>
+
 <script>
   const bareURL =
       "https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check",
-    urlThankReal = "https://sp.jp24.vn/camon",
-    urlThankFake = "https://sp.jp24.vn/cam-on",
+    urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach",
+    urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach",
     urlSyncGoogleSheetSpam =
-      "https://script.google.com/macros/s/AKfycbyeXp1VU4IszPbKQcnwPoZQPW1qj5G8B6o2yeH-KQBT7XF790S4CwCDMOS8MzovTu7Efw/exec",
+      "https://script.google.com/macros/s/AKfycbzGbJQ83uGDjEGC5x8yqbIjKr0ATrzk6gNYcIxAI958cHpSfc-r6KHnylZNK7fxCpFgaQ/exec",
     URLFingerID = "https://fpjscdn.net/v3/7aRN8UmVm1n7Qsda0mOm";
   let encodeName = "",
     encodePhone = "",

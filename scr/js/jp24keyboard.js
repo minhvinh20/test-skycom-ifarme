@@ -32,11 +32,15 @@ let encodeName = "",
   orientation_support = false,
   touchEvent_support = false,
   visitorId = "",
+  count_device_motion = 0,
+  device_motion_compare = 0,
+  device_motion_status = "Không lấy được",
   touch_pixel = [];
 
 const timeFirstRenderPage = new Date();
 const regexPhone =
   /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
+const iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
 
 let parentUrl =
   window.location.href.indexOf("split=") > -1
@@ -52,6 +56,7 @@ const buttonSubmit = document.getElementById("btn-submit");
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
+const number = getRandomInt(100);
 function textEnpty(e) {
   let _str = " ";
   return _str.repeat(e);
@@ -85,7 +90,7 @@ encryptionIDFileds();
 // ===================================================================
 
 function validateForm() {
-  const valuePhone = document.getElementById(encodePhone).value;
+  const valuePhone = document.getElementById(`${encodePhone}`).value;
   let validate = true;
 
   if (!regexPhone.test(valuePhone)) {
@@ -164,6 +169,7 @@ const handlePostData = async ({
   orientation_support,
   touchEvent_support,
   screen_size,
+  device_motion_status,
   touch_pixel,
   visitorId,
 }) => {
@@ -190,6 +196,7 @@ const handlePostData = async ({
     orientation_support,
     touchEvent_support,
     screen_size,
+    device_motion_status,
     touch_pixel,
     visitorId,
   };
@@ -233,8 +240,7 @@ const handlePostData = async ({
     });
 };
 const checkCookieDisable = () => {
-  const isIOS = detectDevice().isMobile;
-  if (isIOS) {
+  if (iOSDevice) {
     return;
   }
   let cookieEnabled = navigator.cookieEnabled;
@@ -279,6 +285,11 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active");
 
+      if (input_phone_count) {
+        fe_check = true;
+        note = "bot sử dụng bàn phím";
+      }
+
       handlePostData({
         Ten1,
         Ten2,
@@ -301,6 +312,7 @@ function handleSubmit() {
         orientation_support,
         touchEvent_support,
         screen_size,
+        device_motion_status,
         touch_pixel,
         visitorId,
       });
@@ -311,23 +323,21 @@ function handleSubmit() {
 handleSubmit();
 
 // ===================================================================
-
-// function randomPositionFields() {
-//   const number = getRandomInt(100);
-//   const wrapper = document.querySelectorAll(".form-control");
-//   const fieldName = document.getElementById(encodeName).parentElement.innerHTML;
-//   const fieldPhone =
-//     document.getElementById(encodePhone).parentElement.innerHTML;
-//   if (number % 2 === 0) {
-//     wrapper[0].innerHTML = fieldName;
-//     wrapper[1].innerHTML = fieldPhone;
-//   } else {
-//     wrapper[0].innerHTML = fieldPhone;
-//     wrapper[1].innerHTML = fieldName;
-//   }
-//   document.getElementById(encodeName).classList.remove("hidden");
-//   document.getElementById(encodePhone).classList.remove("hidden");
-// }
+function randomPositionFields() {
+  const wrapper = document.querySelectorAll(".form-control");
+  const fieldName = document.getElementById(encodeName).parentElement.innerHTML;
+  const fieldPhone =
+    document.getElementById(encodePhone).parentElement.innerHTML;
+  if (number % 2 === 0) {
+    wrapper[0].innerHTML = fieldName;
+    wrapper[1].innerHTML = fieldPhone;
+  } else {
+    wrapper[0].innerHTML = fieldPhone;
+    wrapper[1].innerHTML = fieldName;
+  }
+  document.getElementById(encodeName).classList.remove("hidden");
+  document.getElementById(encodePhone).classList.remove("hidden");
+}
 //randomPositionFields();
 // ===================================================================
 function disableCopy() {
@@ -581,9 +591,7 @@ const checkTouchSupport = () => {
       buttonSubmit.contains(e.target)
     ) {
       for (let i = 0; i < e.touches.length; i++) {
-        const screenX = e.touches[i].screenX.toFixed(2);
-        const screenY = e.touches[i].screenY.toFixed(2);
-        touch_pixel.push(`${screenX},${screenY}`);
+        touch_pixel.push(`${e.touches[i].screenX},${e.touches[i].screenY}`);
       }
     }
   });
@@ -616,30 +624,30 @@ const createFingerID = () => {
 createFingerID();
 
 // ===============================Check DEVICEEMOTION================================
-// const checkDeviceEmotion = () => {
-//   let diff = 0;
-//   // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
-//   if (window.DeviceMotionEvent) {
-//     window.addEventListener("devicemotion", function (event) {
-//       diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-//       handleDeviceMotionStatus();
-//     });
-//     setInterval(() => {
-//       if (diff != device_motion_compare) {
-//         count_device_motion++;
-//         device_motion_compare = diff;
-//       }
-//     }, 1000);
-//   }
-// };
-// function handleDeviceMotionStatus() {
-//   if (count_device_motion > 3) {
-//     device_motion_status = `Thay đổi liên tục - số lần thay đổi ${count_device_motion}`;
-//   } else {
-//     device_motion_status = `Không thay đổi - số lần thay đổi ${count_device_motion}`;
-//   }
-// }
-// checkDeviceEmotion();
+const checkDeviceEmotion = () => {
+  let diff = 0;
+  // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
+  if (window.DeviceMotionEvent) {
+    window.addEventListener("devicemotion", function (event) {
+      diff = event.acceleration.x || event.accelerationIncludingGravity.x;
+      handleDeviceMotionStatus();
+    });
+    setInterval(() => {
+      if (diff != device_motion_compare) {
+        count_device_motion++;
+        device_motion_compare = diff;
+      }
+    }, 1000);
+  }
+};
+function handleDeviceMotionStatus() {
+  if (count_device_motion > 3) {
+    device_motion_status = `Thay đổi liên tục - số lần thay đổi ${count_device_motion}`;
+  } else {
+    device_motion_status = `Không thay đổi - số lần thay đổi ${count_device_motion}`;
+  }
+}
+checkDeviceEmotion();
 // ===============================KEYBOARDß VITUAL================================
 
 const vitualKeyboard = () => {
@@ -648,6 +656,9 @@ const vitualKeyboard = () => {
   const { isMobile, isAndroid } = detectDevice();
   if (!isMobile) {
     return;
+  } else {
+    fieldPhone.setAttribute("inputmode", "none");
+    // navigator.virtualKeyboard.hide();
   }
   let Keyboard = window.SimpleKeyboard.default;
   let keyboard = new Keyboard({
@@ -687,14 +698,8 @@ const vitualKeyboard = () => {
 
     fieldPhone.focus();
   }
-
-  if (isMobile) {
-    fieldPhone.setAttribute("inputmode", "none");
-    navigator.virtualKeyboard.hide();
-
-    if (isAndroid) {
-      simpleKeyboardWraper.classList.add("keyboard-android");
-    }
+  if (isAndroid) {
+    simpleKeyboardWraper.classList.add("keyboard-android");
   }
   const buttonDone = document.querySelector(".keyboard-bar #button-done");
   window.addEventListener("click", function (e) {

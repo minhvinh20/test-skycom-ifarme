@@ -1,6 +1,10 @@
 .hidden,.grecaptcha-badge{
     display: none !important;
 }
+body{
+    margin: 0;
+    padding: 0;
+}
 
 form{
     font-family: Montserrat, sans-serif;
@@ -142,13 +146,14 @@ form{
     position: fixed;
     width: 100%;
     max-width: 450px;
-    z-index: 99999909;
+    z-index: 999999099;
     bottom: 10px;
     transform: translate(0,110%);
     opacity: 0;
     margin: 0 auto;
     visibility: hidden;
     pointer-events: none;
+    user-select: none;
     &.active{
         display: block;
         transform: translate(0,5%);
@@ -157,29 +162,87 @@ form{
         visibility: visible;
         pointer-events: all;
     }
+    &.keyboard-android{
+        .keyboard-bar{
+            display: none;
+        }
+        .simple-keyboard{
+            &.hg-theme-default{
+                BACKGROUND-COLOR: #3F515B;
+                PADDING-TOP: 10PX;
+            }
+            .hg-button{
+                background-color: #66737A;
+                border-radius: 50px;
+                box-shadow: none;
+                color: #fff;
+                font-family: system-ui;
+                figure{
+                    display: inline;
+                    vertical-align: middle;
+                    margin-left: 7px;
+                    text-align: right;
+                    color: #FFF;
+                }
+            } 
+            .hg-button[data-skbtn ='{bksp}']{
+                background-color: #66737A;
+            }
+            .hg-button[data-skbtnuid ='default-r3b0']{
+                background-color: #66737A;
+            }
+        }  
+    }
+    .keyboard-bar{
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: 10px;
+        padding: 5px 15px;
+        height: 30px;
+        box-shadow: 1px -1px 20px rgb(0 0 0 / 11%);
+        color: #1f1fd9db;
+        font-size: 18px;
+        font-family: system-ui;
+        background: #fff;
+        position: relative;
+        bottom: -2px;
+        #button-done{
+            cursor: pointer;
+        }
+    }
     .simple-keyboard{
         &.hg-theme-default{
-            background-color: #bfbdbd;
+            background-color: #D6D9DE;
+            padding-bottom: 40px;
         }
         .hg-button{
             font-size: 24px !important;
             touch-action: manipulation !important;
+            box-shadow: 1px 1px 1px #00000057;
+            text-align: center;
+            figure{
+                font-size: 13px;
+                font-weight: 500;
+                color: #000;
+                display: block;
+                margin: 0;
+            }
         }
         .hg-button[data-skbtn ='{bksp}']{
-            background: none !important;
+            background: none;
             border: none !important;
             box-shadow: none !important;
-            font-size: 20px !important;
-            
+            font-size: 40px !important;
         }
         .hg-button[data-skbtnuid ='default-r3b0']{
-            background: none !important;
+            background: none;
             border: none !important;
             box-shadow: none !important;
-            font-size: 20px !important;
+            font-size: 25px !important;
         }
         .hg-activeButton{
-            background-color: #666;
+            background-color: rgb(102, 102, 102) !important;
         }
     }
 }

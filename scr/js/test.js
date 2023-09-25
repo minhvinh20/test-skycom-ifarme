@@ -747,8 +747,7 @@ const listenMessage = () => {
         src = data.src;
         console.log("data", data);
       }
-    },
-    false
+    }
   );
   console.log("src", src);
 };
@@ -756,9 +755,11 @@ listenMessage();
 
 function GetReferrer() {
   var preUrl = document.referrer;
-  if (preUrl == null)
-    return "The previous page url is empty";
-  else
-    return preUrl;
+  if (preUrl == null) {
+    console.log("The previous page url is empty");
+  } 
+  else {
+    console.log(preUrl)
+  }
 }
-console.log('GetReferrer', GetReferrer());
+GetReferrer();

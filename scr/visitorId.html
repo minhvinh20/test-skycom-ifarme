@@ -17,22 +17,33 @@
           console.log("result", result);
           const components = result.components;
           const stringHash =
-            components.deviceMemory.value +
-            components.audio.value +
-            components.webGlExtensions.value.contextAttributes.toString() +
-            components.webGlExtensions.value.extensionParameters.toString() +
-            components.webGlExtensions.value.extensions.toString() +
-            components.webGlExtensions.value.parameters.toString() +
-            components.webGlExtensions.value.shaderPrecisions.toString() +
-            components.fonts.value.toString()+
-            components.webGlBasics.value.renderer +
-            components.webGlBasics.value.rendererUnmasked +
-            components.webGlBasics.value.shadingLanguageVersion +
-            components.webGlBasics.value.vendor +
-            components.webGlBasics.value.vendorUnmasked +
-            components.webGlBasics.value.version +
-            components.canvas.value.geometry;
-
+          components.webGlExtensions.value.contextAttributes.toString() +
+          components.webGlExtensions.value.extensionParameters.toString() +
+          components.webGlExtensions.value.extensions.toString() +
+          components.webGlExtensions.value.parameters.toString() +
+          components.webGlExtensions.value.shaderPrecisions.toString() +
+          components.webGlBasics.value.renderer +
+          components.webGlBasics.value.rendererUnmasked +
+          components.webGlBasics.value.shadingLanguageVersion +
+          components.webGlBasics.value.vendor +
+          components.webGlBasics.value.vendorUnmasked +
+          components.webGlBasics.value.version +
+          components.fonts.value.toString()+
+          components.fontPreferences.value.toString() +
+          components.screenResolution.value.toString() +
+          components.hardwareConcurrency.value +
+          components.plugins.value[0].mimeTypes[0].suffixes +
+          components.plugins.value[0].mimeTypes[0].type +
+          components.plugins.value[0].mimeTypes[1].type +
+          components.plugins.value[0].name +
+          components.plugins.value[1].name +
+          components.plugins.value[2].name +
+          components.plugins.value[3].name +
+          components.plugins.value[4].name +
+          components.deviceMemory.value +
+          components.audio.value +
+          components.canvas.value.geometry;
+          console.log('components.plugins.value +',components.plugins.value)
           function getHash(str, algo = "SHA-256") {
             let strBuf = new TextEncoder().encode(str);
             return crypto.subtle.digest(algo, strBuf).then((hash) => {

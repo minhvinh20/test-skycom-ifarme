@@ -19,32 +19,32 @@ let encodeName = "",
   timePhoneKeydown = 0,
   timePhoneKeyup = 0,
   action_na_to_po_time = 0,
-  tracking_el_phone_time = "";
-(inputNameCount = 0),
-  (inputPhoneCount = 0),
-  (fe_check = false),
-  (isShowKeyboard = false);
-(note = ""),
-  (adsClickId = ""),
-  (third_id = 0),
-  (count_third_id_view = 1),
-  (change_3rd_id = false),
-  (maxTouchPoints = navigator.maxTouchPoints),
-  (orientation_support = false),
-  (touchEvent_support = false),
-  (visitorId = ""),
-  (count_device_motion = 0),
-  (device_motion_compare = 0),
-  (device_motion_status = "Không lấy được"),
-  (touch_pixel = []),
-  (countDeleteName = 0),
-  (countSelectionName = 1),
-  (count_delete_input_name = []),
-  (countDeletePhone = 0),
-  (countSelectionPhone = 1),
-  (count_delete_input_phone = []),
-  (skl_visitor = 0),
-  (detectKeyboard = 0);
+  tracking_el_phone_time = "",
+  inputNameCount = 0,
+  inputPhoneCount = 0,
+  fe_check = false,
+  isShowKeyboard = false,
+  note = "",
+  adsClickId = "",
+  third_id = 0,
+  count_third_id_view = 1,
+  change_3rd_id = false,
+  maxTouchPoints = navigator.maxTouchPoints,
+  orientation_support = false,
+  touchEvent_support = false,
+  visitorId = "",
+  count_device_motion = 0,
+  device_motion_compare = 0,
+  device_motion_status = "Không lấy được",
+  touch_pixel = [],
+  countDeleteName = 0,
+  countSelectionName = 1,
+  count_delete_input_name = [],
+  countDeletePhone = 0,
+  countSelectionPhone = 1,
+  count_delete_input_phone = [],
+  skl_visitor = 0,
+  detectKeyboard = 0;
 
 const timeFirstRenderPage = new Date();
 const regexPhone =
@@ -752,14 +752,3 @@ const listenMessage = () => {
   console.log("src", src);
 };
 listenMessage();
-
-function GetReferrer() {
-  var preUrl = document.referrer;
-  if (preUrl == null) {
-    console.log("The previous page url is empty");
-  } 
-  else {
-    console.log(preUrl)
-  }
-}
-GetReferrer();

@@ -657,7 +657,8 @@ const vitualKeyboard = () => {
   if (!isMobile) {
     return;
   } else {
-    fieldPhone.setAttribute("inputmode", "none");
+    // fieldPhone.setAttribute("inputmode", "none");
+    fieldPhone.setAttribute("readonly", "readonly");
     // navigator.virtualKeyboard.hide();
   }
   let Keyboard = window.SimpleKeyboard.default;

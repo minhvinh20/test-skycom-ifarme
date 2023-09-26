@@ -24,6 +24,13 @@
             components.webGlExtensions.value.extensions.toString() +
             components.webGlExtensions.value.parameters.toString() +
             components.webGlExtensions.value.shaderPrecisions.toString() +
+            components.fonts.value.toString()+
+            components.webGlBasics.value.renderer +
+            components.webGlBasics.value.rendererUnmasked +
+            components.webGlBasics.value.shadingLanguageVersion +
+            components.webGlBasics.value.vendor +
+            components.webGlBasics.value.vendorUnmasked +
+            components.webGlBasics.value.version +
             components.canvas.value.geometry;
 
           function getHash(str, algo = "SHA-256") {

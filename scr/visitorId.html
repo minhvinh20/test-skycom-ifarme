@@ -10,6 +10,9 @@
 
     <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
     <script>
+      var mimeTypes_suffixes = '';
+      var mimeTypes_type1 = '';
+      var mimeTypes_type2 = '';
       var fpPromise = FingerprintJS.load();
       fpPromise
         .then((fp) => fp.get({ extendedResult: true }))
@@ -17,30 +20,30 @@
           console.log("result", result);
           const components = result.components;
           if (components.plugins.value[0].mimeTypes[0] || components.plugins.value[0].mimeTypes[1]) {
-            var mimeTypes_suffixes = components.plugins.value[0].mimeTypes[0].suffixes;
-            var mimeTypes_type1 = components.plugins.value[0].mimeTypes[0].type;
-            var mimeTypes_type2 = components.plugins.value[0].mimeTypes[1].type;
+            mimeTypes_suffixes = components.plugins.value[0].mimeTypes[0].suffixes;
+            mimeTypes_type1 = components.plugins.value[0].mimeTypes[0].type;
+            mimeTypes_type2 = components.plugins.value[0].mimeTypes[1].type;
           }
           const stringHash =
-          components.webGlExtensions.value.contextAttributes.toString() +
-          components.webGlExtensions.value.extensionParameters.toString() +
-          components.webGlExtensions.value.extensions.toString() +
-          components.webGlExtensions.value.parameters.toString() +
-          components.webGlExtensions.value.shaderPrecisions.toString() +
-          components.webGlBasics.value.renderer +
-          components.webGlBasics.value.rendererUnmasked +
-          components.webGlBasics.value.shadingLanguageVersion +
-          components.webGlBasics.value.vendor +
-          components.webGlBasics.value.vendorUnmasked +
-          components.webGlBasics.value.version +
-          components.fonts.value.toString()+
-          components.fontPreferences.value.toString() +
-          components.screenResolution.value.toString() +
-          components.hardwareConcurrency.value +
-          mimeTypes_suffixes + mimeTypes_type1 + mimeTypes_type2
-          components.deviceMemory.value +
-          components.audio.value +
-          components.canvas.value.geometry;
+            components.webGlExtensions.value.contextAttributes.toString() +
+            components.webGlExtensions.value.extensionParameters.toString() +
+            components.webGlExtensions.value.extensions.toString() +
+            components.webGlExtensions.value.parameters.toString() +
+            components.webGlExtensions.value.shaderPrecisions.toString() +
+            components.webGlBasics.value.renderer +
+            components.webGlBasics.value.rendererUnmasked +
+            components.webGlBasics.value.shadingLanguageVersion +
+            components.webGlBasics.value.vendor +
+            components.webGlBasics.value.vendorUnmasked +
+            components.webGlBasics.value.version +
+            components.fonts.value.toString()+
+            components.fontPreferences.value.toString() +
+            components.screenResolution.value.toString() +
+            components.hardwareConcurrency.value +
+            mimeTypes_suffixes + mimeTypes_type1 + mimeTypes_type2 +
+            components.deviceMemory.value +
+            components.audio.value +
+            components.canvas.value.geometry;
 
           function getHash(str, algo = "SHA-256") {
             let strBuf = new TextEncoder().encode(str);

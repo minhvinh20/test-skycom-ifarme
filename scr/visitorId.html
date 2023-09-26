@@ -10,20 +10,12 @@
 
     <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
     <script>
-      var mimeTypes_suffixes = '';
-      var mimeTypes_type1 = '';
-      var mimeTypes_type2 = '';
       var fpPromise = FingerprintJS.load();
       fpPromise
         .then((fp) => fp.get({ extendedResult: true }))
         .then((result) => {
           console.log("result", result);
           const components = result.components;
-          if (components.plugins.value[0].mimeTypes[0] || components.plugins.value[0].mimeTypes[1]) {
-            mimeTypes_suffixes = components.plugins.value[0].mimeTypes[0].suffixes;
-            mimeTypes_type1 = components.plugins.value[0].mimeTypes[0].type;
-            mimeTypes_type2 = components.plugins.value[0].mimeTypes[1].type;
-          }
           const stringHash =
             components.webGlExtensions.value.contextAttributes.toString() +
             components.webGlExtensions.value.extensionParameters.toString() +
@@ -38,11 +30,10 @@
             components.webGlBasics.value.version +
             components.fonts.value.toString()+
             components.fontPreferences.value.toString() +
-            components.screenResolution.value.toString() +
+            components.hardwareConcurrency.value +
             components.deviceMemory.value +
             components.audio.value +
             components.canvas.value.geometry;
-
           function getHash(str, algo = "SHA-256") {
             let strBuf = new TextEncoder().encode(str);
             return crypto.subtle.digest(algo, strBuf).then((hash) => {

@@ -17,7 +17,8 @@ let buttonSubmit = document.getElementById("btn-submit");
 let 
   encodeName = "",
   encodePhone = "",
-  
+  isKeyboardOpen = 0,
+
   Count_na_keyboard = 0,
   Count_na_delete_keyboard = [],
   Is_open_na_keyboard = null,
@@ -57,12 +58,10 @@ function detectDevice () {
     return { isIOS, isMobile };
 };
 function listenerKeyboardOpen(){
-  // detect show keyboard
-  var isKeyboardOpen = false;
-  if ('visualViewport' in window) {
-    window.visualViewport.addEventListener('resize', function (event) {
-      isKeyboardOpen = true;
-    });
+  let MIN_KEYBOARD_HEIGHT = 280;
+  let isMobile = window.innerWidth < 768;
+  if (isMobile && window.screen.height - MIN_KEYBOARD_HEIGHT > window.visualViewport.height) {
+    isKeyboardOpen = true;
   }
   return isKeyboardOpen;
 }
@@ -294,14 +293,14 @@ function handleCountPhoneTyping () {
 handleCountPhoneTyping();
 
 // ==============================TIMER TIMING=====================================
+window.visualViewport.addEventListener('resize', listenerKeyboardOpen);
 
 var timeNaIn = 0,  timePoIn = 0, timeNaOut = 0, timePoOut = 0, timeAdIn = 0, timeAdOut = 0;
 function setTimer() {
   fieldName?.addEventListener("click", function(e) {
     if (!timeNaIn) timeNaIn = new Date();
     //check keyboard open
-    alert(Is_open_na_keyboard + ' Is_open_na_keyboard')
-    Is_open_na_keyboard = listenerKeyboardOpen();
+    alert(isKeyboardOpen);
   })
   fieldName?.addEventListener("focusout",function(e) {
     timeNaOut = new Date();
@@ -309,8 +308,7 @@ function setTimer() {
   fieldPhone?.addEventListener("click", function(e) {
     if (!timePoIn) timePoIn = new Date();
      //check keyboard open
-     alert(Is_open_po_keyboard + ' Is_open_po_keyboard')
-     Is_open_po_keyboard = listenerKeyboardOpen();
+     alert(isKeyboardOpen);
   })
   fieldPhone?.addEventListener("focusout",function(e) {
     timePoOut = new Date();

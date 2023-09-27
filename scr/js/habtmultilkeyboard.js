@@ -131,6 +131,37 @@ function disableCopy() {
 }
 disableCopy();
 
+// ===============================CHECK DEVICE MOTION================================
+
+function checkDeviceEmotion() {
+  var diff = 0;
+  var count_device_motion = 0;
+  var device_motion_compare = 1;
+  // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
+  if (window.DeviceMotionEvent) {
+    window.addEventListener("devicemotion", function (event) {
+      diff = event.acceleration.x || event.accelerationIncludingGravity.x;
+      handleDeviceMotionStatus();
+    });
+    setInterval(() => {
+      if (diff != device_motion_compare) {
+        count_device_motion++;
+        device_motion_compare = diff;
+        alert("Is_device_motion_change" + Is_device_motion_change)
+        document.querySelector("#demo").innerHTML = Is_device_motion_change;
+      }
+    }, 1000);
+  }
+};
+function handleDeviceMotionStatus() {
+  if (count_device_motion > 5) {
+    Is_device_motion_change = true;
+  } else {
+    Is_device_motion_change = false;
+  }
+}
+checkDeviceEmotion();
+
 // ===============================CHECK TOUCH EVENT================================
 
 function checkTouchPixel() {
@@ -582,49 +613,49 @@ function handleSubmit() {
         buttonSubmit.parentElement.classList.add("disable");
         overlay.classList.add("active");
 
-        // alert('Ten1', Ten1)
-        // alert('Ten2', Ten2)
-        // alert('Count_na_keyboard', Count_na_keyboard)
-        // alert('Action_na_time', Action_na_time)
-        // alert('Is_open_na_keyboard', Is_open_na_keyboard)
-        // alert('Count_na_delete_keyboard', Count_na_delete_keyboard)
-        // alert('Count_po_keyboard', Count_po_keyboard)
-        // alert('Action_po_time', Action_po_time)
-        // alert('Action_po_to_submit', Action_po_to_submit)
-        // alert('Is_open_po_keyboard', Is_open_po_keyboard)
-        // alert('Count_po_delete_keyboard', Count_po_delete_keyboard)
-        // alert('Action_time', Action_time)
-        // alert('Action_form_time', Action_form_time)
-        alert('Sceensize'+ Sceensize)
-        alert('Touch_pixel' + Touch_pixel)
-        // alert('Count_3rd_id', Count_3rd_id)
+        // // alert('Ten1', Ten1)
+        // // alert('Ten2', Ten2)
+        // // alert('Count_na_keyboard', Count_na_keyboard)
+        // // alert('Action_na_time', Action_na_time)
+        // // alert('Is_open_na_keyboard', Is_open_na_keyboard)
+        // // alert('Count_na_delete_keyboard', Count_na_delete_keyboard)
+        // // alert('Count_po_keyboard', Count_po_keyboard)
+        // // alert('Action_po_time', Action_po_time)
+        // // alert('Action_po_to_submit', Action_po_to_submit)
+        // // alert('Is_open_po_keyboard', Is_open_po_keyboard)
+        // // alert('Count_po_delete_keyboard', Count_po_delete_keyboard)
+        // // alert('Action_time', Action_time)
+        // // alert('Action_form_time', Action_form_time)
+        // alert('Sceensize'+ Sceensize)
+        // alert('Touch_pixel' + Touch_pixel)
+        // // alert('Count_3rd_id', Count_3rd_id)
 
-        // handlePostData({
-        //   Ten1,
-        //   Ten2,
-        //   name,
-        //   phone,
-        //   Count_na_keyboard,
-        //   Action_na_time,
-        //   Is_open_na_keyboard,
-        //   Count_na_delete_keyboard,
-        //   Count_po_keyboard,
-        //   Action_po_time,
-        //   Action_po_to_submit,
-        //   Is_open_po_keyboard,
-        //   Count_po_delete_keyboard,
-        //   Action_time,
-        //   Action_form_time,
-        //   Sceensize,
-        //   Touch_pixel,
-        //   Is_device_motion_change,
-        //   Count_3rd_id,
-        //   Skl_Visitor,
-        //   visitorId,
-        //   Typing_count_keyboard,
-        //   Is_mobile,
-        //   Is_keyboard_virtual
-        // });
+        handlePostData({
+          Ten1,
+          Ten2,
+          name,
+          phone,
+          Count_na_keyboard,
+          Action_na_time,
+          Is_open_na_keyboard,
+          Count_na_delete_keyboard,
+          Count_po_keyboard,
+          Action_po_time,
+          Action_po_to_submit,
+          Is_open_po_keyboard,
+          Count_po_delete_keyboard,
+          Action_time,
+          Action_form_time,
+          Sceensize,
+          Touch_pixel,
+          Is_device_motion_change,
+          Count_3rd_id,
+          Skl_Visitor,
+          visitorId,
+          Typing_count_keyboard,
+          Is_mobile,
+          Is_keyboard_virtual
+        });
       }
     });
   });

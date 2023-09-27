@@ -235,14 +235,14 @@ form {
         .hg-activeButton {
             background-color: rgb(102, 102, 102) !important;
         }
-        @media screen and (max-width: 1024px) {
-            .button-active {
-                &::after {
-                    content: "test";
-                    background-color: #000;
-                }
-            }
-        }
+        // @media screen and (max-width: 1024px) {
+        //     .button-active {
+        //         &::after {
+        //             content: "test";
+        //             background-color: #000;
+        //         }
+        //     }
+        // }
     }
 }
 #overlay {

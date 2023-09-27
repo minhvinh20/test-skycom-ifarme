@@ -6,7 +6,8 @@
     <title>Visitor ID</title>
   </head>
   <body>
-    <h1>Visitor ID: <span id="id"></span></h1>
+    <h1>Visitor ID: <div id="id"></div></h1>
+    <h1>Visitor ID 2 (with screen): <div id="id-screen"></div></h1>
 
     <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
     <script>
@@ -15,26 +16,34 @@
         .then((fp) => fp.get({ extendedResult: true }))
         .then((result) => {
           console.log("result", result);
-          const components = result.components;
-          const stringHash =
-            components.webGlExtensions.value.contextAttributes.toString() +
-            components.webGlExtensions.value.extensionParameters.toString() +
-            components.webGlExtensions.value.extensions.toString() +
-            components.webGlExtensions.value.parameters.toString() +
-            components.webGlExtensions.value.shaderPrecisions.toString() +
-            components.webGlBasics.value.renderer +
-            components.webGlBasics.value.rendererUnmasked +
-            components.webGlBasics.value.shadingLanguageVersion +
-            components.webGlBasics.value.vendor +
-            components.webGlBasics.value.vendorUnmasked +
-            components.webGlBasics.value.version +
-            components.fonts.value.toString() +
-            components.fontPreferences.value.toString() +
-            components.hardwareConcurrency.value +
-            components.deviceMemory.value +
-            components.audio.value +
-            components.colorDepth.value +
-            components.canvas.value.geometry;
+          var components              = result.components;
+          var contextAttributes       = components.webGlExtensions.value.contextAttributes.toString() || '';
+          var extensionParameters     = components.webGlExtensions.value.extensionParameters.toString() || '';
+          var extensions              = components.webGlExtensions.value.extensions.toString()  || '';
+          var parameters              = components.webGlExtensions.value.parameters.toString() || '';
+          var shaderPrecisions        = components.webGlExtensions.value.shaderPrecisions.toString() || '';
+          var renderer                = components.webGlBasics.value.renderer || '';
+          var rendererUnmasked        = components.webGlBasics.value.rendererUnmasked  || '';
+          var shadingLanguageVersion  = components.webGlBasics.value.shadingLanguageVersion  || '';
+          var vendor                  = components.webGlBasics.value.vendor  || '';
+          var vendorUnmasked          = components.webGlBasics.value.vendorUnmasked  || '';
+          var version                 = components.webGlBasics.value.version  || '';
+          var fonts                   = components.fonts.value.toString()   || '';
+          var fontPreferences         = components.fontPreferences.value.toString()   || '';
+          var hardwareConcurrency     = components.hardwareConcurrency.value   || '';
+          var deviceMemory            = components.deviceMemory.value   || '';
+          var audio                   = components.audio.value   || '';
+          var colorDepth              = components.colorDepth.value   || '';
+          var canvasGeometry          = components.canvas.value.geometry   || '';
+          var screen                  = components.screenResolution.value.toString()   || '';
+
+          var stringHash = 
+              contextAttributes + extensionParameters + extensions + parameters + shaderPrecisions + 
+              renderer + rendererUnmasked + shadingLanguageVersion + vendor + vendorUnmasked + version+
+              fonts + fontPreferences + hardwareConcurrency + deviceMemory + audio + colorDepth + canvasGeometry
+
+          var  stringHash2 =  stringHash + screen ;
+
           function getHash(str, algo = "SHA-256") {
             let strBuf = new TextEncoder().encode(str);
             return crypto.subtle.digest(algo, strBuf).then((hash) => {
@@ -49,6 +58,9 @@
           }
           getHash(stringHash).then((hash) => {
             document.getElementById("id").innerHTML = hash;
+          });
+          getHash(stringHash2).then((hash) => {
+            document.getElementById("id-screen").innerHTML = hash;
           });
         });
     </script>

@@ -11,6 +11,7 @@
     </h1>
     <h1>Visitor ID 2 (ID1 + colorDepth - screen): <div id="id2"></div></h1>
     <h1>Visitor ID 3 (ID2 + timezone - vendor ): <div id="id3"></div></h1>
+    <h1>Visitor ID 4 <div id="id4"></div></h1>
 
     <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
     <script>
@@ -19,6 +20,7 @@
         .then((fp) => fp.get({ extendedResult: true }))
         .then((result) => {
           console.log("result", result);
+          document.getElementById("id4").innerHTML = result.visitorId;
           var components              = result.components;
           var contextAttributes       = components.webGlExtensions.value.contextAttributes.toString() || '';
           var extensionParameters     = components.webGlExtensions.value.extensionParameters.toString() || '';

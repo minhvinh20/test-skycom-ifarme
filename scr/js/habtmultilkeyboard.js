@@ -147,8 +147,6 @@ function checkDeviceEmotion() {
       if (diff != device_motion_compare) {
         count_device_motion++;
         device_motion_compare = diff;
-        alert("Is_device_motion_change" + Is_device_motion_change)
-        document.querySelector("#demo").innerHTML = Is_device_motion_change;
       }
     }, 1000);
   }

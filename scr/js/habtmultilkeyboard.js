@@ -30,14 +30,14 @@ var encodeName = "",
   Action_time = 0,
   Action_form_time = 0,
   Skl_Visitor = 0,
-  visitorId = 0,
   adsClickId = "",
   third_id = 0,
   Count_3rd_id = 1,
   change_3rd_id = false,
-  Typing_count_keyboard = 0;
-
-(Sceensize = ""), (Touch_pixel = []), (Is_device_motion_change = null);
+  Typing_count_keyboard = 0,
+  Sceensize = "",
+  Touch_pixel = [],
+  Is_device_motion_change = null;
 
 // ===================================================================
 
@@ -67,7 +67,7 @@ function listenerKeyboardOpen() {
     window.screen.height - MIN_KEYBOARD_HEIGHT > window.visualViewport.height;
   return isKeyboardOpen;
 }
-// // ======================================================================
+// ======================================================================
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -145,12 +145,14 @@ function checkTouchSupport() {
         fieldName.parentElement.contains(e.target) ||
         fieldPhone.parentElement.contains(e.target) ||
         buttonSubmit.contains(e.target)
-      )
+      ) {
         for (let i = 0; i < e.touches.length; i++) {
           const positionX = e.touches[i].screenX.toFixed(2);
           const positionY = e.touches[i].screenY.toFixed(2);
           Touch_pixel.push(`${positionX}_${positionY}`);
         }
+        alert(Touch_pixel);
+      }
     });
   });
 }
@@ -158,54 +160,95 @@ checkTouchSupport();
 
 // ===============================CREATE VISITOR ID================================
 
-// function createVisitorIdByFinger () {
-//     const fpPromise = import(URLFingerID).then((FingerprintJS) => FingerprintJS.load());
-//     fpPromise
-//       .then(async (fp) => await fp.get())
-//       .then((result) => {
-//           visitorId = result.visitorId;
-//       });
-// };
+// function createVisitorIdByFinger() {
+//   var fpPromiseFinger = import(URLFingerID).then((FingerprintJS) =>
+//     FingerprintJS.load()
+//   );
+//   fpPromiseFinger
+//     .then(async (fp) => await fp.get())
+//     .then((result) => {
+//       visitorId = result.visitorId;
+//       alert("visitorId " + visitorId);
+//     });
+// }
 // createVisitorIdByFinger();
 
-// // ===============================CREATE SKL VISITORID================================
+// ===============================CREATE SKL VISITORID================================
 
-// function getHash(str, algo = "SHA-256") {
-//   var strBuf = new TextEncoder().encode(str);
-//   return crypto.subtle.digest(algo, strBuf).then(function(hash){
-//     window.hash = hash;
-//     var stringHash = "";
-//     var view = new DataView(hash);
-//     for (var i = 0; i < hash.byteLength; i += 4) {
-//       stringHash += view.getUint16(i).toString(16).slice(-8);
-//     }
-//     return stringHash;
-//   });
-// }
-// function createSklVisitorIdByFinger() {
-//   var fpPromise = FingerprintJS.load();
-//   fpPromise
-//     .then(async function(fp) {await fp.get({ extendedResult: true })}.bin)
-//     .then(function(result){
-//       console.log('first', result)
-//       const components = result.components;
-//       const stringHash =
-//           components.deviceMemory.value +
-//           components.audio.value +
-//           components.webGlExtensions.value.contextAttributes.toString() +
-//           components.webGlExtensions.value.extensionParameters.toString() +
-//           components.webGlExtensions.value.extensions.toString() +
-//           components.webGlExtensions.value.parameters.toString() +
-//           components.webGlExtensions.value.shaderPrecisions.toString() +
-//           components.canvas.value.geometry;
-//       getHash(stringHash).then(function(hash){
-//           Skl_Visitor = hash;
-//       });
-//     });
-// };
-// createSklVisitorIdByFinger();
+function createSklVisitorIdByFinger() {
+  var fpPromise = FingerprintJS.load();
+  fpPromise
+    .then((fp) => fp.get({ extendedResult: true }))
+    .then((result) => {
+      var components = result.components;
+      var contextAttributes =
+        components.webGlExtensions.value.contextAttributes.toString() || "";
+      var extensionParameters =
+        components.webGlExtensions.value.extensionParameters.toString() || "";
+      var extensions =
+        components.webGlExtensions.value.extensions.toString() || "";
+      var parameters =
+        components.webGlExtensions.value.parameters.toString() || "";
+      var shaderPrecisions =
+        components.webGlExtensions.value.shaderPrecisions.toString() || "";
+      var renderer = components.webGlBasics.value.renderer || "";
+      var rendererUnmasked =
+        components.webGlBasics.value.rendererUnmasked || "";
+      var shadingLanguageVersion =
+        components.webGlBasics.value.shadingLanguageVersion || "";
+      var vendor = components.webGlBasics.value.vendor || "";
+      var vendorUnmasked = components.webGlBasics.value.vendorUnmasked || "";
+      var version = components.webGlBasics.value.version || "";
+      var fonts = components.fonts.value.toString() || "";
+      var fontPreferences = components.fontPreferences.value.toString() || "";
+      var hardwareConcurrency = components.hardwareConcurrency.value || "";
+      var deviceMemory = components.deviceMemory.value || "";
+      var audio = components.audio.value || "";
+      var colorDepth = components.colorDepth.value || "";
+      var canvasGeometry = components.canvas.value.geometry || "";
+      var screen = components.screenResolution.value.toString() || "";
 
-// // ===============================COUNT 3RD VIEW================================
+      var stringHash =
+        contextAttributes +
+        extensionParameters +
+        extensions +
+        parameters +
+        shaderPrecisions +
+        renderer +
+        rendererUnmasked +
+        shadingLanguageVersion +
+        vendor +
+        vendorUnmasked +
+        version +
+        fonts +
+        fontPreferences +
+        hardwareConcurrency +
+        deviceMemory +
+        audio +
+        colorDepth +
+        canvasGeometry;
+
+      function getHash(str, algo = "SHA-256") {
+        let strBuf = new TextEncoder().encode(str);
+        return crypto.subtle.digest(algo, strBuf).then((hash) => {
+          window.hash = hash;
+          let stringHash = "";
+          const view = new DataView(hash);
+          for (let i = 0; i < hash.byteLength; i += 4) {
+            stringHash += view.getUint16(i).toString(16).slice(-8);
+          }
+          return stringHash;
+        });
+      }
+      getHash(stringHash).then((hash) => {
+        Skl_Visitor = hash;
+        //alert("Skl_Visitor" + Skl_Visitor);
+      });
+    });
+}
+createSklVisitorIdByFinger();
+
+// ===============================COUNT 3RD VIEW================================
 
 function detectAdsId() {
   var params = parentUrl.split("&");
@@ -342,6 +385,7 @@ function setTimer() {
       if (!timeNaIn) timeNaIn = new Date();
       //check keyboard open
       window.visualViewport.addEventListener("resize", function () {
+        alert("true");
         Is_open_na_keyboard = listenerKeyboardOpen();
       });
     });
@@ -351,12 +395,18 @@ function setTimer() {
     fieldPhone.addEventListener("click", function (e) {
       if (!timePoIn) timePoIn = new Date();
       window.visualViewport.addEventListener("resize", function () {
+        alert("true");
         Is_open_po_keyboard = listenerKeyboardOpen();
       });
     });
     fieldPhone.addEventListener("focusout", function (e) {
       timePoOut = new Date();
     });
+  });
+}
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", () => {
+    alert("visualViewport RESIZE IS TRIGGERED");
   });
 }
 setTimer();
@@ -442,7 +492,7 @@ async function syncToSheetDataSubmit({
   );
 }
 
-// // ==============================HANDLE SUBMIT=====================================
+// ==============================HANDLE SUBMIT=====================================
 async function handlePostData({
   Ten1,
   Ten2,
@@ -548,7 +598,6 @@ function handleSubmit() {
   forms.forEach(function (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-
       var fieldName = form.querySelector(".human");
       var fieldPhone = form.querySelector(".numeric");
       var invalid = validateForm(form, fieldPhone);

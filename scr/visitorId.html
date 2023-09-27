@@ -6,8 +6,11 @@
     <title>Visitor ID</title>
   </head>
   <body>
-    <h1>Visitor ID: <div id="id"></div></h1>
-    <h1>Visitor ID 2 (with screen): <div id="id-screen"></div></h1>
+    <h1>Visitor ID 1 (audio - canvas - weblg - fonts - hardware - deviceMemory): 
+      <div id="id1"></div>
+    </h1>
+    <h1>Visitor ID 2 (ID1 + colorDepth - screen): <div id="id2"></div></h1>
+    <h1>Visitor ID 3 (ID2 + timezone - vendor ): <div id="id3"></div></h1>
 
     <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
     <script>
@@ -36,13 +39,16 @@
           var colorDepth              = components.colorDepth.value   || '';
           var canvasGeometry          = components.canvas.value.geometry   || '';
           var screen                  = components.screenResolution.value.toString()   || '';
+          var timezone                = components.timezone.value   || '';
+          var vendor                  = components.vendor.value   || '';
 
           var stringHash = 
               contextAttributes + extensionParameters + extensions + parameters + shaderPrecisions + 
               renderer + rendererUnmasked + shadingLanguageVersion + vendor + vendorUnmasked + version+
-              fonts + fontPreferences + hardwareConcurrency + deviceMemory + audio + colorDepth + canvasGeometry
+              fonts + fontPreferences + hardwareConcurrency + deviceMemory + audio  + canvasGeometry
 
-          var  stringHash2 =  stringHash + screen ;
+          var  stringHash2 =  stringHash + screen + colorDepth;
+          var  stringHash3 =  stringHash2 + timezone + vendor ;
 
           function getHash(str, algo = "SHA-256") {
             let strBuf = new TextEncoder().encode(str);
@@ -57,10 +63,13 @@
             });
           }
           getHash(stringHash).then((hash) => {
-            document.getElementById("id").innerHTML = hash;
+            document.getElementById("id1").innerHTML = hash;
           });
           getHash(stringHash2).then((hash) => {
-            document.getElementById("id-screen").innerHTML = hash;
+            document.getElementById("id2").innerHTML = hash;
+          });
+          getHash(stringHash3).then((hash) => {
+            document.getElementById("id3").innerHTML = hash;
           });
         });
     </script>

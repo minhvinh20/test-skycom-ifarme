@@ -220,20 +220,28 @@ form {
                 font-size: 9px;
             }
         }
-        .hg-button[data-skbtn="{bksp}"] {
-            background: none;
-            border: none !important;
-            box-shadow: none !important;
-            font-size: 40px !important;
-        }
-        .hg-button[data-skbtnuid="default-r3b0"] {
-            background: none;
-            border: none !important;
-            box-shadow: none !important;
-            font-size: 25px !important;
-        }
+        // .hg-button[data-skbtn="{bksp}"] {
+        //     background: none;
+        //     border: none !important;
+        //     box-shadow: none !important;
+        //     font-size: 40px !important;
+        // }
+        // .hg-button[data-skbtnuid="default-r3b1"] {
+        //     background: none;
+        //     border: none !important;
+        //     box-shadow: none !important;
+        //     font-size: 25px !important;
+        // }
         .hg-activeButton {
             background-color: rgb(102, 102, 102) !important;
+        }
+        @media screen and (max-width: 1024px) {
+            .button-active {
+                &::after {
+                    content: "test";
+                    background-color: #000;
+                }
+            }
         }
     }
 }

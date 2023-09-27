@@ -3,7 +3,6 @@ var urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";
 var urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach";
 var urlSyncGoogleSheetSpam =
   "https://script.google.com/macros/s/AKfycbzGbJQ83uGDjEGC5x8yqbIjKr0ATrzk6gNYcIxAI958cHpSfc-r6KHnylZNK7fxCpFgaQ/exec";
-var URLFingerID = "https://fpjscdn.net/v3/7aRN8UmVm1n7Qsda0mOm";
 
 var timeFirstRenderPage = new Date();
 var regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
@@ -23,7 +22,7 @@ var encodeName = "",
   Is_open_na_keyboard = null,
   Action_na_time = 0,
   Count_po_keyboard = 0,
-  Action_po_time = 0,
+  Action_po_time = null,
   Action_po_to_submit = 0,
   Is_open_po_keyboard = null,
   Count_po_delete_keyboard = [],
@@ -37,6 +36,7 @@ var encodeName = "",
   Typing_count_keyboard = 0,
   Sceensize = "",
   Touch_pixel = [],
+  Is_keyboard_virtual = null,
   Is_device_motion_change = null;
 
 // ===================================================================
@@ -61,10 +61,8 @@ function detectDevice() {
 }
 function listenerKeyboardOpen() {
   var MIN_KEYBOARD_HEIGHT = 280;
-  var isMobile = window.innerWidth < 768;
-  var isKeyboardOpen =
-    isMobile &&
-    window.screen.height - MIN_KEYBOARD_HEIGHT > window.visualViewport.height;
+  var isMobile = detectDevice().isMobile;
+  var isKeyboardOpen = isMobile && window.screen.height - MIN_KEYBOARD_HEIGHT > window.visualViewport.height;
   return isKeyboardOpen;
 }
 // ======================================================================
@@ -135,43 +133,23 @@ disableCopy();
 
 // ===============================CHECK TOUCH EVENT================================
 
-function checkTouchSupport() {
-  forms.forEach(function (form) {
-    var fieldName = form.querySelector(".human");
-    var fieldPhone = form.querySelector(".numeric");
-    var buttonSubmit = form.querySelector(".form-submit button");
-    window.addEventListener("touchstart", function (e) {
-      if (
-        fieldName.parentElement.contains(e.target) ||
-        fieldPhone.parentElement.contains(e.target) ||
-        buttonSubmit.contains(e.target)
-      ) {
-        for (let i = 0; i < e.touches.length; i++) {
-          const positionX = e.touches[i].screenX.toFixed(2);
-          const positionY = e.touches[i].screenY.toFixed(2);
-          Touch_pixel.push(`${positionX}_${positionY}`);
-        }
-        alert(Touch_pixel);
+function checkTouchPixel() {
+  window.addEventListener("touchstart", function (e) {
+    var element = e.target.classList.toString();
+
+    if (element.indexOf("numeric") > -1 || 
+        element.indexOf("human") > -1 ||  
+        element.indexOf("btn-submit") > -1)
+    {
+      for (let i = 0; i < e.touches.length; i++) {
+        var positionX = e.touches[i].screenX.toFixed(2);
+        var positionY = e.touches[i].screenY.toFixed(2);
+        Touch_pixel.push(`${positionX}_${positionY}`);
       }
-    });
+    }
   });
 }
-checkTouchSupport();
-
-// ===============================CREATE VISITOR ID================================
-
-// function createVisitorIdByFinger() {
-//   var fpPromiseFinger = import(URLFingerID).then((FingerprintJS) =>
-//     FingerprintJS.load()
-//   );
-//   fpPromiseFinger
-//     .then(async (fp) => await fp.get())
-//     .then((result) => {
-//       visitorId = result.visitorId;
-//       alert("visitorId " + visitorId);
-//     });
-// }
-// createVisitorIdByFinger();
+checkTouchPixel();
 
 // ===============================CREATE SKL VISITORID================================
 
@@ -181,21 +159,14 @@ function createSklVisitorIdByFinger() {
     .then((fp) => fp.get({ extendedResult: true }))
     .then((result) => {
       var components = result.components;
-      var contextAttributes =
-        components.webGlExtensions.value.contextAttributes.toString() || "";
-      var extensionParameters =
-        components.webGlExtensions.value.extensionParameters.toString() || "";
-      var extensions =
-        components.webGlExtensions.value.extensions.toString() || "";
-      var parameters =
-        components.webGlExtensions.value.parameters.toString() || "";
-      var shaderPrecisions =
-        components.webGlExtensions.value.shaderPrecisions.toString() || "";
+      var contextAttributes =components.webGlExtensions.value.contextAttributes.toString() || "";
+      var extensionParameters = components.webGlExtensions.value.extensionParameters.toString() || "";
+      var extensions = components.webGlExtensions.value.extensions.toString() || "";
+      var parameters = components.webGlExtensions.value.parameters.toString() || "";
+      var shaderPrecisions =components.webGlExtensions.value.shaderPrecisions.toString() || "";
       var renderer = components.webGlBasics.value.renderer || "";
-      var rendererUnmasked =
-        components.webGlBasics.value.rendererUnmasked || "";
-      var shadingLanguageVersion =
-        components.webGlBasics.value.shadingLanguageVersion || "";
+      var rendererUnmasked = components.webGlBasics.value.rendererUnmasked || "";
+      var shadingLanguageVersion = components.webGlBasics.value.shadingLanguageVersion || "";
       var vendor = components.webGlBasics.value.vendor || "";
       var vendorUnmasked = components.webGlBasics.value.vendorUnmasked || "";
       var version = components.webGlBasics.value.version || "";
@@ -242,7 +213,6 @@ function createSklVisitorIdByFinger() {
       }
       getHash(stringHash).then((hash) => {
         Skl_Visitor = hash;
-        //alert("Skl_Visitor" + Skl_Visitor);
       });
     });
 }
@@ -383,30 +353,17 @@ function setTimer() {
     var fieldPhone = form.querySelector(".numeric");
     fieldName.addEventListener("click", function (e) {
       if (!timeNaIn) timeNaIn = new Date();
-      //check keyboard open
-      window.visualViewport.addEventListener("resize", function () {
-        alert("true");
-        Is_open_na_keyboard = listenerKeyboardOpen();
-      });
     });
     fieldName.addEventListener("focusout", function (e) {
       timeNaOut = new Date();
     });
     fieldPhone.addEventListener("click", function (e) {
       if (!timePoIn) timePoIn = new Date();
-      window.visualViewport.addEventListener("resize", function () {
-        alert("true");
-        Is_open_po_keyboard = listenerKeyboardOpen();
-      });
     });
+    
     fieldPhone.addEventListener("focusout", function (e) {
-      timePoOut = new Date();
+        timePoOut = new Date();
     });
-  });
-}
-if (window.visualViewport) {
-  window.visualViewport.addEventListener("resize", () => {
-    alert("visualViewport RESIZE IS TRIGGERED");
   });
 }
 setTimer();
@@ -517,6 +474,7 @@ async function handlePostData({
   visitorId,
   Typing_count_keyboard,
   Is_mobile,
+  Is_keyboard_virtual,
 }) {
   var params = {
     Ten1,
@@ -543,6 +501,7 @@ async function handlePostData({
     visitorId,
     Typing_count_keyboard,
     Is_mobile,
+    Is_keyboard_virtual,
   };
   var response = await fetch(bareURL, {
     method: "POST",
@@ -636,35 +595,36 @@ function handleSubmit() {
         // alert('Count_po_delete_keyboard', Count_po_delete_keyboard)
         // alert('Action_time', Action_time)
         // alert('Action_form_time', Action_form_time)
-        // alert('Sceensize', Sceensize)
-        // alert('Touch_pixel', Touch_pixel)
+        alert('Sceensize'+ Sceensize)
+        alert('Touch_pixel' + Touch_pixel)
         // alert('Count_3rd_id', Count_3rd_id)
 
-        handlePostData({
-          Ten1,
-          Ten2,
-          name,
-          phone,
-          Count_na_keyboard,
-          Action_na_time,
-          Is_open_na_keyboard,
-          Count_na_delete_keyboard,
-          Count_po_keyboard,
-          Action_po_time,
-          Action_po_to_submit,
-          Is_open_po_keyboard,
-          Count_po_delete_keyboard,
-          Action_time,
-          Action_form_time,
-          Sceensize,
-          Touch_pixel,
-          Is_device_motion_change,
-          Count_3rd_id,
-          Skl_Visitor,
-          visitorId,
-          Typing_count_keyboard,
-          Is_mobile,
-        });
+        // handlePostData({
+        //   Ten1,
+        //   Ten2,
+        //   name,
+        //   phone,
+        //   Count_na_keyboard,
+        //   Action_na_time,
+        //   Is_open_na_keyboard,
+        //   Count_na_delete_keyboard,
+        //   Count_po_keyboard,
+        //   Action_po_time,
+        //   Action_po_to_submit,
+        //   Is_open_po_keyboard,
+        //   Count_po_delete_keyboard,
+        //   Action_time,
+        //   Action_form_time,
+        //   Sceensize,
+        //   Touch_pixel,
+        //   Is_device_motion_change,
+        //   Count_3rd_id,
+        //   Skl_Visitor,
+        //   visitorId,
+        //   Typing_count_keyboard,
+        //   Is_mobile,
+        //   Is_keyboard_virtual
+        // });
       }
     });
   });
@@ -684,12 +644,13 @@ function vitualKeyboard() {
   if (isAndroid) {
     simpleKeyboardWraper.classList.add("keyboard-android");
   }
+  Is_keyboard_virtual = true;
   var Keyboard = window.SimpleKeyboard.default;
   var keyboard = new Keyboard({
     onChange: (input) => onChange(input),
-    onKeyPress: (button) => onKeyPress(button),
+    onKeyPress: (value) => onKeyPress(value),
     layout: {
-      default: ["1 2 3", "4 5 6", "7 8 9", " 0 {bksp}"],
+      default: ["1 2 3", "4 5 6", "7 8 9", "0  {bksp}"],
     },
     display: {
       "": "+&#8727;#",
@@ -729,9 +690,7 @@ function vitualKeyboard() {
   function onChange(input) {
     selecteInputElement.value = input;
     if (input.length > 12) {
-      selecteInputElement
-        .closest("form")
-        .querySelector(".errorMessage").innerText = "Số điện thoại quá dài";
+      selecteInputElement.closest("form").querySelector(".errorMessage").innerText = "Số điện thoại quá dài";
     } else {
       selecteInputElement
         .closest("form")
@@ -739,7 +698,8 @@ function vitualKeyboard() {
     }
   }
 
-  function onKeyPress(button) {
+  function onKeyPress(value) {
+    //var buttonElement = keyboard.getButtonElement(value) 
     Typing_count_keyboard++;
   }
   window.addEventListener("click", function (e) {

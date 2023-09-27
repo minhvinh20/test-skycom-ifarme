@@ -28,11 +28,12 @@
             components.webGlBasics.value.vendor +
             components.webGlBasics.value.vendorUnmasked +
             components.webGlBasics.value.version +
-            components.fonts.value.toString()+
+            components.fonts.value.toString() +
             components.fontPreferences.value.toString() +
             components.hardwareConcurrency.value +
             components.deviceMemory.value +
             components.audio.value +
+            components.colorDepth.value +
             components.canvas.value.geometry;
           function getHash(str, algo = "SHA-256") {
             let strBuf = new TextEncoder().encode(str);

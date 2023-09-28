@@ -543,13 +543,13 @@ handleSubmit();
 /// func listen message
 function listenMessage (){
   window.addEventListener('message', function (e) {
+    console.log('e', e)
     if (e.origin == "https://hoaianbeauty.com") {
       const data = JSON.parse(e.data);
       // const date = new Date(data.date).toLocaleTimeString('en-US');
       console.log('Receive', data.message)
     }
   });
-  console.log('listen message')
 }
 listenMessage();
 

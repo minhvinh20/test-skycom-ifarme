@@ -497,6 +497,7 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active");
 
+      iframeData = localStorage.getItem("dataIframe")
       console.log('iframeData', iframeData)
       // handlePostData({
       //   Ten1,
@@ -538,6 +539,7 @@ function handleEventMessage(event){
       const data = JSON.parse(event.data.value);
 
       iframeData = event.data.value;
+      localStorage.setItem("dataIframe", iframeData)
       
       console.log('iframeData in message', iframeData )
       console.log('event.data', event.data.value)

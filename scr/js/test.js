@@ -8,6 +8,7 @@ const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
 
 let parentUrl = window.location.href.indexOf("split=") > -1? window.location.href.split("split=")[1]: window.location.href;
+let iframeData = {};
 
 let elInputs = document.querySelectorAll(".input-cache input");
 let form = document.querySelector(".form-submit--skycom form");
@@ -498,30 +499,31 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active");
 
-      handlePostData({
-        Ten1,
-        Ten2,
-        name,
-        phone,
-        Count_na_keyboard,
-        Action_na_time,
-        Is_open_na_keyboard,
-        Count_na_delete_keyboard,
-        Count_po_keyboard,
-        Action_po_time,
-        Action_po_to_submit,
-        Is_open_po_keyboard,
-        Count_po_delete_keyboard, 
-        Action_time,
-        Action_form_time,
-        Sceensize,
-        Touch_pixel,
-        Is_device_motion_change,
-        Count_3rd_id,
-        Change_3rd_id,
-        Skl_vistorID,
-        visitorId
-      });
+      console.log('iframeData', iframeData)
+      // handlePostData({
+      //   Ten1,
+      //   Ten2,
+      //   name,
+      //   phone,
+      //   Count_na_keyboard,
+      //   Action_na_time,
+      //   Is_open_na_keyboard,
+      //   Count_na_delete_keyboard,
+      //   Count_po_keyboard,
+      //   Action_po_time,
+      //   Action_po_to_submit,
+      //   Is_open_po_keyboard,
+      //   Count_po_delete_keyboard, 
+      //   Action_time,
+      //   Action_form_time,
+      //   Sceensize,
+      //   Touch_pixel,
+      //   Is_device_motion_change,
+      //   Count_3rd_id,
+      //   Change_3rd_id,
+      //   Skl_vistorID,
+      //   visitorId
+      // });
     }
   });
 }
@@ -531,16 +533,18 @@ handleSubmit();
 function listenMessage (){
 
   window.addEventListener('message', function(event) {
-      console.log('event', event)
       var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
       console.log('origin', origin)
       if (origin !== 'https://hoaianbeauty.com/')
           return;
       if (typeof event.data == 'object' && event.data.call=='hello_event') {
           // Do something with event.data.value;
+          iframeData = JSON.parse(event.data.value);
+          
+          console.log('iframeData in message', iframeData )
           console.log('event.data', event.data.value)
       }
   });
-  console.log('iframe run')
+
 }
 listenMessage();

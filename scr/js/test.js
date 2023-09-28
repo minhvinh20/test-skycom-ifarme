@@ -527,40 +527,18 @@ function handleSubmit() {
 }
 handleSubmit();
 
-/// func send message
-// function sendMessage (){
-//   const frameEle = document.querySelector('.iframeSkycom');
-//   console.log(frameEle)
-//   const message = JSON.stringify({
-//     message: 'Hello from window',
-//     date: Date.now(),
-//   });
-//   frameEle.contentWindow.postMessage(message, '*');
-// }
-// sendMessage();
-
-/// func listen message
 
 function listenMessage (){
-  // window.addEventListener('message', function (e) {
-  //   console.log('event', e)
-  //   if (e.origin == "https://hoaianbeauty.com") {
-  //     const data = JSON.parse(e.data);
-  //     // const date = new Date(data.date).toLocaleTimeString('en-US');
-  //     console.log('Receive', data.message)
-  //   }
-  // });
+
   window.addEventListener('message', function(event) {
       console.log('event', event)
-      var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
-      console.log('origin', origin)
-      if (origin !== 'https://hoaianbeauty.com/')
+      var origin = event.origin || event.originalEvent.origin;
+      if (origin !== 'https://hoaianbeauty.com')
           return;
       if (typeof event.data == 'object' && event.data.call=='hello_event') {
           // Do something with event.data.value;
           console.log('event.data', event.data)
       }
   });
-  console.log('iframe run')
 }
 listenMessage();

@@ -542,7 +542,7 @@ function listenMessage (){
 
           const data = JSON.parse(event.data.value);
 
-          iframeData = {...iframeData,...data};
+          iframeData = {src: 'test'};
           
           console.log('iframeData in message', iframeData )
           console.log('event.data', event.data.value)

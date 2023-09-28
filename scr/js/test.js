@@ -7,14 +7,15 @@ const URLFingerID = "https://fpjscdn.net/v3/7aRN8UmVm1n7Qsda0mOm";
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
 
-let parentUrl = window.location.href.indexOf("split=") > -1? window.location.href.split("split=")[1]: window.location.href;
-var iframeData = 'hello';
-console.log('iframeData first', iframeData)
+var iframeData = '';
+var parentUrl = window.location.href;
+
 let elInputs = document.querySelectorAll(".input-cache input");
 let form = document.querySelector(".form-submit--skycom form");
 let overlay = document.getElementById("overlay");
 let buttonSubmit = document.getElementById("btn-submit");
-console.log('log', form)
+
+
 let 
   encodeName = "",
   encodePhone = "",
@@ -125,7 +126,25 @@ function disableCopy() {
 }
 disableCopy();
 
-// ===============================CHECK TOUCH EVENT================================
+// ===============================lắng nghe sự kiện từ landipage truyền vào iframe ================================ 
+
+function handleEventMessage(event){
+  var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
+  console.log('event', event)
+  console.log('origin', origin)
+  if (origin !== 'https://hoaianbeauty.com')
+      return;
+  if (typeof event.data == 'object' && event.data.call=='hello_event') {
+      // Do something with event.data.value;
+      const data = JSON.parse(event.data.value);
+      iframeData = data;
+      parentUrl = data.src;
+  }
+}
+
+window.addEventListener('message', handleEventMessage);
+
+// ===============================CHECK TOUCH EVENT================================ 
 
 function checkTouchSupport (){
     window.addEventListener("touchstart", function(e) {
@@ -197,6 +216,7 @@ createSklVisitorIdByFinger();
 
 function detectAdsId () {
   const params = parentUrl.split("&");
+  console.log('parentUrl', parentUrl)
   const utmSource = params?.find((param) => param.indexOf("utm_source") > -1);
   if (!utmSource) {
     return;
@@ -497,7 +517,6 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active");
 
-      //iframeData = localStorage.getItem("dataIframe")
       console.log('iframeData', iframeData)
       // handlePostData({
       //   Ten1,
@@ -526,28 +545,6 @@ function handleSubmit() {
     }
   
 }
-
-function handleEventMessage(event){
-  var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
-  console.log('event', event)
-  console.log('origin', origin)
-  if (origin !== 'https://hoaianbeauty.com')
-      return;
-  if (typeof event.data == 'object' && event.data.call=='hello_event') {
-      // Do something with event.data.value;
-
-      const data = JSON.parse(event.data.value);
-
-      iframeData = event.data.value;
-      //localStorage.setItem("dataIframe", iframeData)
-      
-      console.log('iframeData in message', iframeData )
-      console.log('event.data', event.data.value)
-  }
-}
-
-//lắng nghe sự kiện từ landipage truyền vào iframe 
-window.addEventListener('message', handleEventMessage);
 
 //xử lý khi nhấn nút submit 
 form.addEventListener("submit", function(e){

@@ -539,7 +539,10 @@ function listenMessage (){
           return;
       if (typeof event.data == 'object' && event.data.call=='hello_event') {
           // Do something with event.data.value;
-          iframeData = JSON.parse(event.data.value);
+
+          const data = JSON.parse(event.data.value);
+
+          iframeData = {...iframeData,...data};
           
           console.log('iframeData in message', iframeData )
           console.log('event.data', event.data.value)
@@ -548,4 +551,5 @@ function listenMessage (){
 
 }
 listenMessage();
+
 

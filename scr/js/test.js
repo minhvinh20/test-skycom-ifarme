@@ -45,27 +45,6 @@ let
   Touch_pixel = [],
   Is_device_motion_change = null;
 
-// ===============================lắng nghe sự kiện từ landipage truyền vào iframe ================================ 
-
-
-async function handleEventMessage(event){
- 
-  var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
-
-  if (origin !== 'https://hoaianbeauty.com')
-      return;
-  if (typeof event.data == 'object' && event.data.call=='hello_event') {
-      // Do something with event.data.value;
-      const data = JSON.parse(event.data.value);
-      iframeData = data;
-      parentUrl = data.src;
-      detectAdsId();
-      listenPhoneValidate();
-  }
-}
-
-window.addEventListener('message', handleEventMessage);
-
 // ===================================================================
 
 function detectDevice () {
@@ -219,7 +198,6 @@ createSklVisitorIdByFinger();
 
 function detectAdsId () {
   const params = parentUrl.split("&");
-  console.log('parentUrl', parentUrl)
   const utmSource = params?.find((param) => param.indexOf("utm_source") > -1);
   if (!utmSource) {
     return;
@@ -264,7 +242,6 @@ countViewPage();
 function listenPhoneValidate() {
   fieldPhone.addEventListener("input", (e) => {
     if (regexPhone.test(e.target.value)) {
-      console.log('parentUrl', parentUrl)
       syncToSheetValidate({ phone: e.target.value, link: parentUrl });
     }
   });
@@ -550,7 +527,26 @@ function handleSubmit() {
   
 }
 
-//xử lý khi nhấn nút submit 
+// ===============================lắng nghe sự kiện từ landipage truyền vào iframe ================================ 
+
+function handleEventMessage(event){
+
+  var origin = event.origin || event.originalEvent.origin; 
+
+  if (origin !== 'https://hoaianbeauty.com')
+      return;
+  if (typeof event.data == 'object' && event.data.call=='hello_event') {
+      // Do something with event.data.value;
+      const data = JSON.parse(event.data.value);
+      iframeData = data;
+      parentUrl = data.src;
+      detectAdsId();
+      listenPhoneValidate();
+  }
+}
+window.addEventListener('message', handleEventMessage);
+
+// ===============================Xử lý khi nhấn submit form================================ 
 form.addEventListener("submit", function(e){
   e.preventDefault();
   handleSubmit();

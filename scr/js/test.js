@@ -535,7 +535,7 @@ function listenMessage (){
   window.addEventListener('message', function(event) {
       var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
       console.log('origin', origin)
-      if (origin !== 'https://hoaianbeauty.com/')
+      if (origin !== 'https://hoaianbeauty.com')
           return;
       if (typeof event.data == 'object' && event.data.call=='hello_event') {
           // Do something with event.data.value;
@@ -548,3 +548,4 @@ function listenMessage (){
 
 }
 listenMessage();
+

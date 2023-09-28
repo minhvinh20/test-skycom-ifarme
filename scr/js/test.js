@@ -169,7 +169,6 @@ const createSklVisitorIdByFinger = () => {
     .then(async (fp) => await fp.get({ extendedResult: true }))
     .then((result) => {
       const components = result.components;
-      console.log('components', components)
       const stringHash =
           components.deviceMemory.value +
           components.audio.value +

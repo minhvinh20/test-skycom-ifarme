@@ -8,8 +8,8 @@ const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
 
 let parentUrl = window.location.href.indexOf("split=") > -1? window.location.href.split("split=")[1]: window.location.href;
-let iframeData = '';
-
+var iframeData = 'hello';
+console.log('iframeData first', iframeData)
 let elInputs = document.querySelectorAll(".input-cache input");
 let form = document.querySelector(".form-submit--skycom form");
 let overlay = document.getElementById("overlay");
@@ -547,7 +547,7 @@ function handleEventMessage(event){
 }
 
 //lắng nghe sự kiện từ landipage truyền vào iframe 
-document.addEventListener('message', handleEventMessage);
+window.addEventListener('message', handleEventMessage);
 
 //xử lý khi nhấn nút submit 
 form.addEventListener("submit", function(e){

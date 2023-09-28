@@ -551,31 +551,16 @@ function listenMessage (){
   //   }
   // });
   window.addEventListener('message', function(event) {
-    console.log('event', event)
-    var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
-    console.log('origin', origin)
-    if (origin !== 'https://hoaianbeauty.com/')
-        return;
-    if (typeof event.data == 'object' && event.data.call=='hello_event') {
-        // Do something with event.data.value;
-        console.log('event.data', event.data)
-    }
-}, false);
+      console.log('event', event)
+      var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
+      console.log('origin', origin)
+      if (origin !== 'https://hoaianbeauty.com/')
+          return;
+      if (typeof event.data == 'object' && event.data.call=='hello_event') {
+          // Do something with event.data.value;
+          console.log('event.data', event.data)
+      }
+  });
+  console.log('iframe run')
 }
 listenMessage();
-
-// var src = "";
-// const listenMessage = () => {
-//   window.addEventListener(
-//     "message",
-//     function (e) {
-//       if (e.origin == "https://hoaianbeauty.com") {
-//         data = JSON.parse(e.data);
-//         src = data.src;
-//         console.log("data", data);
-//       }
-//     }
-//   );
-//   console.log("src", src);
-// };
-// listenMessage();

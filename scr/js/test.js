@@ -8,7 +8,7 @@ const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
 
 let parentUrl = window.location.href.indexOf("split=") > -1? window.location.href.split("split=")[1]: window.location.href;
-let iframeData = {};
+let iframeData = '';
 
 let elInputs = document.querySelectorAll(".input-cache input");
 let form = document.querySelector(".form-submit--skycom form");
@@ -537,17 +537,17 @@ function handleEventMessage(event){
 
       const data = JSON.parse(event.data.value);
 
-      iframeData = {src: 'test'};
+      iframeData = event.data.value;
       
       console.log('iframeData in message', iframeData )
       console.log('event.data', event.data.value)
   }
 }
-function listenMessage (){
-  window.addEventListener('message', handleEventMessage);
-}
-listenMessage();
 
+//lắng nghe sự kiện từ landipage truyền vào iframe 
+window.addEventListener('message', handleEventMessage);
+
+//xử lý khi nhấn nút submit 
 form.addEventListener("submit", function(e){
   e.preventDefault();
   handleSubmit();

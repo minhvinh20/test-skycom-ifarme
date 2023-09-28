@@ -13,6 +13,9 @@
     <h1>Visitor ID 3 (ID2 + timezone - vendor ): <div id="id3"></div></h1>
     <h1>Visitor ID 4 <div id="id4"></div></h1>
 
+    <div><h2>bot detect result: <span id="botresult"></span></h2> </div>
+    <div><h2></h2> <span id="boterr"></span></div>
+
     <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
     <script>
       var fpPromise = FingerprintJS.load();
@@ -74,6 +77,20 @@
             document.getElementById("id3").innerHTML = hash;
           });
         });
+
+        //checkbot 
+        const botdPromise = import('https://openfpcdn.io/botd/v1').then((Botd) => Botd.load())
+        // Get detection results when you need them.
+        botdPromise
+            .then((botd) => botd.detect())
+            .then((result) => {
+              document.getElementById("botresult").innerHTML = result.bot;
+              console.log(result)
+            } )
+            .catch((error) => {
+              document.getElementById("boterr").innerHTML = error;
+              console.error(error)
+            })
     </script>
   </body>
 </html>

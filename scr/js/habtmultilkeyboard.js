@@ -28,7 +28,7 @@ var encodeName = "",
   Count_po_delete_keyboard = [],
   Action_time = 0,
   Action_form_time = 0,
-  Skl_Visitor = 0,
+  Skl_Visitor = null,
   adsClickId = "",
   third_id = 0,
   Count_3rd_id = 1,
@@ -132,51 +132,58 @@ function disableCopy() {
 disableCopy();
 
 // ===============================CHECK DEVICE MOTION================================
-
-function checkDeviceEmotion() {
-  var diff = 0;
-  var count_device_motion = 0;
-  var device_motion_compare = 1;
-  // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
-  if (window.DeviceMotionEvent) {
-    window.addEventListener("devicemotion", function (event) {
-      diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-      handleDeviceMotionStatus();
-    });
-    setInterval(() => {
-      if (diff != device_motion_compare) {
-        count_device_motion++;
-        device_motion_compare = diff;
-      }
-    }, 1000);
-  }
-};
-function handleDeviceMotionStatus() {
-  if (count_device_motion > 5) {
-    Is_device_motion_change = true;
-  } else {
-    Is_device_motion_change = false;
-  }
+// var count_device_motion = 0;
+// var diff = 0;
+// var device_motion_compare = '';
+// function checkDeviceEmotion() {
+ 
+  
+//   // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
+//   if (window.DeviceMotionEvent) {
+//     window.addEventListener("devicemotion", function (event) {
+//       diff = event.acceleration.x || event.accelerationIncludingGravity.x;
+//       //handleDeviceMotionStatus();
+//     });
+//     setInterval(() => {
+//       if (diff != device_motion_compare) {
+//         count_device_motion++;
+//         device_motion_compare = diff;
+//       }
+//       document.getElementById("demo").innerHTML = diff;
+//     }, 1000);
+//   }
+// };
+// function handleDeviceMotionStatus() {
+//   if (count_device_motion > 5) {
+//     Is_device_motion_change = true;
+//   } else {
+//     Is_device_motion_change = false;
+//   }
+// }
+// checkDeviceEmotion();
+function handleMotionEvent(event) {
+  const x = event.accelerationIncludingGravity.x;
+  const y = event.accelerationIncludingGravity.y;
+  const z = event.accelerationIncludingGravity.z;
+  document.getElementById("demo").innerHTML = x
+  // Do something awesome.
 }
-checkDeviceEmotion();
+
+window.addEventListener("devicemotion", handleMotionEvent, true);
 
 // ===============================CHECK TOUCH EVENT================================
 
 function checkTouchPixel() {
-  window.addEventListener("touchstart", function (e) {
-    var element = e.target.classList.toString();
-
-    if (element.indexOf("numeric") > -1 || 
-        element.indexOf("human") > -1 ||  
-        element.indexOf("btn-submit") > -1)
-    {
+  forms.forEach(function(form){
+    form.addEventListener("touchstart", function (e) {
       for (let i = 0; i < e.touches.length; i++) {
-        var positionX = e.touches[i].screenX.toFixed(2);
-        var positionY = e.touches[i].screenY.toFixed(2);
-        Touch_pixel.push(`${positionX}_${positionY}`);
+        var X = e.touches[i].screenX;
+        var Y = e.touches[i].screenY;
+        Touch_pixel.push(`${X.toFixed(2)}_${Y.toFixed(2)}`)
       }
-    }
-  });
+    });
+
+  })
 }
 checkTouchPixel();
 
@@ -611,22 +618,22 @@ function handleSubmit() {
         buttonSubmit.parentElement.classList.add("disable");
         overlay.classList.add("active");
 
-        // // alert('Ten1', Ten1)
-        // // alert('Ten2', Ten2)
-        // // alert('Count_na_keyboard', Count_na_keyboard)
-        // // alert('Action_na_time', Action_na_time)
-        // // alert('Is_open_na_keyboard', Is_open_na_keyboard)
-        // // alert('Count_na_delete_keyboard', Count_na_delete_keyboard)
-        // // alert('Count_po_keyboard', Count_po_keyboard)
-        // // alert('Action_po_time', Action_po_time)
-        // // alert('Action_po_to_submit', Action_po_to_submit)
-        // // alert('Is_open_po_keyboard', Is_open_po_keyboard)
-        // // alert('Count_po_delete_keyboard', Count_po_delete_keyboard)
-        // // alert('Action_time', Action_time)
-        // // alert('Action_form_time', Action_form_time)
+        // alert('Ten1', Ten1)
+        // alert('Ten2', Ten2)
+        // alert('Count_na_keyboard', Count_na_keyboard)
+        // alert('Action_na_time', Action_na_time)
+        // alert('Is_open_na_keyboard', Is_open_na_keyboard)
+        // alert('Count_na_delete_keyboard', Count_na_delete_keyboard)
+        // alert('Count_po_keyboard', Count_po_keyboard)
+        // alert('Action_po_time', Action_po_time)
+        // alert('Action_po_to_submit', Action_po_to_submit)
+        // alert('Is_open_po_keyboard', Is_open_po_keyboard)
+        // alert('Count_po_delete_keyboard', Count_po_delete_keyboard)
+        // alert('Action_time', Action_time)
+        // alert('Action_form_time', Action_form_time)
         // alert('Sceensize'+ Sceensize)
-        // alert('Touch_pixel' + Touch_pixel)
-        // // alert('Count_3rd_id', Count_3rd_id)
+        //alert('Touch_pixel' + Touch_pixel)
+        // alert('Count_3rd_id', Count_3rd_id)
 
         handlePostData({
           Ten1,

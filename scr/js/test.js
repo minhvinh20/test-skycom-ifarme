@@ -14,7 +14,7 @@ let elInputs = document.querySelectorAll(".input-cache input");
 let form = document.querySelector(".form-submit--skycom form");
 let overlay = document.getElementById("overlay");
 let buttonSubmit = document.getElementById("btn-submit");
-
+console.log('log', form)
 let 
   encodeName = "",
   encodePhone = "",

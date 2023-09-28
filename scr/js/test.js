@@ -537,7 +537,7 @@ function listenMessage (){
           return;
       if (typeof event.data == 'object' && event.data.call=='hello_event') {
           // Do something with event.data.value;
-          var data = JSON.parse(event.data);
+          var data = JSON.parse(event.data.value);
           src = data.src;
           console.log('data', data)
           console.log('src in event message', src);

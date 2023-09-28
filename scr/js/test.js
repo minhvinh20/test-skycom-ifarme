@@ -475,8 +475,6 @@ function validateForm() {
 }
 
 function handleSubmit() {
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
 
     const invalid = validateForm();
     if (invalid) {
@@ -525,31 +523,32 @@ function handleSubmit() {
       //   visitorId
       // });
     }
-  });
+  
 }
-handleSubmit();
 
+function handleEventMessage(event){
+  var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
+  console.log('event', event)
+  console.log('origin', origin)
+  if (origin !== 'https://hoaianbeauty.com')
+      return;
+  if (typeof event.data == 'object' && event.data.call=='hello_event') {
+      // Do something with event.data.value;
 
+      const data = JSON.parse(event.data.value);
+
+      iframeData = {src: 'test'};
+      
+      console.log('iframeData in message', iframeData )
+      console.log('event.data', event.data.value)
+  }
+}
 function listenMessage (){
-
-  window.addEventListener('message', (event)=> {
-      var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
-      console.log('origin', origin)
-      if (origin !== 'https://hoaianbeauty.com')
-          return;
-      if (typeof event.data == 'object' && event.data.call=='hello_event') {
-          // Do something with event.data.value;
-
-          const data = JSON.parse(event.data.value);
-
-          iframeData = {src: 'test'};
-          
-          console.log('iframeData in message', iframeData )
-          console.log('event.data', event.data.value)
-      }
-  });
-
+  window.addEventListener('message', handleEventMessage);
 }
 listenMessage();
 
-
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  handleSubmit();
+});

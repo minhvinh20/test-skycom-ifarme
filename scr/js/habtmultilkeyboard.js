@@ -776,7 +776,7 @@ function vitualKeyboard() {
     }
   });
 }
-vitualKeyboard();
+vitualKeyboard(); 
 
 function updateCaret(selecteInputElement, initValue) {
   var caretElement =  selecteInputElement.closest("form").querySelector(".custom-caret");

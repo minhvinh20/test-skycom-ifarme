@@ -22,26 +22,35 @@
         browser_vid: `${localStorage.getItem("browser_vid")}` || null,
         is_bot: false,
       };
-      async function getComponentsVisitorID() {
+
+
+      function getComponentsVisitorID() {
         var fpPromise = FingerprintJS.load();
         fpPromise
           .then((fp) => fp.get())
-          .then(async function (result) {
-            Params.components = await result.components;
+          .then(function (result) {
+            Params.components = result.components;
+          })
+          .then((value) => {
+            checkBot();
+          })
+          .then((value) => {
+            handlePostVisitorID();
           });
       }
-      async function checkBot() {
-        var botdPromise = import("https://openfpcdn.io/botd/v1").then((Botd) =>
-          Botd.load()
-        );
+      function checkBot() {
+        var botdPromise = import(
+          "https://testform.skycom.vn/util/fingerdetectbot.min.js"
+        ).then((Botd) => Botd.load());
         botdPromise
           .then((botd) => botd.detect())
-          .then(async function (result) {
-            Params.is_bot = await result.bot;
+          .then(function (result) {
+            Params.is_bot = result.bot;
+            console.log("bot = ", result.bot);
           });
       }
-      async function handlePostVisitorID() {
-        var result = await fetch(urlVisitor, {
+      function handlePostVisitorID() {
+        var result = fetch(urlVisitor, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -52,22 +61,13 @@
             return response.json();
           })
           .then(async function (response) {
+            console.log("call API");
             let data = response.data;
             localStorage.setItem("browser_vid", data.visitor_id);
-            document.getElementById(
-              "visitor_id"
-            ).innerHTML = `visitor_id: ${data.visitor_id}`;
-            document.getElementById(
-              "visitor_confidence"
-            ).innerHTML = `visitor_confidence: ${
-              data.visitor_confidence * 100
-            }%`;
-            document.getElementById(
-              "is_bot"
-            ).innerHTML = `is_bot: ${data.is_bot}`;
-            document.getElementById(
-              "bot_confidence"
-            ).innerHTML = `bot_confidence: ${data.bot_confidence * 100}%`;
+            document.getElementById(  "visitor_id").innerHTML = `visitor_id: ${data.visitor_id}`;
+            document.getElementById(  "visitor_confidence").innerHTML = `visitor_confidence: ${data.visitor_confidence * 100}%`;
+            document.getElementById( "is_bot").innerHTML = `is_bot: ${data.is_bot}`;
+            document.getElementById("bot_confidence").innerHTML = `bot_confidence: ${data.bot_confidence * 100}%`;
           })
           .catch((value) => {
             console.log("Error");
@@ -75,10 +75,7 @@
       }
 
       getComponentsVisitorID();
-      checkBot();
-      setTimeout(() => {
-        handlePostVisitorID();
-      }, 2000);
+      
     </script>
   </body>
 </html>

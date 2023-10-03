@@ -1,4 +1,4 @@
-const bareURL ="https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
+const bareURL ="https://devsyncdata.skycom.vn/api/spam_check/form-spam-check";
 const urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";
 const urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach";
 const urlSyncGoogleSheetSpam ="https://script.google.com/macros/s/AKfycbxLfcxEvDuRrXtifkRBMz2wNMsW9nc041FCB0i6Zn_xn1EkdPqHT69DsfrkEYbD49Lf/exec";

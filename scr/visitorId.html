@@ -52,8 +52,8 @@
           .then(async function (response) {
             let data = response.data;
             document.getElementById("visitor_id").innerHTML = `visitor_id: ${data.visitor_id}`
-            document.getElementById("visitor_confidence").innerHTML = `visitor_id: ${data.visitor_confidence * 100}%`
-            document.getElementById("is_bot").innerHTML = `visitor_id: ${data.is_bot}`
+            document.getElementById("visitor_confidence").innerHTML = `visitor_confidence: ${data.visitor_confidence * 100}%`
+            document.getElementById("is_bot").innerHTML = `is_bot: ${data.is_bot}`
             document.getElementById("bot_confidence").innerHTML = `bot_confidence: ${data.bot_confidence * 100}%`
           })
         }

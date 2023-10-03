@@ -28,7 +28,6 @@
             .then((fp) => fp.get())
             .then(async function(result) {
               Params.components  = await result.components;
-              localStorage.setItem("browser_vid", result.visitorId)
             })
         }
         async function checkBot () {
@@ -52,6 +51,7 @@
           })
           .then(async function (response) {
             let data = response.data;
+            localStorage.setItem("browser_vid", data.visitor_id)
             document.getElementById("visitor_id").innerHTML = `visitor_id: ${data.visitor_id}`
             document.getElementById("visitor_confidence").innerHTML = `visitor_confidence: ${data.visitor_confidence * 100}%`
             document.getElementById("is_bot").innerHTML = `is_bot: ${data.is_bot}`

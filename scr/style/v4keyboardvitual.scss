@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap");
 .hidden,
 .grecaptcha-badge {
     display: none !important;
@@ -15,7 +16,7 @@ form {
     letter-spacing: 0px;
     max-width: 420px;
     width: 85%;
-    height: 424px;
+
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -158,7 +159,6 @@ form {
                 font-size: inherit;
                 border: none;
                 padding-left: 15px;
-                text-transform: lowercase;
                 &:focus {
                     outline: none;
                 }
@@ -223,7 +223,7 @@ form {
     &.active {
         display: block;
         transform: translate(0, 5%);
-        transition: transform 0.3s;
+        transition: transform 0.1s;
         opacity: 1;
         visibility: visible;
         pointer-events: all;
@@ -234,80 +234,138 @@ form {
         }
         .simple-keyboard {
             &.hg-theme-default {
-                background-color: #3f515b;
-                padding-top: 10px;
+                background-color: #d6d9de;
+                padding: 10px 0 20px 0;
             }
             .hg-button {
-                background-color: #66737a;
-                border-radius: 50px;
+                border-radius: 15px;
                 box-shadow: none;
-                color: #fff;
-                font-family: system-ui;
+                color: #000;
+                font-family: "Roboto", sans-serif;
+                font-weight: 300;
+                justify-content: flex-start;
+                padding-left: 10px;
                 figure {
                     display: inline;
                     vertical-align: middle;
-                    margin-left: 7px;
+                    margin-left: 10px;
                     text-align: right;
-                    color: #fff;
-                    font-size: 9px;
+                    font-weight: 300;
+                    color: rgb(102 102 102 / 66%);
+                    font-size: 12px;
+                    letter-spacing: -1px;
+                }
+                svg {
+                    width: 25px;
+                    height: 25px;
                 }
             }
-            .hg-button[data-skbtn="{bksp}"] {
-                background-color: #66737a;
+            .hg-button[data-skbtnuid="default-r1b3"] {
+                span {
+                    font-size: 22px;
+                    color: blue;
+                }
             }
-            .hg-button[data-skbtnuid="default-r3b0"] {
-                background-color: #66737a;
+            .hg-button[data-skbtn="{shift}"] {
+                opacity: 0.4;
+                pointer-events: none;
+                svg {
+                    width: 60px;
+                    .cls-1 {
+                        stroke-width: 3px;
+                    }
+                }
             }
         }
     }
-    .keyboard-bar {
-        display: flex;
-        align-items: center;
-        justify-content: end;
-        gap: 10px;
-        padding: 5px 15px;
-        height: 30px;
-        box-shadow: 1px -1px 20px rgb(0 0 0 / 11%);
-        color: #1f1fd9db;
-        font-size: 18px;
-        font-family: system-ui;
-        background: #fff;
-        position: relative;
-        bottom: -2px;
-        #button-done {
-            cursor: pointer;
+    &:not(.keyboard-android) {
+        .keyboard-bar {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            text-align: right;
+            gap: 15px;
+            padding: 5px 15px;
+            height: 40px;
+            box-shadow: 1px -1px 20px rgb(0 0 0 / 11%);
+            color: #1f1fd9db;
+            font-size: 20px;
+            font-family: system-ui;
+            background: #fff;
+            position: relative;
+            bottom: -2px;
+            div {
+                svg {
+                    path {
+                        fill: #6666668f;
+                    }
+                }
+            }
+            #button-focusText {
+                svg {
+                    path {
+                        fill: blue;
+                    }
+                }
+            }
+            #button-done {
+                cursor: pointer;
+            }
+        }
+        .simple-keyboard {
+            .hg-button[data-skbtn="{bksp}"] {
+                background: transparent;
+                box-shadow: none;
+                border: none;
+            }
+            .hg-button[data-skbtn="{shift}"] {
+                background: transparent;
+                box-shadow: none;
+                border: none;
+                svg {
+                    width: 60px;
+                    .cls-1 {
+                        stroke-width: 3px;
+                    }
+                }
+            }
         }
     }
     .simple-keyboard {
+        touch-action: manipulation !important;
         &.hg-theme-default {
-            background-color: #d6d9de;
+            background-color: #fff;
             padding-bottom: 40px;
+        }
+        .hg-rows {
+            background-color: #d6d9de;
+            padding-top: 5px;
         }
         .hg-button {
             font-size: 24px !important;
             touch-action: manipulation !important;
             box-shadow: 1px 1px 1px #00000057;
             text-align: center;
-            figure {
-                font-size: 13px;
-                font-weight: 500;
-                color: #000;
-                display: block;
-                margin: 0;
-                font-size: 9px;
+
+            span {
+                font-size: 32px;
+                figure {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #000;
+                    display: block;
+                    margin: 0;
+                    font-size: 9px;
+                }
             }
         }
         .hg-button[data-skbtn="{bksp}"] {
-            background: none;
-            border: none !important;
-            box-shadow: none !important;
-            font-size: 40px !important;
-        }
-        .hg-button[data-skbtnuid="default-r3b0"] {
-            background: none;
-            border: none !important;
-            box-shadow: none !important;
-            font-size: 25px !important;
+            svg {
+                width: 40px;
+                .cls-1 {
+                    stroke-width: 4.68px;
+                }
+            }
         }
         .hg-activeButton {
             background-color: rgb(102, 102, 102) !important;

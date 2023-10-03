@@ -37,7 +37,8 @@ var encodeName = "",
   Sceensize = "",
   Touch_pixel = [],
   Is_keyboard_virtual = null,
-  Is_device_motion_change = null;
+  Is_device_motion_change = null,
+  Count_device_motion = 0;
 
 // ===================================================================
 
@@ -132,44 +133,34 @@ function disableCopy() {
 disableCopy();
 
 // ===============================CHECK DEVICE MOTION================================
-// var count_device_motion = 0;
-// var diff = 0;
-// var device_motion_compare = '';
-// function checkDeviceEmotion() {
- 
-  
-//   // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
-//   if (window.DeviceMotionEvent) {
-//     window.addEventListener("devicemotion", function (event) {
-//       diff = event.acceleration.x || event.accelerationIncludingGravity.x;
-//       //handleDeviceMotionStatus();
-//     });
-//     setInterval(() => {
-//       if (diff != device_motion_compare) {
-//         count_device_motion++;
-//         device_motion_compare = diff;
-//       }
-//       document.getElementById("demo").innerHTML = diff;
-//     }, 1000);
-//   }
-// };
-// function handleDeviceMotionStatus() {
-//   if (count_device_motion > 5) {
-//     Is_device_motion_change = true;
-//   } else {
-//     Is_device_motion_change = false;
-//   }
-// }
-// checkDeviceEmotion();
-function handleMotionEvent(event) {
-  const x = event.accelerationIncludingGravity.x;
-  const y = event.accelerationIncludingGravity.y;
-  const z = event.accelerationIncludingGravity.z;
-  document.getElementById("demo").innerHTML = x
-  // Do something awesome.
-}
 
-window.addEventListener("devicemotion", handleMotionEvent, true);
+var diff = 0;
+var device_motion_compare = '';
+
+function checkDeviceEmotion() {
+  // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
+  if (window.DeviceMotionEvent) {
+    window.addEventListener("devicemotion", function (event) {
+      diff = event.acceleration.x || event.accelerationIncludingGravity.x;
+      handleDeviceMotionStatus();
+    });
+    setInterval(() => {
+      if (diff != device_motion_compare) {
+        Count_device_motion++;
+        device_motion_compare = diff;
+      }
+    }, 1000);
+  }
+};
+function handleDeviceMotionStatus() {
+  if (Count_device_motion > 5) {
+    Is_device_motion_change = true;
+  } else {
+    Is_device_motion_change = false;
+  }
+}
+checkDeviceEmotion();
+
 
 // ===============================CHECK TOUCH EVENT================================
 
@@ -511,6 +502,7 @@ async function handlePostData({
   Typing_count_keyboard,
   Is_mobile,
   Is_keyboard_virtual,
+  Count_device_motion
 }) {
   var params = {
     Ten1,
@@ -538,6 +530,7 @@ async function handlePostData({
     Typing_count_keyboard,
     Is_mobile,
     Is_keyboard_virtual,
+    Count_device_motion
   };
   var response = await fetch(bareURL, {
     method: "POST",
@@ -618,22 +611,6 @@ function handleSubmit() {
         buttonSubmit.parentElement.classList.add("disable");
         overlay.classList.add("active");
 
-        // alert('Ten1', Ten1)
-        // alert('Ten2', Ten2)
-        // alert('Count_na_keyboard', Count_na_keyboard)
-        // alert('Action_na_time', Action_na_time)
-        // alert('Is_open_na_keyboard', Is_open_na_keyboard)
-        // alert('Count_na_delete_keyboard', Count_na_delete_keyboard)
-        // alert('Count_po_keyboard', Count_po_keyboard)
-        // alert('Action_po_time', Action_po_time)
-        // alert('Action_po_to_submit', Action_po_to_submit)
-        // alert('Is_open_po_keyboard', Is_open_po_keyboard)
-        // alert('Count_po_delete_keyboard', Count_po_delete_keyboard)
-        // alert('Action_time', Action_time)
-        // alert('Action_form_time', Action_form_time)
-        // alert('Sceensize'+ Sceensize)
-        //alert('Touch_pixel' + Touch_pixel)
-        // alert('Count_3rd_id', Count_3rd_id)
 
         handlePostData({
           Ten1,
@@ -659,7 +636,8 @@ function handleSubmit() {
           visitorId,
           Typing_count_keyboard,
           Is_mobile,
-          Is_keyboard_virtual
+          Is_keyboard_virtual,
+          Count_device_motion
         });
       }
     });
@@ -667,50 +645,80 @@ function handleSubmit() {
 }
 handleSubmit();
 
-// ===============================KEYBOARDß VITUAL================================
+// ===============================KEYBOARD VITUAL================================
 function vitualKeyboard() {
   var selectedInput;
   var selecteInputElement;
   var simpleKeyboardWraper = document.querySelector("#skycomkeyboard");
+  var buttonDone = document.querySelector(".keyboard-bar #button-done");
+  var buttonFocusText = document.querySelector(".keyboard-bar #button-focusText");
   var { isMobile, isAndroid } = detectDevice();
 
   if (!isMobile) {
     return;
   }
+  var Keyboard = window.SimpleKeyboard.default;
   if (isAndroid) {
     simpleKeyboardWraper.classList.add("keyboard-android");
+    var keyboard = new Keyboard({
+      onChange: (input) => onChange(input),
+      onKeyPress: (value) => onKeyPress(value),
+      layout: {
+        default: ["1 2 3 {bksp}", "4 5 6 ", "7 8 9 {shift}", "0 * # ,"],
+      },
+      display: {
+        '': "Đi",
+        '{bksp}': '<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 113.22 64.43"><defs><style>.cls-1{fill:#fff;stroke-width:2.71px;}.cls-1,.cls-2{stroke:#000;stroke-miterlimit:10;}.cls-2{fill:none;stroke-width:4.24px;}</style></defs><line class="cls-1" x1="62.3" y1="14.93" x2="91.26" y2="49.76"/><line class="cls-1" x1="91.26" y1="14.93" x2="62.3" y2="49.76"/><polygon class="cls-2" points="92.56 2.21 70.42 2.21 41.17 2.21 3.65 32.35 41.17 62.48 70.42 62.48 92.56 62.48 111.13 62.48 111.13 2.21 92.56 2.21"/></svg>',
+        '{shift}' : '<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 118.43 31.25"><defs><style>.cls-1{fill:#fff;stroke:#000;stroke-miterlimit:10;stroke-width:1.68px;}</style></defs><line class="cls-1" x1="64.98" y1="1.81" x2="50.78" y2="29.15"/><line class="cls-1" x1="50.78" y1="1.81" x2="64.98" y2="29.15"/><line class="cls-1" x1="68.92" y1="15.48" x2="46.84" y2="15.48"/><line class="cls-1" x1="20.74" x2="20.89" y2="30.81"/><line class="cls-1" x1="5.41" y1="15.48" x2="36.22" y2="15.33"/><line class="cls-1" x1="96.52" y1="1.81" x2="82.32" y2="29.15"/><line class="cls-1" x1="105.79" y1="1.81" x2="91.59" y2="29.15"/><line class="cls-1" x1="107.56" y1="10.83" x2="85.48" y2="10.83"/><line class="cls-1" x1="104.41" y1="18.59" x2="82.32" y2="18.59"/></svg>',
+        '*': '<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 65.74 84.91"><defs><style>.cls-1{fill:#fff;stroke:#000;stroke-miterlimit:10;stroke-width:5px;}</style></defs><line class="cls-1" x1="54" y1="2.08" x2="11.74" y2="83.48"/><line class="cls-1" x1="11.74" y1="2.08" x2="54" y2="83.48"/><line class="cls-1" x1="65.74" y1="42.78" y2="42.78"/></svg>',
+        '#': '<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 78 84.91"><defs><style>.cls-1{fill:#fff;stroke:#000;stroke-miterlimit:10;stroke-width:5px;}</style></defs><line class="cls-1" x1="45.13" y1="2.08" x2="2.87" y2="83.48"/><line class="cls-1" x1="72.73" y1="2.08" x2="30.46" y2="83.48"/><line class="cls-1" x1="78" y1="28.96" x2="12.26" y2="28.96"/><line class="cls-1" x1="68.61" y1="52.04" x2="2.87" y2="52.04"/></svg>',
+        0: "0<figure>+</figure>",
+        2: "2<figure>A B C</figure>",
+        3: "3<figure>D E F</figure>",
+        4: "4<figure>G H I</figure>",
+        5: "5<figure>J K L</figure>",
+        6: "6<figure>M N O</figure>",
+        7: "7<figure>P Q R S</figure>",
+        8: "8<figure>T U V</figure>",
+        9: "9<figure>W X Y Z</figure>",
+
+      },
+      theme: "hg-theme-default hg-layout-numeric numeric-theme",
+      disableButtonHold: false,
+      maxLength: 13,
+    });
+  }else{
+    var keyboard = new Keyboard({
+      onChange: (input) => onChange(input),
+      onKeyPress: (value) => onKeyPress(value),
+      layout: {
+        default: ["1 2 3", "4 5 6", "7 8 9", "{shift} 0 {bksp}"],
+      },
+      display: {
+        '{bksp}': '<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 113.22 64.43"><defs><style>.cls-1{fill:#fff;stroke-width:2.71px;}.cls-1,.cls-2{stroke:#000;stroke-miterlimit:10;}.cls-2{fill:none;stroke-width:4.24px;}</style></defs><line class="cls-1" x1="62.3" y1="14.93" x2="91.26" y2="49.76"/><line class="cls-1" x1="91.26" y1="14.93" x2="62.3" y2="49.76"/><polygon class="cls-2" points="92.56 2.21 70.42 2.21 41.17 2.21 3.65 32.35 41.17 62.48 70.42 62.48 92.56 62.48 111.13 62.48 111.13 2.21 92.56 2.21"/></svg>',
+        '{shift}' : '<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 118.43 31.25"><defs><style>.cls-1{fill:#fff;stroke:#000;stroke-miterlimit:10;stroke-width:1.68px;}</style></defs><line class="cls-1" x1="64.98" y1="1.81" x2="50.78" y2="29.15"/><line class="cls-1" x1="50.78" y1="1.81" x2="64.98" y2="29.15"/><line class="cls-1" x1="68.92" y1="15.48" x2="46.84" y2="15.48"/><line class="cls-1" x1="20.74" x2="20.89" y2="30.81"/><line class="cls-1" x1="5.41" y1="15.48" x2="36.22" y2="15.33"/><line class="cls-1" x1="96.52" y1="1.81" x2="82.32" y2="29.15"/><line class="cls-1" x1="105.79" y1="1.81" x2="91.59" y2="29.15"/><line class="cls-1" x1="107.56" y1="10.83" x2="85.48" y2="10.83"/><line class="cls-1" x1="104.41" y1="18.59" x2="82.32" y2="18.59"/></svg>',
+        2: "2<figure>A B C</figure>",
+        3: "3<figure>D E F</figure>",
+        4: "4<figure>G H I</figure>",
+        5: "5<figure>J K L</figure>",
+        6: "6<figure>M N O</figure>",
+        7: "7<figure>P Q R S</figure>",
+        8: "8<figure>T U V</figure>",
+        9: "9<figure>W X Y Z</figure>",
+      },
+      theme: "hg-theme-default hg-layout-numeric numeric-theme",
+      disableButtonHold: false,
+      maxLength: 13,
+    });
   }
   Is_keyboard_virtual = true;
-  var Keyboard = window.SimpleKeyboard.default;
-  var keyboard = new Keyboard({
-    onChange: (input) => onChange(input),
-    onKeyPress: (value) => onKeyPress(value),
-    layout: {
-      default: ["1 2 3", "4 5 6", "7 8 9", "0  {bksp}"],
-    },
-    display: {
-      "": "+&#8727;#",
-      "{bksp}": "⌫",
-      2: "2<figure>A B C</figure>",
-      3: "3<figure>D E F</figure>",
-      4: "4<figure>G H I</figure>",
-      5: "5<figure>J K L</figure>",
-      6: "6<figure>M N O</figure>",
-      7: "7<figure>P Q R S</figure>",
-      8: "8<figure>T U V</figure>",
-      9: "9<figure>W X Y Z</figure>",
-    },
-    theme: "hg-theme-default hg-layout-numeric numeric-theme",
-    disableButtonHold: false,
-    maxLength: 13,
-  });
-  var buttonDone = document.querySelector(".keyboard-bar #button-done");
+
   forms.forEach(function (form) {
     var phone = form.querySelector(".numeric");
     phone.addEventListener("focus", onInputFocus);
     phone.addEventListener("input", onInputChange);
     phone.setAttribute("readonly", "readonly");
-    phone.blur();
+   
   });
   function onInputFocus(event) {
     selectedInput = `#${event.target.id}`;
@@ -718,6 +726,7 @@ function vitualKeyboard() {
     keyboard.setOptions({
       inputName: event.target.id,
     });
+    updateCaret(selecteInputElement, initValue = 10);
   }
   function onInputChange(event) {
     keyboard.setInput(event.target.value, event.target.id);
@@ -728,10 +737,9 @@ function vitualKeyboard() {
     if (input.length > 12) {
       selecteInputElement.closest("form").querySelector(".errorMessage").innerText = "Số điện thoại quá dài";
     } else {
-      selecteInputElement
-        .closest("form")
-        .querySelector(".errorMessage").innerText = "";
+      selecteInputElement .closest("form").querySelector(".errorMessage").innerText = "";
     }
+    updateCaret(selecteInputElement);
   }
 
   function onKeyPress(value) {
@@ -740,34 +748,46 @@ function vitualKeyboard() {
   }
   window.addEventListener("click", function (e) {
     if (selecteInputElement) {
-      if (buttonDone.contains(e.target)) {
+      //event click arrow button
+      if(buttonFocusText.contains(e.target)){
+        selecteInputElement.closest("form").querySelector(".human").click();
+        selecteInputElement.closest("form").querySelector(".human").focus();
+      }
+      //event click done button
+      else if (buttonDone.contains(e.target)) {
         simpleKeyboardWraper.classList.remove("active");
-        document.querySelectorAll(".human").forEach(function (input) {
-          input.style.opacity = "1";
-        });
-      } else if (
-        selecteInputElement.contains(e.target) ||
-        simpleKeyboardWraper.contains(e.target)
-      ) {
+        selecteInputElement.closest("form").querySelector(".custom-caret").classList.remove("active")
+      }
+      //event click input phone or keyboard Vitual 
+      else if (selecteInputElement.contains(e.target) || simpleKeyboardWraper.contains(e.target)) {
+        document.querySelectorAll(".custom-caret").forEach(function (caret) {
+          caret.classList.remove("active")
+        }); 
         simpleKeyboardWraper.classList.add("active");
-        document.querySelectorAll(".human").forEach(function (input) {
-          input.style.opacity = "1";
-        });
-        selecteInputElement
-          .closest("form")
-          .querySelector(".human").style.opacity = "0.3";
-        if (document.querySelector("body .ladi-wraper")) {
-          simpleKeyboardWraper.style.width = `${
-            document.querySelector("body .ladi-wraper").offsetWidth
-          }px`;
-        }
-      } else {
+        selecteInputElement.closest("form").querySelector(".custom-caret").classList.add("active")
+      }
+      //click outside input phone or keyboard Vitual 
+      else {
         simpleKeyboardWraper.classList.remove("active");
-        document.querySelectorAll(".human").forEach(function (input) {
-          input.style.opacity = "1";
+        document.querySelectorAll(".custom-caret").forEach(function (caret) {
+          caret.classList.remove("active")
         });
       }
     }
   });
 }
 vitualKeyboard();
+
+function updateCaret(selecteInputElement, initValue) {
+  var caretElement =  selecteInputElement.closest("form").querySelector(".custom-caret");
+  var position = selecteInputElement.selectionStart ;
+  if (!caretElement) {
+    return;
+  } 
+  if (!initValue ) {
+    caretElement.style.left = `${ 10 + (position * 8)}px`; // 10px là khoảng cách giữa các ký tự
+    initValue = 0;
+  } 
+  caretElement.classList.add("active");
+}
+

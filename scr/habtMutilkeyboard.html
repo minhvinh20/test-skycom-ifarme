@@ -43,15 +43,17 @@
               </div>
               <div class="form-control">
                 <div class="control-wrapper">
-                  <div class="input-group input-cache"> 
-                    
-                    <input
-                      class="numeric div-input"
-                      type="tel"
-                      pattern="(\+84|0)(9|8|7|5|3)[0-9]{8}"
-                      placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)"
-                      required>
-                    </input>
+                  <div class="input-group input-cache">    
+                    <div class="custom-input">
+                      <input
+                        class="numeric div-input"
+                        type="tel"
+                        pattern="(\+84|0)(9|8|7|5|3)[0-9]{8}"
+                        placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)"
+                        required>
+                      </input>
+                      <div class="custom-caret"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -135,13 +137,16 @@
                       />
                     </svg>
                   </span>
-                  <input
-                    class="numeric div-input"
-                    type="tel"
-                    pattern="(\+84|0)(9|8|7|5|3)[0-9]{8}"
-                    placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)"
-                    required>
-                  </input>
+                  <div class="custom-input">
+                    <input
+                      class="numeric div-input"
+                      type="tel"
+                      pattern="(\+84|0)(9|8|7|5|3)[0-9]{8}"
+                      placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)"
+                      required>
+                    </input>
+                    <div class="custom-caret"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -179,6 +184,16 @@
     </div>
     <div id="skycomkeyboard">
         <div class="keyboard-bar">
+          <div id="button-focusText">
+            <svg width="25" height="12" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M0.991174 7.17603C0.77481 7.40823 0.781194 7.77007 1.00562 7.99449C1.23004 8.21891 1.59188 8.2253 1.82407 8.00893L8.11011 1.72289L14.1761 8.00893C14.4083 8.2253 14.7702 8.21891 14.9946 7.99449C15.219 7.77007 15.2254 7.40823 15.009 7.17603L8.11011 0.167099L0.991174 7.17603Z" fill="#1E1D1D"/>
+            </svg>              
+          </div>
+          <div>
+            <svg width="25" height="12" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M15.0088 1.15817C15.2252 0.925967 15.2188 0.564127 14.9944 0.339706C14.77 0.115285 14.4081 0.108901 14.1759 0.325265L7.88989 6.6113L1.82386 0.325265C1.59166 0.108901 1.22982 0.115285 1.0054 0.339706C0.780978 0.564127 0.774594 0.925967 0.990959 1.15817L7.88989 8.1671L15.0088 1.15817Z" fill="#1E1D1D"/>
+            </svg>              
+          </div>
           <div id="button-done">Xong</div>
         </div>
         <div class="simple-keyboard"></div>

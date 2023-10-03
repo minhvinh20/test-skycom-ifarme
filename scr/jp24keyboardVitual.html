@@ -67,7 +67,7 @@
                 <div class="control-wrapper">
                   <div class="input-group">
                     <input placeholder="Ten"  id="ten2" name="ten2" tabindex="0" />
-                  </div>div-input
+                  </div>
                 </div>
               </div>
               <div class="form-control hidden">
@@ -77,7 +77,7 @@
                   </div>
                 </div>
               </div>
-              <div id="errorMessage"></div>
+              <div class="errorMessage" style="color: red;"></div>
               <div class="form-submit">
                 <div class="button-wrapper">
                   <button
@@ -92,111 +92,118 @@
           </div>
       </div>
       <div class="form-submit">
-          <div class="form-submit--skycom">
-            <form method="POST" id="form1" autocomplete="off">
-              <input type="hidden" id="gclid_field" name="gclid_field" value="">
-              <div class="form-control">
-                <div class="control-wrapper">
-                  <div class="input-group input-cache">
-                    <span>
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5.8335 6.66667C5.8335 4.36548 7.69898 2.5 10.0002 2.5C12.3013 2.5 14.1668 4.36548 14.1668 6.66667C14.1668 8.96783 12.3013 10.8333 10.0002 10.8333C7.69898 10.8333 5.8335 8.96783 5.8335 6.66667ZM10.0002 9.16667C11.3809 9.16667 12.5002 8.04738 12.5002 6.66667C12.5002 5.28596 11.3809 4.16667 10.0002 4.16667C8.61941 4.16667 7.50016 5.28596 7.50016 6.66667C7.50016 8.04738 8.61941 9.16667 10.0002 9.16667Z"
-                          fill="#2E3A59"
-                        />
-                        <path
-                          d="M5.28612 13.6193C4.03587 14.8695 3.3335 16.5653 3.3335 18.3333H5.00016C5.00016 17.0073 5.52695 15.7355 6.46463 14.7978C7.40231 13.8601 8.67408 13.3333 10.0002 13.3333C11.3262 13.3333 12.598 13.8601 13.5357 14.7978C14.4734 15.7355 15.0002 17.0073 15.0002 18.3333H16.6668C16.6668 16.5653 15.9644 14.8695 14.7142 13.6193C13.464 12.3691 11.7682 11.6667 10.0002 11.6667C8.23205 11.6667 6.53636 12.3691 5.28612 13.6193Z"
-                          fill="#2E3A59"
-                        />
-                      </svg>
-                    </span>
-                    <input 
-                      class="div-input human"
-                      placeholder="H&#7884; V&Agrave; T&Ecirc;N(*)"
-                      autocomplete="off"
-                      oninput="handleCountNameTyping()"
-                      required
-                    />
-                  </div>
+        <div class="form-submit--skycom">
+          <form method="POST" id="form1" autocomplete="off">
+            <input type="hidden" id="gclid_field" name="gclid_field" value="">
+            <div class="form-control">
+              <div class="control-wrapper">
+                <div class="input-group input-cache">
+                  <span>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.8335 6.66667C5.8335 4.36548 7.69898 2.5 10.0002 2.5C12.3013 2.5 14.1668 4.36548 14.1668 6.66667C14.1668 8.96783 12.3013 10.8333 10.0002 10.8333C7.69898 10.8333 5.8335 8.96783 5.8335 6.66667ZM10.0002 9.16667C11.3809 9.16667 12.5002 8.04738 12.5002 6.66667C12.5002 5.28596 11.3809 4.16667 10.0002 4.16667C8.61941 4.16667 7.50016 5.28596 7.50016 6.66667C7.50016 8.04738 8.61941 9.16667 10.0002 9.16667Z"
+                        fill="#2E3A59"
+                      />
+                      <path
+                        d="M5.28612 13.6193C4.03587 14.8695 3.3335 16.5653 3.3335 18.3333H5.00016C5.00016 17.0073 5.52695 15.7355 6.46463 14.7978C7.40231 13.8601 8.67408 13.3333 10.0002 13.3333C11.3262 13.3333 12.598 13.8601 13.5357 14.7978C14.4734 15.7355 15.0002 17.0073 15.0002 18.3333H16.6668C16.6668 16.5653 15.9644 14.8695 14.7142 13.6193C13.464 12.3691 11.7682 11.6667 10.0002 11.6667C8.23205 11.6667 6.53636 12.3691 5.28612 13.6193Z"
+                        fill="#2E3A59"
+                      />
+                    </svg>
+                  </span>
+                  <input 
+                    class="div-input human"
+                    placeholder="H&#7884; V&Agrave; T&Ecirc;N(*)"
+                    autocomplete="off"
+                    required
+                  />
                 </div>
               </div>
-              <div class="form-control">
-                <div class="control-wrapper">
-                  <div class="input-group input-cache"> 
-                    <span
-                      ><svg
-                        width="17"
-                        height="17"
-                        viewBox="0 0 17 17"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M12.7558 9.24417C12.43 8.91833 11.9033 8.91833 11.5775 9.24417L10.2491 10.5725C9.63329 10.3892 8.48412 9.9725 7.75579 9.24417C7.02745 8.51583 6.61079 7.36667 6.42745 6.75083L7.75579 5.4225C8.08162 5.09667 8.08162 4.57 7.75579 4.24417L4.42245 0.910833C4.09662 0.585 3.56995 0.585 3.24412 0.910833L0.984119 3.17083C0.667453 3.4875 0.489119 3.9225 0.495786 4.36667C0.514953 5.55333 0.829119 9.675 4.07745 12.9233C7.32579 16.1717 11.4475 16.485 12.635 16.505C12.6391 16.505 12.6541 16.505 12.6583 16.505C13.0983 16.505 13.5141 16.3317 13.8291 16.0167L16.0891 13.7567C16.415 13.4308 16.415 12.9042 16.0891 12.5783L12.7558 9.24417ZM12.65 14.8375C11.61 14.82 8.05162 14.5408 5.25579 11.7442C2.45079 8.93917 2.17912 5.36833 2.16245 4.34917L3.83329 2.67833L5.98829 4.83333L4.91079 5.91083C4.71162 6.10917 4.62662 6.39583 4.68412 6.67083C4.70412 6.76667 5.19329 9.03917 6.57662 10.4225C7.95995 11.8058 10.2325 12.295 10.3283 12.315C10.6058 12.3742 10.89 12.2883 11.0883 12.0892L12.1666 11.0117L14.3216 13.1667L12.65 14.8375Z"
-                          fill="#2E3A59"
-                        />
-                      </svg>
-                    </span>
-                    <input
-                      class="numeric div-input"
-                      type="text"
-                      placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)"
-                      oninput="handleCountPhoneTyping()"
-                      required>
-                    </input>
-                    
-                    <!-- <input class="hidden"type="tel" placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)" pattern="(\+84|0)(9|8|7|5|3)[0-9]{8}" autocomplete="off"  required /> -->
-                  </div>
+            </div>
+            <div class="form-control">
+              <div class="control-wrapper">
+                <div class="input-group input-cache"> 
+                  <span
+                    ><svg
+                      width="17"
+                      height="17"
+                      viewBox="0 0 17 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12.7558 9.24417C12.43 8.91833 11.9033 8.91833 11.5775 9.24417L10.2491 10.5725C9.63329 10.3892 8.48412 9.9725 7.75579 9.24417C7.02745 8.51583 6.61079 7.36667 6.42745 6.75083L7.75579 5.4225C8.08162 5.09667 8.08162 4.57 7.75579 4.24417L4.42245 0.910833C4.09662 0.585 3.56995 0.585 3.24412 0.910833L0.984119 3.17083C0.667453 3.4875 0.489119 3.9225 0.495786 4.36667C0.514953 5.55333 0.829119 9.675 4.07745 12.9233C7.32579 16.1717 11.4475 16.485 12.635 16.505C12.6391 16.505 12.6541 16.505 12.6583 16.505C13.0983 16.505 13.5141 16.3317 13.8291 16.0167L16.0891 13.7567C16.415 13.4308 16.415 12.9042 16.0891 12.5783L12.7558 9.24417ZM12.65 14.8375C11.61 14.82 8.05162 14.5408 5.25579 11.7442C2.45079 8.93917 2.17912 5.36833 2.16245 4.34917L3.83329 2.67833L5.98829 4.83333L4.91079 5.91083C4.71162 6.10917 4.62662 6.39583 4.68412 6.67083C4.70412 6.76667 5.19329 9.03917 6.57662 10.4225C7.95995 11.8058 10.2325 12.295 10.3283 12.315C10.6058 12.3742 10.89 12.2883 11.0883 12.0892L12.1666 11.0117L14.3216 13.1667L12.65 14.8375Z"
+                        fill="#2E3A59"
+                      />
+                    </svg>
+                  </span>
+                  <input
+                    class="numeric div-input"
+                    type="tel"
+                    pattern="(\+84|0)(9|8|7|5|3)[0-9]{8}"
+                    placeholder="S&#7888; &#272;l&#7878;N THO&#7840;I(*)"
+                    required>
+                  </input>
                 </div>
               </div>
-              <div class="form-control hidden">
-                <div class="control-wrapper">
-                  <div class="input-group">
-                    <input placeholder="Ten"  id="ten2" name="ten2" tabindex="0" />
-                  </div>
+            </div>
+            <div class="form-control hidden">
+              <div class="control-wrapper">
+                <div class="input-group">
+                  <input placeholder="Ten"  id="ten2" name="ten2" tabindex="0" />
                 </div>
               </div>
-              <div class="form-control hidden">
-                <div class="control-wrapper">
-                  <div class="input-group">
-                    <input placeholder="Số điện thoại" id="sdt2" name="sdt2" tabindex="0"/>
-                  </div>
+            </div>
+            <div class="form-control hidden">
+              <div class="control-wrapper">
+                <div class="input-group">
+                  <input placeholder="Số điện thoại" id="sdt2" name="sdt2" tabindex="0"/>
                 </div>
               </div>
-              <div id="errorMessage" style="color: red;"></div>
-              <div class="form-submit">
-                <div class="button-wrapper">
-                  <button
-                    type="submit"
-                    id="btn-submit"
-                  >
-                    ĐĂNG KÝ NGAY
-                  </button>
-                </div>
+            </div>
+            <div class="errorMessage" style="color: red;"></div>
+            <div class="form-submit">
+              <div class="button-wrapper">
+                <button
+                  type="submit"
+                  class="btn-submit"
+                >
+                  ĐĂNG KÝ NGAY
+                </button>
               </div>
-            </form>
-          </div>
-      </div>
+            </div>
+          </form>
+        </div>
+    </div>
       <div id="overlay">
-          <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 118.04 122.88"><path d="M16.08,59.26A8,8,0,0,1,0,59.26a59,59,0,0,1,97.13-45V8a8,8,0,1,1,16.08,0V33.35a8,8,0,0,1-8,8L80.82,43.62a8,8,0,1,1-1.44-15.95l8-.73A43,43,0,0,0,16.08,59.26Zm22.77,19.6a8,8,0,0,1,1.44,16l-10.08.91A42.95,42.95,0,0,0,102,63.86a8,8,0,0,1,16.08,0A59,59,0,0,1,22.3,110v4.18a8,8,0,0,1-16.08,0V89.14h0a8,8,0,0,1,7.29-8l25.31-2.3Z"/></svg>
-      </div>
-      <div id="skycomkeyboard">
-          <div class="keyboard-bar">
-            <div id="button-done">Xong</div>
+        <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 118.04 122.88"><path d="M16.08,59.26A8,8,0,0,1,0,59.26a59,59,0,0,1,97.13-45V8a8,8,0,1,1,16.08,0V33.35a8,8,0,0,1-8,8L80.82,43.62a8,8,0,1,1-1.44-15.95l8-.73A43,43,0,0,0,16.08,59.26Zm22.77,19.6a8,8,0,0,1,1.44,16l-10.08.91A42.95,42.95,0,0,0,102,63.86a8,8,0,0,1,16.08,0A59,59,0,0,1,22.3,110v4.18a8,8,0,0,1-16.08,0V89.14h0a8,8,0,0,1,7.29-8l25.31-2.3Z"/></svg>
+    </div>
+    <div id="skycomkeyboard">
+        <div class="keyboard-bar">
+          <div id="button-focusText">
+            <svg width="25" height="12" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M0.991174 7.17603C0.77481 7.40823 0.781194 7.77007 1.00562 7.99449C1.23004 8.21891 1.59188 8.2253 1.82407 8.00893L8.11011 1.72289L14.1761 8.00893C14.4083 8.2253 14.7702 8.21891 14.9946 7.99449C15.219 7.77007 15.2254 7.40823 15.009 7.17603L8.11011 0.167099L0.991174 7.17603Z" fill="#1E1D1D"/>
+            </svg>              
           </div>
-          <div class="simple-keyboard"></div>
-      </div>
+          <div>
+            <svg width="25" height="12" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M15.0088 1.15817C15.2252 0.925967 15.2188 0.564127 14.9944 0.339706C14.77 0.115285 14.4081 0.108901 14.1759 0.325265L7.88989 6.6113L1.82386 0.325265C1.59166 0.108901 1.22982 0.115285 1.0054 0.339706C0.780978 0.564127 0.774594 0.925967 0.990959 1.15817L7.88989 8.1671L15.0088 1.15817Z" fill="#1E1D1D"/>
+            </svg>              
+          </div>
+          <div id="button-done">Xong</div>
+        </div>
+        <div class="simple-keyboard"></div>
+    </div>
 
-      <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7KLXRW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-      <!-- End Google Tag Manager (noscript) -->
-     <script src="js/jp24keyboard.js"></script>
+    <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
+    <script src="js/fingerprintKey.min.js"></script>
+    <script type="text/javascript">var visitorId = ""; </script>
+    <script src="js/jp24keyboard.js"></script>
     </body>
 </html>
 

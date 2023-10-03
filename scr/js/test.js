@@ -535,7 +535,7 @@ function handleEventMessage(event){
 
   if (origin !== 'https://hoaianbeauty.com')
       return;
-  if (typeof event.data == 'object' && event.data.call=='hello_event') {
+  if (typeof event.data == 'object' && event.data.call=='uae ') {
       // Do something with event.data.value;
       const data = JSON.parse(event.data.value);
       iframeData = data;

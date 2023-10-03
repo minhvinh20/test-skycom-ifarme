@@ -6,91 +6,57 @@
     <title>Visitor ID</title>
   </head>
   <body>
-    <h1>Visitor ID 1 (audio - canvas - weblg - fonts - hardware - deviceMemory): 
-      <div id="id1"></div>
-    </h1>
-    <h1>Visitor ID 2 (ID1 + colorDepth - screen): <div id="id2"></div></h1>
-    <h1>Visitor ID 3 (ID2 + timezone - vendor ): <div id="id3"></div></h1>
-    <h1>Visitor ID 4 <div id="id4"></div></h1>
 
-    <div><h2>bot detect result: <span id="botresult"></span></h2> </div>
-    <div><h2></h2> <span id="boterr"></span></div>
+    <Button id="detect-visitorid">Detect VisitorID</Button>
 
     <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
     <script>
-      var fpPromise = FingerprintJS.load();
-      fpPromise
-        .then((fp) => fp.get({ extendedResult: true }))
-        .then((result) => {
-          console.log("result", result);
-          document.getElementById("id4").innerHTML = result.visitorId;
-          var components              = result.components;
-          var contextAttributes       = components.webGlExtensions.value.contextAttributes.toString() || '';
-          var extensionParameters     = components.webGlExtensions.value.extensionParameters.toString() || '';
-          var extensions              = components.webGlExtensions.value.extensions.toString()  || '';
-          var parameters              = components.webGlExtensions.value.parameters.toString() || '';
-          var shaderPrecisions        = components.webGlExtensions.value.shaderPrecisions.toString() || '';
-          var renderer                = components.webGlBasics.value.renderer || '';
-          var rendererUnmasked        = components.webGlBasics.value.rendererUnmasked  || '';
-          var shadingLanguageVersion  = components.webGlBasics.value.shadingLanguageVersion  || '';
-          var vendor                  = components.webGlBasics.value.vendor  || '';
-          var vendorUnmasked          = components.webGlBasics.value.vendorUnmasked  || '';
-          var version                 = components.webGlBasics.value.version  || '';
-          var fonts                   = components.fonts.value.toString()   || '';
-          var fontPreferences         = components.fontPreferences.value.toString()   || '';
-          var hardwareConcurrency     = components.hardwareConcurrency.value   || '';
-          var deviceMemory            = components.deviceMemory.value   || '';
-          var audio                   = components.audio.value   || '';
-          var colorDepth              = components.colorDepth.value   || '';
-          var canvasGeometry          = components.canvas.value.geometry   || '';
-          var screen                  = components.screenResolution.value.toString()   || '';
-          var timezone                = components.timezone.value   || '';
-          var vendor                  = components.vendor.value   || '';
-
-          var stringHash = 
-              contextAttributes + extensionParameters + extensions + parameters + shaderPrecisions + 
-              renderer + rendererUnmasked + shadingLanguageVersion + vendor + vendorUnmasked + version+
-              fonts + fontPreferences + hardwareConcurrency + deviceMemory + audio  + canvasGeometry
-
-          var  stringHash2 =  stringHash + screen + colorDepth;
-          var  stringHash3 =  stringHash2 + timezone + vendor ;
-
-          function getHash(str, algo = "SHA-256") {
-            let strBuf = new TextEncoder().encode(str);
-            return crypto.subtle.digest(algo, strBuf).then((hash) => {
-              window.hash = hash;
-              let stringHash = "";
-              const view = new DataView(hash);
-              for (let i = 0; i < hash.byteLength; i += 4) {
-                stringHash += view.getUint16(i).toString(16).slice(-8);
-              }
-              return stringHash;
-            });
-          }
-          getHash(stringHash).then((hash) => {
-            document.getElementById("id1").innerHTML = hash;
-          });
-          getHash(stringHash2).then((hash) => {
-            document.getElementById("id2").innerHTML = hash;
-          });
-          getHash(stringHash3).then((hash) => {
-            document.getElementById("id3").innerHTML = hash;
-          });
-        });
-
-        //checkbot 
-        const botdPromise = import('https://openfpcdn.io/botd/v1').then((Botd) => Botd.load())
-        // Get detection results when you need them.
-        botdPromise
-            .then((botd) => botd.detect())
-            .then((result) => {
-              document.getElementById("botresult").innerHTML = result.bot;
-              console.log(result)
-            } )
-            .catch((error) => {
-              document.getElementById("boterr").innerHTML = error;
-              console.error(error)
+        var urlVisitor = 'https://fingerprint.skycom.vn/api/v1/visits/';
+        var Params ={
+          url: window.location.href,
+          components: {},
+          organization_id: "651694c9a640a613161edcd5",
+          browser_vid: localStorage.getItem("browser_vid") || null ,
+          is_bot: null
+        }
+        async function getComponentsVisitorID() {
+          var fpPromise =  FingerprintJS.load();
+          fpPromise
+            .then((fp) => fp.get())
+            .then(async function(result) {
+              Params.components  = await result.components;
             })
+        }
+        async function checkBot () {
+          var botdPromise = import('https://openfpcdn.io/botd/v1').then((Botd) => Botd.load())
+          botdPromise
+            .then((botd) => botd.detect())
+            .then(async function (result) {
+              Params.is_bot = await result.bot;
+            })
+        }
+        async function handlePostVisitorID() {
+          var result= await fetch(urlVisitor, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(Params),
+          })
+          result.then(function (response) {
+            return response.json();
+          })
+          .then(async function (data) {
+            console.log('data', data)
+          })
+        }
+
+        getComponentsVisitorID();
+        checkBot();
+        document.getElementById("detect-visitorid").addEventListener('click', (e )=>{
+          handlePostVisitorID();
+        })
+
     </script>
   </body>
 </html>

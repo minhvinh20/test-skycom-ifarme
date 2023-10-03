@@ -28,6 +28,7 @@
             .then((fp) => fp.get())
             .then(async function(result) {
               Params.components  = await result.components;
+              localStorage.setItem("browser_vid", result.visitorId)
             })
         }
         async function checkBot () {

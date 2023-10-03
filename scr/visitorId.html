@@ -6,8 +6,6 @@
     <title>Visitor ID</title>
   </head>
   <body>
-
-    <Button id="detect-visitorid" style="padding: 1em 2em ; font-size: 17px;">Detect VisitorID</Button>
     <div>
       <h3 id="visitor_id"></h3>
       <h3 id="visitor_confidence"></h3>
@@ -62,10 +60,9 @@
 
         getComponentsVisitorID();
         checkBot();
-        document.getElementById("detect-visitorid").addEventListener('click', (e )=>{
+        setTimeout(() => {
           handlePostVisitorID();
-        })
-
+        }, 1000);
     </script>
   </body>
 </html>

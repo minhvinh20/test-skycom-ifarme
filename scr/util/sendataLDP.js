@@ -88,4 +88,4 @@ function sendMessage (frame){
 appendIframe();
 checkDeviceEmotion();
 checkScroll();
-
+listenFirame();

@@ -1,3 +1,5 @@
+import { DOMAINS } from "../config/domains";
+
 const bareURL ="https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
 const urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";
 const urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach";
@@ -532,7 +534,7 @@ function handleSubmit() {
 function handleEventMessage(event){
   var origin = event.origin || event.originalEvent.origin; 
 
-  if (origin !== 'https://hoaianbeauty.com')
+  if (!DOMAINS.includes(origin))
       return;
   if (typeof event.data == 'object' && event.data.call=='skylink_event') {
       // Do something with event.data.value;

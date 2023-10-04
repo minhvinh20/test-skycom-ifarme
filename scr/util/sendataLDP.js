@@ -1,8 +1,9 @@
 //config
+var isScroll = false;
 var diff = 0;
-var Is_device_motion_change = "test";
+var Is_device_motion_change = null;
 var Count_device_motion = 0;
-let device_motion_compare = 0;
+var device_motion_compare = 0;
 
 function appendIframe () {
     const wappers = document.querySelectorAll(".skycom-wrapper");
@@ -18,7 +19,7 @@ function appendIframe () {
         wrapper.insertBefore( iframe, wrapper.children[0] );
     })
 }
-appendIframe();
+
 
 // device motion
 function checkDeviceEmotion() {
@@ -30,11 +31,10 @@ function checkDeviceEmotion() {
         }); 
             
         setInterval(()=>{
-        if (diff != device_motion_compare) {
-            Count_device_motion++;
-            device_motion_compare = diff;
-        }
-            document.getElementById("demo").innerHTML = Is_device_motion_change;
+            if (diff != device_motion_compare) {
+                Count_device_motion++;
+                device_motion_compare = diff;
+            }
         },1000);
     }
 }
@@ -46,15 +46,25 @@ function handleDeviceMotionStatus() {
         Is_device_motion_change = false
     }
 }
-checkDeviceEmotion();
 
+
+//check user scroll 
+function checkScroll(){
+    window.addEventListener("scroll", (event) => {
+        isScroll = true;
+    });
+}
+
+
+//gui data vao iframe
 function sendMessage (){
     const frameEles = document.querySelectorAll('.skycom-iframe');
     frameEles.forEach(function(frame) {
         frame.addEventListener("load", function(){
             const message = JSON.stringify({
-                message: 'Hello from window',
+                message: 'send data',
                 src: window.location.href,
+                isScroll : isScroll,
                 Is_device_motion_change: Is_device_motion_change,
                 Count_device_motion: Count_device_motion
             });
@@ -65,4 +75,8 @@ function sendMessage (){
         })
     })
 }
+
+appendIframe();
+checkDeviceEmotion();
+checkScroll();
 sendMessage();

@@ -4,6 +4,7 @@ var diff = 0;
 var Is_device_motion_change = null;
 var Count_device_motion = 0;
 var device_motion_compare = 0;
+let frames = []; 
 
 function appendIframe () {
     const wappers = document.querySelectorAll(".skycom-wrapper");
@@ -51,35 +52,40 @@ function checkScroll(){
     window.addEventListener("scroll", function(event) {
         if (Is_Scroll) {
             return;    
-        }
+        } 
         Is_Scroll = true;
-        sendMessage();
-        console.log('event', event)
+        frames.forEach((frame) => {
+            sendMessage(frame)
+        })
     });
 }
 
 
 //gui data vao iframe
-function sendMessage (){
+function listenFirame() {
     const frameEles = document.querySelectorAll('.skycom-iframe');
     frameEles.forEach(function(frame) {
+        frames.push(frame);
         frame.addEventListener("load", function(){
-            const message = JSON.stringify({
-                message: 'send data',
-                src: window.location.href,
-                Is_Scroll : Is_Scroll,
-                Is_device_motion_change: Is_device_motion_change,
-                Count_device_motion: Count_device_motion
-            });
-            frame.contentWindow.postMessage({
-                call: "skylink_event",
-                value: message
-            }, 'https://testform.skycom.vn/'); 
+            sendMessage(frame);
         })
     })
+}
+function sendMessage (frame){
+    const message = JSON.stringify({
+        message: 'send data',
+        src: window.location.href,
+        Is_Scroll : Is_Scroll,
+        Is_device_motion_change: Is_device_motion_change,
+        Count_device_motion: Count_device_motion
+    });
+    frame.contentWindow.postMessage({
+        call: "skylink_event",
+        value: message
+    }, 'https://testform.skycom.vn/'); 
 }
 
 appendIframe();
 checkDeviceEmotion();
 checkScroll();
-sendMessage();
+

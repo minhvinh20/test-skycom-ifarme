@@ -49,13 +49,16 @@ function handleDeviceMotionStatus() {
 
 //check user scroll 
 
-function debounce(method, delay) {
-    clearTimeout(method._tId);
-    method._tId= setTimeout(function(){
-        method();
-    }, delay);
+function debounce (fn, delay) {
+    return args => {
+        clearTimeout(fn.id)
+        fn.id = setTimeout(() => {
+            fn.call(this, args)
+        }, delay)
+    }
 }
 function checkScroll(){
+    console.log('scroll')
     if (Is_Scroll) {
         return;    
     } 
@@ -63,9 +66,8 @@ function checkScroll(){
     // frames.forEach((frame) => {
     //     sendMessage(frame)
     // })
-    console.log('scroll', scroll)
 }
-window.addEventListener("scroll",debounce(checkScroll,1000));
+window.addEventListener("scroll",debounce(checkScroll, 1000));
 
 //gui data vao iframe
 function listenFirame() {

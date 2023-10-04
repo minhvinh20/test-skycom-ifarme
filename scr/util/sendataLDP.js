@@ -66,7 +66,6 @@ function checkScroll(){
     frames.forEach((frame) => {
         sendMessage(frame)
     })
-    console.log('Count_scroll', Count_scroll)
 }
 window.addEventListener("scroll",debounce(checkScroll, 500));
 
@@ -85,6 +84,7 @@ function sendMessage (frame){
         message: 'send data',
         src: window.location.href,
         Is_Scroll : Is_Scroll,
+        Count_scroll: Count_scroll,
         Is_device_motion_change: Is_device_motion_change,
         Count_device_motion: Count_device_motion
     });

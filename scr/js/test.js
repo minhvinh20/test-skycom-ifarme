@@ -50,7 +50,8 @@ let
   Touch_pixel = [],
   Is_device_motion_change = null,
   Count_device_motion = 0,
-  Is_Scroll = null;
+  Is_Scroll = null,
+  Count_scroll;
 
 // ===================================================================
 
@@ -411,6 +412,7 @@ async function handlePostData({
   Fe_check,
   Fe_note,
   Is_Scroll,
+  Count_scroll,
   visitorId})
   { 
     const params = {
@@ -439,6 +441,7 @@ async function handlePostData({
       Fe_check,
       Fe_note,
       Is_Scroll,
+      Count_scroll,
       visitorId
     };
     const response = await fetch(bareURL, {
@@ -512,45 +515,39 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active");
      
-      parentUrl = iframeData.src;
-      Is_Scroll = iframeData.Is_Scroll;
-      Is_device_motion_change = iframeData.Is_device_motion_change;
-      Count_device_motion = iframeData.Count_device_motion;
-
       if (!Is_Scroll) {
         Fe_check = true;
         Fe_note = 'No scroll';
       }
 
-      alert('iframeData '+  iframeData.Is_device_motion_change);
-      alert('iframeData '+  iframeData.Is_Scroll);
-      // handlePostData({
-      //   Ten1,
-      //   Ten2,
-      //   name,
-      //   phone,
-      //   Count_na_keyboard,
-      //   Action_na_time,
-      //   Is_open_na_keyboard,
-      //   Count_na_delete_keyboard,
-      //   Count_po_keyboard,
-      //   Action_po_time,
-      //   Action_po_to_submit,
-      //   Is_open_po_keyboard,
-      //   Count_po_delete_keyboard, 
-      //   Action_time,
-      //   Action_form_time,
-      //   Sceensize,
-      //   Touch_pixel,
-      //   Is_device_motion_change,
-      //   Count_3rd_id,
-      //   Change_3rd_id,
-      //   Skl_vistorID,
-      //   Fe_check,
-      //   Fe_note,
-      //   Is_Scroll,
-      //   visitorId
-      // });
+      handlePostData({
+        Ten1,
+        Ten2,
+        name,
+        phone,
+        Count_na_keyboard,
+        Action_na_time,
+        Is_open_na_keyboard,
+        Count_na_delete_keyboard,
+        Count_po_keyboard,
+        Action_po_time,
+        Action_po_to_submit,
+        Is_open_po_keyboard,
+        Count_po_delete_keyboard, 
+        Action_time,
+        Action_form_time,
+        Sceensize,
+        Touch_pixel,
+        Is_device_motion_change,
+        Count_3rd_id,
+        Change_3rd_id,
+        Skl_vistorID,
+        Fe_check,
+        Fe_note,
+        Is_Scroll,
+        Count_scroll,
+        visitorId
+      });
     }
   
 }
@@ -567,6 +564,10 @@ function handleEventMessage(event){
       const data = JSON.parse(event.data.value);
       iframeData = data;
       parentUrl = data.src;
+      Is_Scroll     = data.Is_Scroll;
+      Count_scroll  = data.Count_scroll
+      Is_device_motion_change = data.Is_device_motion_change;
+      Count_device_motion = data.Count_device_motion;
       detectAdsId();
       listenPhoneValidate();
   }
@@ -582,7 +583,7 @@ buttonSubmit.addEventListener("click", function (e) {
   }
   if (fieldName.value.trim() == '' && fieldPhone.value.trim() == '') {
     Fe_check = true;
-    Fe_Fe_note = 'nhấn submit quá nhiều lần (Action_time < 10s)';    
+    Fe_note = 'nhấn submit quá nhiều lần (Action_time < 10s)';    
   }
 })
 

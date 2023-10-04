@@ -1,4 +1,4 @@
-import { DOMAINS } from "../config/domains";
+import DOMAINS from "../config/domains.js"
 
 const bareURL ="https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
 const urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";

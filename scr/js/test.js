@@ -43,7 +43,7 @@ let
   Count_3rd_id = 1,
   Change_3rd_id = false,
 
-  Fe_check = 0,
+  Fe_check = false,
   Fe_note = '',
   
   Sceensize = '',
@@ -515,7 +515,7 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active");
      
-      if (!Is_Scroll) {
+      if (!Is_Scroll && !Fe_check) {
         Fe_check = true;
         Fe_note = 'No scroll';
       }

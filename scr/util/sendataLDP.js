@@ -59,7 +59,7 @@ function debounce (fn, delay) {
     }
 }
 function checkScroll(){
-    Count_scroll++
+    Count_scroll++;
     if (!Is_Scroll &&  Count_scroll > 2) { 
         Is_Scroll = true;
     } 

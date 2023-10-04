@@ -522,7 +522,8 @@ function handleSubmit() {
         Fe_note = 'No scroll';
       }
 
-      alert('iframeData '+  iframeData)
+      alert('iframeData '+  iframeData.Is_device_motion_change);
+      alert('iframeData '+  iframeData.Is_Scroll);
       // handlePostData({
       //   Ten1,
       //   Ten2,

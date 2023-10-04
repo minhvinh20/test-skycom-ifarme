@@ -139,17 +139,17 @@ function checkTouchSupport (){
   };
 checkTouchSupport();
 
-// ===============================CREATE VISITOR ID================================
+// // ===============================CREATE VISITOR ID================================
 
-function createVisitorIdByFinger () {
-    const fpPromise = import(URLFingerID).then((FingerprintJS) => FingerprintJS.load());
-    fpPromise
-      .then(async (fp) => await fp.get())
-      .then((result) => {
-          visitorId = result.visitorId;
-      });
-};
-createVisitorIdByFinger();
+// function createVisitorIdByFinger () {
+//     const fpPromise = import(URLFingerID).then((FingerprintJS) => FingerprintJS.load());
+//     fpPromise
+//       .then(async (fp) => await fp.get())
+//       .then((result) => {
+//           visitorId = result.visitorId;
+//       });
+// };
+// createVisitorIdByFinger();
 
 // ===============================CREATE SKL VISITORID================================
 
@@ -535,7 +535,7 @@ function handleEventMessage(event){
 
   if (origin !== 'https://hoaianbeauty.com')
       return;
-  if (typeof event.data == 'object' && event.data.call=='uae ') {
+  if (typeof event.data == 'object' && event.data.call=='skylink_event') {
       // Do something with event.data.value;
       const data = JSON.parse(event.data.value);
       iframeData = data;

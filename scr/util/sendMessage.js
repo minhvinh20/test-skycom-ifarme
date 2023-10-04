@@ -3,6 +3,7 @@ var diff = 0;
 var Is_device_motion_change = "test";
 var Count_device_motion = 0;
 let device_motion_compare = 0;
+
 function checkDeviceEmotion() {
     // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
     if (window.DeviceMotionEvent) {

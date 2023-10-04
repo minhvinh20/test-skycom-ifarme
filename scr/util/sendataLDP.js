@@ -7,7 +7,6 @@ var device_motion_compare = 0;
 
 function appendIframe () {
     const wappers = document.querySelectorAll(".skycom-wrapper");
-    console.log('wappers', wappers)
     wappers.forEach(function(wrapper) {
         if(!wrapper) {
             return;   
@@ -50,8 +49,9 @@ function handleDeviceMotionStatus() {
 
 //check user scroll 
 function checkScroll(){
-    window.addEventListener("scroll", (event) => {
+    window.addEventListener("scroll", function(event) {
         isScroll = true;
+        console.log('isScroll', isScroll)
     });
 }
 

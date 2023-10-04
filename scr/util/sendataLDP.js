@@ -62,7 +62,6 @@ function sendMessage (){
                 call: "skylink_event",
                 value: message
             }, 'https://testform.skycom.vn/'); 
-            console.log(frame.contentWindow.document);
         })
     })
 }

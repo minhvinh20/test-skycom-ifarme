@@ -1,6 +1,6 @@
 import DOMAINS from "../config/domains.js"
 
-const bareURL ="https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
+const bareURL ="https://devsyncdata.skycom.vn/api/spam_check/form-spam-check";
 const urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";
 const urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach";
 const urlSyncGoogleSheetSpam ="https://script.google.com/macros/s/AKfycbzGbJQ83uGDjEGC5x8yqbIjKr0ATrzk6gNYcIxAI958cHpSfc-r6KHnylZNK7fxCpFgaQ/exec";

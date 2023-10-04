@@ -20,6 +20,7 @@ function appendIframe () {
     })
 }
 
+
 // device motion
 function checkDeviceEmotion() {
     // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không

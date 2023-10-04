@@ -46,12 +46,11 @@ function handleDeviceMotionStatus() {
     }
 }
 
-
 //check user scroll 
 function checkScroll(){
     window.addEventListener("scroll", function(event) {
         isScroll = true;
-        console.log('isScroll', isScroll)
+        console.log('event', event)
     });
 }
 

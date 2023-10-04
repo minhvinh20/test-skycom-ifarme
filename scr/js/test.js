@@ -452,6 +452,7 @@ async function handlePostData({
       return response.json();
     })
     .then(async function(data){
+      console.log('data', data)
       await syncToSheetDataSubmit({
         name: Ten1,
         phone: Ten2,
@@ -521,33 +522,34 @@ function handleSubmit() {
         Fe_note = 'No scroll';
       }
 
-      handlePostData({
-        Ten1,
-        Ten2,
-        name,
-        phone,
-        Count_na_keyboard,
-        Action_na_time,
-        Is_open_na_keyboard,
-        Count_na_delete_keyboard,
-        Count_po_keyboard,
-        Action_po_time,
-        Action_po_to_submit,
-        Is_open_po_keyboard,
-        Count_po_delete_keyboard, 
-        Action_time,
-        Action_form_time,
-        Sceensize,
-        Touch_pixel,
-        Is_device_motion_change,
-        Count_3rd_id,
-        Change_3rd_id,
-        Skl_vistorID,
-        Fe_check,
-        Fe_note,
-        Is_Scroll,
-        visitorId
-      });
+      console.log('iframeData', iframeData)
+      // handlePostData({
+      //   Ten1,
+      //   Ten2,
+      //   name,
+      //   phone,
+      //   Count_na_keyboard,
+      //   Action_na_time,
+      //   Is_open_na_keyboard,
+      //   Count_na_delete_keyboard,
+      //   Count_po_keyboard,
+      //   Action_po_time,
+      //   Action_po_to_submit,
+      //   Is_open_po_keyboard,
+      //   Count_po_delete_keyboard, 
+      //   Action_time,
+      //   Action_form_time,
+      //   Sceensize,
+      //   Touch_pixel,
+      //   Is_device_motion_change,
+      //   Count_3rd_id,
+      //   Change_3rd_id,
+      //   Skl_vistorID,
+      //   Fe_check,
+      //   Fe_note,
+      //   Is_Scroll,
+      //   visitorId
+      // });
     }
   
 }

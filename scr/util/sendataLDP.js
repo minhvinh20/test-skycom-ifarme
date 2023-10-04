@@ -28,6 +28,9 @@ function checkDeviceEmotion() {
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
             handleDeviceMotionStatus();
+            frames.forEach((frame) => {
+                sendMessage(frame)
+            })
         }); 
             
         setInterval(()=>{

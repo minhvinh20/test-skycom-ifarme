@@ -5,7 +5,7 @@ var Count_device_motion = 0;
 let device_motion_compare = 0;
 
 function appendIframe () {
-    const wappers = document.querySelector(".skycom-wrapper");
+    const wappers = document.querySelectorAll(".skycom-wrapper");
     console.log('wappers', wappers)
     wappers.forEach(function(wrapper) {
         if(!wrapper) {

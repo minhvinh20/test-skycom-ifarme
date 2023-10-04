@@ -49,7 +49,11 @@ function handleDeviceMotionStatus() {
 //check user scroll 
 function checkScroll(){
     window.addEventListener("scroll", function(event) {
+        if (Is_Scroll) {
+            return;    
+        }
         Is_Scroll = true;
+        sendMessage();
         console.log('event', event)
     });
 }
@@ -78,4 +82,4 @@ function sendMessage (){
 appendIframe();
 checkDeviceEmotion();
 checkScroll();
-sendMessage();
+

@@ -1,5 +1,6 @@
 //config
 var Is_Scroll = false;
+var Count_scroll = 0;
 var diff = 0;
 var Is_device_motion_change = null;
 var Count_device_motion = 0;
@@ -58,16 +59,16 @@ function debounce (fn, delay) {
     }
 }
 function checkScroll(){
-    console.log('scroll')
-    if (Is_Scroll) {
-        return;    
+    Count_scroll++
+    if (!Is_Scroll &&  Count_scroll > 2) { 
+        Is_Scroll = true;
     } 
-    Is_Scroll = true;
-    // frames.forEach((frame) => {
-    //     sendMessage(frame)
-    // })
+    frames.forEach((frame) => {
+        sendMessage(frame)
+    })
+    console.log('Count_scroll', Count_scroll)
 }
-window.addEventListener("scroll",debounce(checkScroll, 1000));
+window.addEventListener("scroll",debounce(checkScroll, 500));
 
 //gui data vao iframe
 function listenFirame() {

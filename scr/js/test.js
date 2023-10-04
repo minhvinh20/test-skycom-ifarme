@@ -44,7 +44,7 @@ let
   Change_3rd_id = false,
 
   Fe_check = 0,
-  note = '',
+  Fe_note = '',
   
   Sceensize = '',
   Touch_pixel = [],
@@ -509,16 +509,15 @@ function handleSubmit() {
       Is_device_motion_change = iframeData.Is_device_motion_change;
       Count_device_motion = iframeData.Count_device_motion;
 
-      if (Is_Scroll) {
+      if (!Is_Scroll) {
         Fe_check = true;
-        note = 'No scroll';
-        
+        Fe_note = 'No scroll';
       }
       console.log('iframeData', iframeData);
       console.log('Is_Scroll', Is_Scroll)
       console.log('Is_device_motion_change', Is_device_motion_change)
       console.log('Fe_check', Fe_check)
-      console.log('note', note)
+      console.log('Fe_note', Fe_note)
       // handlePostData({
       //   Ten1,
       //   Ten2,
@@ -574,7 +573,7 @@ buttonSubmit.addEventListener("click", function (e) {
   }
   if (fieldName.value.trim() == '' && fieldPhone.value.trim() == '') {
     Fe_check = true;
-    note = 'nhấn submit quá nhiều lần (Action_time < 10s)';    
+    Fe_Fe_note = 'nhấn submit quá nhiều lần (Action_time < 10s)';    
   }
 })
 

@@ -1,6 +1,5 @@
 //config
 var Is_Scroll = false;
-var Count_destroy_scroll = 0;
 var diff = 0;
 var Is_device_motion_change = null;
 var Count_device_motion = 0;
@@ -29,9 +28,6 @@ function checkDeviceEmotion() {
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
             handleDeviceMotionStatus();
-            // frames.forEach((frame) => {
-            //     sendMessage(frame)
-            // })
         }); 
             
         setInterval(()=>{
@@ -52,30 +48,18 @@ function handleDeviceMotionStatus() {
 }
 
 //check user scroll 
-
-function debounce(func, wait, immediate) {
-    return function() {
-      var context = this;
-      var later = function() {
-        var args = arguments;
-        if (!immediate) {
-          func.apply(context, args);
-        }
-      }
-    }
-  }
-function checkScroll() {
-    if (Is_Scroll) {
-        return;    
-    } 
-    Is_Scroll = true;
-    frames.forEach((frame) => {
-        sendMessage(frame)
-    })
-    console.log('dang scroll');
+function checkScroll(){
+    window.addEventListener("scroll", function(event) {
+        if (Is_Scroll) {
+            return;    
+        } 
+        Is_Scroll = true;
+        frames.forEach((frame) => {
+            sendMessage(frame)
+        })
+    });
 }
 
-window.addEventListener("scroll", debounce(checkScroll,1000,true));
 
 //gui data vao iframe
 function listenFirame() {
@@ -105,8 +89,4 @@ appendIframe();
 listenFirame();
 checkDeviceEmotion();
 checkScroll();
-
-
-
-
 

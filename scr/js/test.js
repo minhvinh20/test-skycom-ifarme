@@ -43,6 +43,9 @@ let
   Count_3rd_id = 1,
   Change_3rd_id = false,
 
+  Fe_check = 0,
+  note = '',
+  
   Sceensize = '',
   Touch_pixel = [],
   Is_device_motion_change = null;
@@ -478,7 +481,6 @@ function validateForm() {
 }
 
 function handleSubmit() {
-
     const invalid = validateForm();
     if (invalid) {
       const {
@@ -499,8 +501,9 @@ function handleSubmit() {
       buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active");
+     
+      console.log('iframeData', iframeData);
 
-      console.log('iframeData', iframeData)
       // handlePostData({
       //   Ten1,
       //   Ten2,
@@ -548,6 +551,18 @@ function handleEventMessage(event){
 window.addEventListener('message', handleEventMessage);
 
 // ===============================Xử lý khi nhấn submit form================================ 
+
+buttonSubmit.addEventListener("click", function (e) {
+  const action_time = Math.abs(new Date() - timeFirstRenderPage) / 1000;
+  if (action_time  > 10) {
+    return;
+  }
+  if (fieldName.value.trim() == '' && fieldPhone.value.trim() == '') {
+    Fe_check = true;
+    note = 'nhấn submit quá nhiều lần (Action_time < 10s)';    
+  }
+})
+
 form.addEventListener("submit", function(e){
   e.preventDefault();
   handleSubmit();

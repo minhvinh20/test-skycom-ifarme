@@ -1,5 +1,5 @@
 //config
-var isScroll = false;
+var Is_Scroll = false;
 var diff = 0;
 var Is_device_motion_change = null;
 var Count_device_motion = 0;
@@ -49,7 +49,7 @@ function handleDeviceMotionStatus() {
 //check user scroll 
 function checkScroll(){
     window.addEventListener("scroll", function(event) {
-        isScroll = true;
+        Is_Scroll = true;
         console.log('event', event)
     });
 }

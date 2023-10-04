@@ -522,7 +522,7 @@ function handleSubmit() {
         Fe_note = 'No scroll';
       }
 
-      console.log('iframeData', iframeData)
+      alert('iframeData '+  iframeData)
       // handlePostData({
       //   Ten1,
       //   Ten2,

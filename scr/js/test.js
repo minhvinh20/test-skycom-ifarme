@@ -530,7 +530,6 @@ function handleSubmit() {
 // ===============================lắng nghe sự kiện từ landipage truyền vào iframe ================================ 
 
 function handleEventMessage(event){
-
   var origin = event.origin || event.originalEvent.origin; 
 
   if (origin !== 'https://hoaianbeauty.com')

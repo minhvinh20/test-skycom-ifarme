@@ -63,7 +63,7 @@ function sendMessage (){
             const message = JSON.stringify({
                 message: 'send data',
                 src: window.location.href,
-                isScroll : isScroll,
+                Is_Scroll : Is_Scroll,
                 Is_device_motion_change: Is_device_motion_change,
                 Count_device_motion: Count_device_motion
             });

@@ -20,7 +20,6 @@ function appendIframe () {
     })
 }
 
-
 // device motion
 function checkDeviceEmotion() {
     // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
@@ -28,6 +27,9 @@ function checkDeviceEmotion() {
         window.addEventListener('devicemotion', function(event) {
             diff = event.acceleration.x || event.accelerationIncludingGravity.x;
             handleDeviceMotionStatus();
+            frames.forEach((frame) => {
+                sendMessage(frame)
+            })
         }); 
             
         setInterval(()=>{
@@ -86,6 +88,7 @@ function sendMessage (frame){
 }
 
 appendIframe();
+listenFirame();
 checkDeviceEmotion();
 checkScroll();
-listenFirame();
+

@@ -6,6 +6,7 @@ let device_motion_compare = 0;
 
 function appendIframe () {
     const wappers = document.querySelector(".skycom-wrapper");
+    console.log('wappers', wappers)
     wappers.forEach(function(wrapper) {
         if(!wrapper) {
             return;   
@@ -17,7 +18,7 @@ function appendIframe () {
         wrapper.insertBefore( iframe, wrapper.children[0] );
     })
 }
-
+appendIframe();
 
 // device motion
 function checkDeviceEmotion() {

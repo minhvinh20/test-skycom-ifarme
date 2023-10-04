@@ -48,7 +48,9 @@ let
   
   Sceensize = '',
   Touch_pixel = [],
-  Is_device_motion_change = null;
+  Is_device_motion_change = null,
+  Count_device_motion = 0,
+  Is_Scroll = null;
 
 // ===================================================================
 
@@ -490,6 +492,7 @@ function handleSubmit() {
         Action_time,
         Action_form_time
       } = inputTiming();
+
       const Ten1 = fieldName.value;
       const Ten2 = fieldPhone.value;
       const name = document.getElementById("ten2").value;
@@ -502,8 +505,20 @@ function handleSubmit() {
       buttonSubmit.parentElement.classList.add("disable");
       overlay.classList.add("active");
      
-      console.log('iframeData', iframeData);
+      Is_Scroll = iframeData.Is_Scroll;
+      Is_device_motion_change = iframeData.Is_device_motion_change;
+      Count_device_motion = iframeData.Count_device_motion;
 
+      if (Is_Scroll) {
+        Fe_check = true;
+        note = 'No scroll';
+        
+      }
+      console.log('iframeData', iframeData);
+      console.log('Is_Scroll', Is_Scroll)
+      console.log('Is_device_motion_change', Is_device_motion_change)
+      console.log('Fe_check', Fe_check)
+      console.log('note', note)
       // handlePostData({
       //   Ten1,
       //   Ten2,

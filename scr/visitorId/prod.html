@@ -35,11 +35,6 @@
           })
           .then((value) => {
             handlePostVisitorID();
-          })
-          .then((value) => {
-            if (window.indexedDB || Modernizr.indexeddb ) {
-              setIndexDB();
-            }
           });
       }
       function checkBot() {

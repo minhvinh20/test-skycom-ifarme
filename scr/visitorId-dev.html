@@ -14,47 +14,15 @@
     </div>
     <script src="util/fingerprint.min.js"></script>
     <script>
-      var urlVisitor = "https://fingerprint.skycom.vn/api/v1/visits/";
-      var db = null;
+      var urlVisitor = "https://dev.fingerprint.skycom.vn/api/v1/visits/";
       var Params = {
         url: window.location.href,
         components: {},
-        organization_id: "651bc916e99ffcef40ae6436",
+        organization_id: "651e3ea7529673278d5ec848",
         browser_vid: ` ${localStorage.getItem("browser_vid")}` || null,
         is_bot: false,
       };
 
-
-      function setIndexDB() {
-        var openRequest = window.indexedDB.open('myDatabase', 1);
-       
-        openRequest.onupgradeneeded = function (e) {
-            db = e.target.result;
-            const storeOS = db.createObjectStore('myDatabaseStore',  {keyPath: "name"});
-                        
-        };
-        openRequest.onsuccess = function (e) {
-            db = e.target.result;
-            const transaction = db.transaction("myDatabaseStore", "readwrite");
-            const store = transaction.objectStore('myDatabaseStore');
-            addItem(store);
-            getItem(store)
-        };
-        openRequest.onerror = function (e) {
-            console.log('onerror! doesnt work');
-        };
-       
-        function addItem(store) {
-            const item = {
-              name: 'browser_vid',
-              value: Params.browser_vid
-            };
-            store.add(item);
-        }
-        function getItem(store) {
-          var gid = store.get("browser_vid");
-        }
-      }
       function getComponentsVisitorID() {
         var fpPromise = FingerprintJS.load();
         fpPromise
@@ -67,11 +35,6 @@
           })
           .then((value) => {
             handlePostVisitorID();
-          })
-          .then((value) => {
-            if (window.indexedDB || Modernizr.indexeddb ) {
-              setIndexDB();
-            }
           });
       }
       function checkBot() {
@@ -108,12 +71,7 @@
             console.log("Error");
           });
       }
-
-      window.addEventListener('load', e => {
-        getComponentsVisitorID();
-        
-      })
-      
+      getComponentsVisitorID();
     </script>
   </body>
 </html>

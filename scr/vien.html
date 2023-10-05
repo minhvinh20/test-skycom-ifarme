@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form class="form1">
+      <input type="text" name="name" class="what_is" style="display: none" />
+      <input type="text" class="what" />
+      <input type="text" name="name" class="what_is_your" style="display: none" />
+      <input type="text" name="name" class="what_is_your_phone" style="display: none" />
+      <input type="text" name="name" class="what_is_your_phone_number" style="display: none" />
+      <input type="tel" name="phone" class="how_many" style="display: none" />
+      <input type="tel" class="how" />
+      <input type="tel" name="phone" class="how_many_length" style="display: none" />
+      <input type="tel" name="phone" class="how_many_length_of" style="display: none" />
+      <input type="tel" name="phone" class="how_many_length_of_phone" style="display: none" />
+      <input
+        type="tel"
+        name="phone"
+        class="how_many_length_of_phone_number"
+        style="display: none"
+      />
+      <button>submit</button>
+    </form>
+    <p class="result-phone"></p>
+    <p class="result-name"></p>
+    <p class="result-general"></p>
+
+    <script>
+      let name = { nameEle: null, countChangeName: 0, nameValue: "", countDeleteName: 0 };
+      let phone = { phoneEle: null, countChangePhone: 0, phoneValue: "", countDeletePhone: 0 };
+      let general = {
+        formEle: null,
+        // tính thời gian load page => lúc submit
+        loadPageTime: new Date(),
+        loadPageToSubmitTiming: 0, // second
+        // tính thời gian lần đầu forcus form => lúc submit
+        firstFocusPageTime: null, // second
+        firstFocusFormToSubmitTiming: 0, // second
+        // thời gian submit form
+        submitTime: null,
+        submitCount: 0,
+
+        //device motion
+        countDeviceMotion: 0,
+        deviceMotionValue: 0,
+        //
+        isScroll: false,
+        // trạng thái khi nhấn submit nhưng chưa nhập form
+        isSubmitButNotChangeInput: false,
+      }; //
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // b1 gắn input
+        mountForm();
+        // b2 chặn paste
+        denyPaste();
+
+        // kiểm tra lần đầu người dùng thao tác với form
+        mountFistFocusPageTiming();
+
+        // đếm số lần đổi ký tự của tên
+        handleChangeName(name);
+        // đếm số lần đổi ký tự của phone
+        handleChangePhone(phone);
+
+        // kiểm tra chuyển động của thiết bị
+        checkDeviceEmotion();
+
+        // kiểm tra scroll của trang
+        handleScrollEvent();
+
+        // submit event
+        general.formEle?.addEventListener("submit", (e) => {
+          general.submitCount += 1;
+          general.submitTime = new Date();
+
+          // tính thời gian load page => submit
+          general.loadPageToSubmitTiming = calcSecondBetweenTwoTimes(
+            general.loadPageTime,
+            general.submitTime
+          );
+          // tính thời gn
+          general.firstFocusFormToSubmitTiming = calcSecondBetweenTwoTimes(
+            general.firstFocusPageTime,
+            general.submitTime
+          );
+
+          general.firstFocusPageTime = formatDate(general.firstFocusPageTime);
+          general.loadPageTime = formatDate(general.loadPageTime);
+          general.submitTime = formatDate(general.submitTime);
+
+          handleCheckSubmitButNotChangeInput();
+
+          console.log("name==>", name);
+          console.log("phone==>", phone);
+          console.log("general==>", general);
+
+          //
+
+          document.querySelector(".result-name").innerHTML = JSON.stringify(name);
+          document.querySelector(".result-phone").innerHTML = JSON.stringify(phone);
+          document.querySelector(".result-general").innerHTML = JSON.stringify(general);
+
+          e.preventDefault();
+        });
+      });
+
+      const mountFistFocusPageTiming = () => {
+        name.nameEle?.addEventListener("focus", function (event) {
+          if (!general.firstFocusPageTime) {
+            general.firstFocusPageTime = new Date();
+          }
+        });
+        phone.phoneEle?.addEventListener("focus", function (event) {
+          if (!general.firstFocusPageTime) {
+            general.firstFocusPageTime = new Date();
+          }
+        });
+      };
+
+      const mountForm = () => {
+        name.nameEle = document.querySelector(".what");
+        phone.phoneEle = document.querySelector(".how");
+        general.formEle = document.querySelector(".form1");
+      };
+
+      const denyPaste = () => {
+        name.nameEle?.addEventListener("paste", function (event) {
+          event.preventDefault();
+          return false;
+        });
+
+        phone.phoneEle?.addEventListener("paste", function (event) {
+          event.preventDefault();
+          return false;
+        });
+      };
+
+      const handleChangeName = (name) => {
+        name.nameEle?.addEventListener("input", function (event) {
+          const newValue = event.target.value;
+
+          const newCountDeleteName = handleCountDeleteValue(
+            name.nameValue,
+            newValue,
+            name.countDeleteName
+          );
+
+          name.countDeleteName = newCountDeleteName;
+
+          name.countChangeName += 1;
+          name.nameValue = newValue;
+          event.preventDefault();
+        });
+      };
+      const handleChangePhone = (phone) => {
+        phone.phoneEle?.addEventListener("input", function (event) {
+          const newValue = event.target.value;
+
+          const newCountDeletePhone = handleCountDeleteValue(
+            phone.phoneValue,
+            newValue,
+            phone.countDeletePhone
+          );
+
+          phone.countDeletePhone = newCountDeletePhone;
+
+          phone.phoneValue = newValue;
+          phone.countChangePhone += 1;
+          event.preventDefault();
+        });
+      };
+
+      const handleCountDeleteValue = (prev, cur, countDelete) => {
+        let newCount = countDelete;
+        if (cur.length < prev.length) {
+          newCount += 1;
+        }
+        return newCount;
+      };
+
+      const calcSecondBetweenTwoTimes = (pastTime, currentTime) => {
+        if (pastTime === null || currentTime === null) {
+          return null;
+        }
+        var timeDiffSeconds = Math.ceil((currentTime.getTime() - pastTime.getTime()) / 1000);
+        return timeDiffSeconds;
+      };
+
+      const formatDate = (date) => {
+        if (!date) {
+          return null;
+        }
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+        var day = date.getDate();
+        var month = date.getMonth() + 1; // Lưu ý: Tháng bắt đầu từ 0 (0 - 11), nên cần cộng 1
+        var year = date.getFullYear();
+
+        var formattedDate =
+          hours + ":" + minutes + ":" + seconds + " - " + day + "/" + month + "/" + year;
+        return formattedDate;
+      };
+
+      const checkDeviceEmotion = () => {
+        // Kiểm tra xem trình duyệt hỗ trợ API DeviceMotion và API DeviceOrientation hay không
+        if (window.DeviceMotionEvent) {
+          let diff = 0;
+          window.addEventListener("devicemotion", function (event) {
+            diff = event.acceleration.x || event.accelerationIncludingGravity.x;
+          });
+
+          // kiểm tra chuyển động mỗi sau 1s
+          setInterval(() => {
+            if (diff !== general.deviceMotionValue) {
+              general.countDeviceMotion++;
+              general.deviceMotionValue = diff;
+            }
+          }, 1000);
+        }
+      };
+
+      const handleScrollEvent = () => {
+        document.addEventListener("scroll", () => {
+          general.isScroll = true;
+        });
+      };
+
+      const handleCheckSubmitButNotChangeInput = () => {
+        if (!phone.phoneValue && !name.nameValue) {
+          general.isSubmitButNotChangeInput = true;
+        }
+      };
+    </script>
+  </body>
+</html>

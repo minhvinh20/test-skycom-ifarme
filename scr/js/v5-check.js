@@ -1,22 +1,20 @@
 import DOMAINS from "../config/domains.js"
 
-const bareURL ="https://devsyncdata.skycom.vn/api/spam_check/form-spam-check";
+const bareURL ="https://backendsyncdata.skycom.vn/api/spam_check/form-spam-check";
 const urlThankReal = "https://hoaianbeauty.com/pages/cam-on-quy-khach";
 const urlThankFake = "https://hoaianbeauty.com/pages/camon-quy-khach";
 const urlSyncGoogleSheetSpam ="https://script.google.com/macros/s/AKfycbzGbJQ83uGDjEGC5x8yqbIjKr0ATrzk6gNYcIxAI958cHpSfc-r6KHnylZNK7fxCpFgaQ/exec";
-const URLFingerID = "https://fpjscdn.net/v3/7aRN8UmVm1n7Qsda0mOm";
+
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
 
-var iframeData = '';
-var parentUrl = window.location.href;
+let parentUrl = window.location.href.indexOf("split=") > -1? window.location.href.split("split=")[1]: window.location.href;
 
 let elInputs = document.querySelectorAll(".input-cache input");
 let form = document.querySelector(".form-submit--skycom form");
 let overlay = document.getElementById("overlay");
 let buttonSubmit = document.getElementById("btn-submit");
-
 
 let 
   encodeName = "",
@@ -36,8 +34,7 @@ let
   Action_time = 0,
   Action_form_time = 0,
 
-  Skl_vistorID = 0,
-  visitorId = 0,
+  Skl_vistorID = null,
   adsClickId = "",
   third_id = 0,
   Count_3rd_id = 1,
@@ -45,13 +42,13 @@ let
 
   Fe_check = false,
   Fe_note = '',
-  
+
   Sceensize = '',
   Touch_pixel = [],
   Is_device_motion_change = null,
   Count_device_motion = 0,
   Is_Scroll = null,
-  Count_scroll;
+  Count_scroll = 0;
 
 // ===================================================================
 
@@ -134,7 +131,7 @@ function disableCopy() {
 }
 disableCopy();
 
-// ===============================CHECK TOUCH EVENT================================ 
+// ===============================CHECK TOUCH EVENT================================
 
 function checkTouchSupport (){
     window.addEventListener("touchstart", function(e) {
@@ -146,18 +143,6 @@ function checkTouchSupport (){
     });
   };
 checkTouchSupport();
-
-// // ===============================CREATE VISITOR ID================================
-
-// function createVisitorIdByFinger () {
-//     const fpPromise = import(URLFingerID).then((FingerprintJS) => FingerprintJS.load());
-//     fpPromise
-//       .then(async (fp) => await fp.get())
-//       .then((result) => {
-//           visitorId = result.visitorId;
-//       });
-// };
-// createVisitorIdByFinger();
 
 // ===============================CREATE SKL VISITORID================================
 
@@ -179,6 +164,7 @@ const createSklVisitorIdByFinger = () => {
     .then(async (fp) => await fp.get({ extendedResult: true }))
     .then((result) => {
       const components = result.components;
+
       const stringHash =
           components.deviceMemory.value +
           components.audio.value +
@@ -243,7 +229,6 @@ function countViewPage () {
     }
   }
 };
-
 countViewPage();
 
 // ===================================================================
@@ -254,7 +239,6 @@ function listenPhoneValidate() {
     }
   });
 }
-
 // ==============================HANDLE INPUT NAME=====================================
 
 function handleCountNameTyping () {
@@ -324,11 +308,11 @@ function setTimer() {
 setTimer();
 
 function inputTiming() {
-  var Action_na_time      = Math.abs(timeNaOut - timeNaIn) / 1000;
-  var Action_po_time      = Math.abs(timePoOut - timePoIn) / 1000;
-  var Action_po_to_submit = Math.abs((+new Date() - +timePoOut) / 1000);
-  var Action_time         = Math.abs(new Date() - timeFirstRenderPage) / 1000;
-  var Action_form_time    = timeNaIn < timePoIn ? Math.abs(new Date() - timeNaIn) / 1000 : Math.abs(new Date() - timePoIn) / 1000;
+  Action_na_time      = Math.abs(timeNaOut - timeNaIn) / 1000;
+  Action_po_time      = Math.abs(timePoOut - timePoIn) / 1000;
+  Action_po_to_submit = Math.abs((+new Date() - +timePoOut) / 1000);
+  Action_time         = Math.abs(new Date() - timeFirstRenderPage) / 1000;
+  Action_form_time    = timeNaIn < timePoIn ? Math.abs(new Date() - timeNaIn) / 1000 : Math.abs(new Date() - timePoIn) / 1000;
 
   return {
     Action_po_time,
@@ -411,9 +395,9 @@ async function handlePostData({
   Skl_vistorID,
   Fe_check,
   Fe_note,
+  Count_device_motion,
   Is_Scroll,
-  Count_scroll,
-  visitorId})
+  Count_scroll})
   { 
     const params = {
       Ten1,
@@ -440,9 +424,9 @@ async function handlePostData({
       Skl_vistorID,
       Fe_check,
       Fe_note,
+      Count_device_motion,
       Is_Scroll,
-      Count_scroll,
-      visitorId
+      Count_scroll
     };
     const response = await fetch(bareURL, {
       method: "POST",
@@ -455,7 +439,6 @@ async function handlePostData({
       return response.json();
     })
     .then(async function(data){
-      console.log('data', data)
       await syncToSheetDataSubmit({
         name: Ten1,
         phone: Ten2,
@@ -486,71 +469,70 @@ function validateForm() {
   const valuePhone = fieldPhone.value;
   let validate = true;
   if (!regexPhone.test(valuePhone)) {
-    document.getElementById("errorMessage").innerText = "Vui lòng nhập đúng định dạng số điện thoại";
+    document.getElementById("errorMessage").innerText = "Vui lòng nhập đúng số điện thoại";
     validate = false;
   }
   return validate;
 }
 
 function handleSubmit() {
-    const invalid = validateForm();
-    if (invalid) {
-      const {
-        Action_na_time,
-        Action_po_time,
-        Action_po_to_submit,
-        Action_time,
-        Action_form_time
-      } = inputTiming();
+  const invalid = validateForm();
+  if (invalid) {
+    const {
+      Action_na_time,
+      Action_po_time,
+      Action_po_to_submit,
+      Action_time,
+      Action_form_time
+    } = inputTiming();
+    const Ten1 = fieldName.value;
+    const Ten2 = fieldPhone.value;
+    const name = document.getElementById("ten2").value;
+    const phone = document.getElementById("sdt2").value;
 
-      const Ten1 = fieldName.value;
-      const Ten2 = fieldPhone.value;
-      const name = document.getElementById("ten2").value;
-      const phone = document.getElementById("sdt2").value;
+    Sceensize = `${window.screen.width} x ${window.screen.height}`;
+    Count_3rd_id = localStorage.getItem("Count_3rd_id");
 
-      Sceensize = `${window.screen.width} x ${window.screen.height}`;
-      Count_3rd_id = localStorage.getItem("Count_3rd_id");
+    buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
+    buttonSubmit.parentElement.classList.add("disable");
+    overlay.classList.add("active");
 
-      buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
-      buttonSubmit.parentElement.classList.add("disable");
-      overlay.classList.add("active");
-     
-      if (!Is_Scroll && !Fe_check) {
-        Fe_check = true;
-        Fe_note = 'No scroll';
-      }
-
-      handlePostData({
-        Ten1,
-        Ten2,
-        name,
-        phone,
-        Count_na_keyboard,
-        Action_na_time,
-        Is_open_na_keyboard,
-        Count_na_delete_keyboard,
-        Count_po_keyboard,
-        Action_po_time,
-        Action_po_to_submit,
-        Is_open_po_keyboard,
-        Count_po_delete_keyboard, 
-        Action_time,
-        Action_form_time,
-        Sceensize,
-        Touch_pixel,
-        Is_device_motion_change,
-        Count_3rd_id,
-        Change_3rd_id,
-        Skl_vistorID,
-        Fe_check,
-        Fe_note,
-        Is_Scroll,
-        Count_scroll,
-        visitorId
-      });
+    if (!Is_Scroll && !Fe_check) {
+      Fe_check = true;
+      Fe_note = 'No scroll';
     }
-  
+
+    handlePostData({
+      Ten1,
+      Ten2,
+      name,
+      phone,
+      Count_na_keyboard,
+      Action_na_time,
+      Is_open_na_keyboard,
+      Count_na_delete_keyboard,
+      Count_po_keyboard,
+      Action_po_time,
+      Action_po_to_submit,
+      Is_open_po_keyboard,
+      Count_po_delete_keyboard, 
+      Action_time,
+      Action_form_time,
+      Sceensize,
+      Touch_pixel,
+      Is_device_motion_change,
+      Count_3rd_id,
+      Change_3rd_id,
+      Skl_vistorID,
+      Fe_check,
+      Fe_note,
+      Is_Scroll,
+      Count_device_motion,
+      Count_scroll
+    });
+  }
 }
+
 
 // ===============================lắng nghe sự kiện từ landipage truyền vào iframe ================================ 
 
@@ -563,8 +545,7 @@ function handleEventMessage(event){
       console.log('data', data)
       // Do something with event.data.value;
       const data = JSON.parse(event.data.value);
-      iframeData = data;
-      parentUrl = data.src;
+      parentUrl     = data.src;
       Is_Scroll     = data.Is_Scroll;
       Count_scroll  = data.Count_scroll
       Is_device_motion_change = data.Is_device_motion_change;
@@ -575,7 +556,7 @@ function handleEventMessage(event){
 }
 window.addEventListener('message', handleEventMessage);
 
-// ===============================Xử lý khi nhấn submit form================================ 
+// ===============================Xử lý khi nhấn submit form================================
 
 buttonSubmit.addEventListener("click", function (e) {
   const action_time = Math.abs(new Date() - timeFirstRenderPage) / 1000;

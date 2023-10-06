@@ -7,44 +7,12 @@ const Params = {
     is_bot: false,
 };
 
-
-let db = null;
-
-const initIndexDB = (browser_vid) => {
-    //open indexDB
-    var openRequest = window.indexedDB.open('myDatabase', 1);
-    //khởi tạo db ban đầu nếu chưa có DB 
-    openRequest.onupgradeneeded = function (e) {
-        db = e.target.result;
-        const storeOS = db.createObjectStore('myDatabaseStore',  {keyPath: "name"});
-                    
-    };
-    //khởi tạo thành công thì add giá trị vào db
-    openRequest.onsuccess = function (e) {
-        db = e.target.result;
-        const transaction = db.transaction("myDatabaseStore", "readwrite");
-        const store = transaction.objectStore('myDatabaseStore');
-
-        //set value
-        store.add({
-            name: 'browser_vid',
-            value: browser_vid
-        })
-
-    };
-    //Error
-    openRequest.onerror = function (e) {
-        console.log('onerror! doesnt work');
-    };
-}
-
 // -----------------------------------------------------------------------
 
  const getComponentsFingerVisitorId = ()  => {
     let fingerPromise = FingerprintJS.load();
     fingerPromise.then( (fp) =>  fp.get())
     .then(function (result) {
-        console.log('result')
         Params.components = result.components;
     })
     .then((response) => {
@@ -56,9 +24,8 @@ const initIndexDB = (browser_vid) => {
 }
 const detectBot = () => {
     let botDetectPromise = import( "https://testform.skycom.vn/util/fingerdetectbot.min.js").then( (Botd) =>  Botd.load());
-    botDetectPromise.then( (botd) =>  botd.detect())
+    botDetectPromise.then((botd) =>  botd.detect())
     .then((result)  => {
-        console.log('bot')
         Params.is_bot = result.bot;
     });
 }
@@ -78,7 +45,7 @@ const handlePostData = () =>{
         let data = response.data;
         document.cookie = `browser_vid=${data.visitor_id}`;
         localStorage.setItem("browser_vid", data.visitor_id);
-        initIndexDB(data.visitor_id);
+        //localforage.setItem('browser_vid', data.visitor_id);
         return data;
     })
     .then(function (data) {
@@ -93,23 +60,25 @@ const handlePostData = () =>{
 }
 
 const browserVisitorid = () =>  {
-    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
-    if (indexedDB){
-        window.indexedDB.open('myDatabase', 1).onsuccess = function (e) {
-            db = e.target.result;
-            db.transaction("myDatabaseStore").objectStore('myDatabaseStore').get('browser_vid').onsuccess = function(event) {
-              Params.browser_vid = event.target.result.value
-              console.log("Your value is fds:" + event.target.result.value);
-            };
-        };
-    }
-    else if(localStorage.getItem("browser_vid")) {
-        Params.browser_vid = localStorage.getItem("browser_vid");
-    }else{
-        
-    }
+    localforage.getItem('browser_vid').then((value) => {
+        if (value) {
+            //neu co trong indexDB 
+            Params.browser_vid = value;
+        }
+        else if(localStorage.getItem("browser_vid")){
+            //neu co trong localstorage
+            Params.browser_vid = localStorage.getItem("browser_vid")
+        }
+        else{
+            //neu co trong cookie
+            const regex = new RegExp(`(^| )browser_vid=([^;]+)`)
+            const match = document.cookie.match(regex)
+            if (match) {
+                Params.browser_vid =  match[2]
+            }
+        }
+    })
 }
-
 
 browserVisitorid();
 getComponentsFingerVisitorId();

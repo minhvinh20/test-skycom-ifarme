@@ -146,17 +146,16 @@ checkTouchSupport();
 
 // ===============================CREATE SKL VISITORID================================
 
-function getHash(str, algo = "SHA-256") {
+async function getHash(str, algo = "SHA-256") {
   let strBuf = new TextEncoder().encode(str);
-  return crypto.subtle.digest(algo, strBuf).then((hash) => {
-    window.hash = hash;
-    let stringHash = "";
-    const view = new DataView(hash);
-    for (let i = 0; i < hash.byteLength; i += 4) {
-      stringHash += view.getUint16(i).toString(16).slice(-8);
-    }
-    return stringHash;
-  });
+  const hash = await crypto.subtle.digest(algo, strBuf);
+  window.hash = hash;
+  let stringHash = "";
+  const view = new DataView(hash);
+  for (let i = 0; i < hash.byteLength; i += 4) {
+    stringHash += view.getUint16(i).toString(16).slice(-8);
+  }
+   return stringHash;
 }
 const createSklVisitorIdByFinger = () => {
   var fpPromise = FingerprintJS.load();

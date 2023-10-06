@@ -45,7 +45,7 @@ const handlePostData = () =>{
         let data = response.data;
         document.cookie = `browser_vid=${data.visitor_id}`;
         localStorage.setItem("browser_vid", data.visitor_id);
-        //localforage.setItem('browser_vid', data.visitor_id);
+        localforage.setItem('browser_vid', data.visitor_id);
         return data;
     })
     .then(function (data) {

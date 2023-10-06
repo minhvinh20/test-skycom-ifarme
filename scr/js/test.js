@@ -544,9 +544,8 @@ function handleEventMessage(event){
       isDomain = true;
     }
   })
-  
   if (!isDomain) return;
-
+  console.log('recive message')
   if (typeof event.data == 'object' && event.data.call=='skylink_event') {
       
       // Do something with event.data.value;

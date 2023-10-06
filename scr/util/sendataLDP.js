@@ -7,20 +7,37 @@ var Count_device_motion = 0;
 var device_motion_compare = 0;
 let frames = []; 
 
-function appendIframe () {
-    const wappers = document.querySelectorAll(".skycom-wrapper");
-    wappers.forEach(function(wrapper) {
-        if(!wrapper) {
-            return;   
-        }
-        const iframe = document.createElement("iframe");
-            iframe.src = `https://testform.skycom.vn/test`
-            iframe.classList.add("skycom-iframe");
 
-        wrapper.insertBefore( iframe, wrapper.children[0] );
-    })
+
+function appendIframeVertical () {
+    const wrapperFormVerticals = document.querySelectorAll(".skycom-wrapper");
+    if (wrapperFormVerticals.length > 0) {
+        wrapperFormVerticals.forEach(function(wrapper) {
+            if(!wrapper) {
+                return;   
+            }
+            const iframe = document.createElement("iframe");
+                iframe.src = "https://form.skycom.vn/v5keyboard";
+                iframe.classList.add("skycom-iframe");
+    
+            wrapper.insertBefore( iframe, wrapper.children[0] );
+        })
+    }
 }
-
+function appendIframeHorizontal () {
+    const formHorizontals = document.querySelectorAll(".skycom-wrapper--horizontal");
+    if (formHorizontals.length > 0) {
+        wrapperFormVerticals.forEach(function(wrapper) {
+            if(!wrapper) {
+                return;   
+            }
+            const iframe = document.createElement("iframe");
+                iframe.src = "https://form.skycom.vn/v5-horizontal"
+                iframe.classList.add("skycom-iframe");
+            wrapper.insertBefore( iframe, wrapper.children[0] );
+        })
+    }
+}
 
 // device motion
 function checkDeviceEmotion() {
@@ -91,11 +108,12 @@ function sendMessage (frame){
     frame.contentWindow.postMessage({
         call: "skylink_event",
         value: message
-    }, 'https://testform.skycom.vn/'); 
-    console.log('postMessage')
+    }, 'https://form.skycom.vn/'); 
+
 }
 
-appendIframe();
+appendIframeVertical();
+appendIframeHorizontal();
 listenFirame();
 checkDeviceEmotion();
 

@@ -535,11 +535,18 @@ function handleSubmit() {
 
 // ===============================lắng nghe sự kiện từ landipage truyền vào iframe ================================ 
 
-function handleEventMessage(event){
-  var origin = event.origin || event.originalEvent.origin; 
 
-  if (!DOMAINS.includes(origin))
-      return;
+function handleEventMessage(event){
+  let isDomain = false;
+  var origin = event.origin || event.originalEvent.origin; 
+  DOMAINS.forEach(domain =>{
+    if (origin.indexOf(domain) > -1 ) {
+      isDomain = true;
+    }
+  })
+  
+  if (!isDomain) return;
+
   if (typeof event.data == 'object' && event.data.call=='skylink_event') {
       
       // Do something with event.data.value;

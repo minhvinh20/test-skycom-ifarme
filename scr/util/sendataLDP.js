@@ -92,6 +92,7 @@ function sendMessage (frame){
         call: "skylink_event",
         value: message
     }, 'https://testform.skycom.vn/'); 
+    console.log('postMessage')
 }
 
 appendIframe();

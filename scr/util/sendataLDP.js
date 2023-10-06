@@ -25,9 +25,9 @@ function appendIframeVertical () {
     }
 }
 function appendIframeHorizontal () {
-    const formHorizontals = document.querySelectorAll(".skycom-wrapper--horizontal");
-    if (formHorizontals.length > 0) {
-        wrapperFormVerticals.forEach(function(wrapper) {
+    const wrapperFormHorizontals = document.querySelectorAll(".skycom-wrapper--horizontal");
+    if (wrapperFormHorizontals.length > 0) {
+        wrapperFormHorizontals.forEach(function(wrapper) {
             if(!wrapper) {
                 return;   
             }

@@ -5,6 +5,7 @@ export const apis = {
     urlThankFake: "https://hoaianbeauty.com/pages/camon-quy-khach",
     urlSyncGoogleSheetSpam:
       "https://script.google.com/macros/s/AKfycbzGbJQ83uGDjEGC5x8yqbIjKr0ATrzk6gNYcIxAI958cHpSfc-r6KHnylZNK7fxCpFgaQ/exec",
+    urlConfirm : 'https://hoaianbeauty.com/pages/xac-nhan-thong-tin'
   },
   jp24: {
     bareURL: "https://devsyncdata.skycom.vn/api/spam_check/form-spam-check",

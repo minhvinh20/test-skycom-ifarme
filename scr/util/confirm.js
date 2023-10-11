@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     mountForm();
     //submit
     element.form.addEventListener('submit', e => {
-        e.preventdefault();
+        e.preventDefault();
         let phone = element.input?.value;
         handleconfirmPhone({lead_id,phone})
     })

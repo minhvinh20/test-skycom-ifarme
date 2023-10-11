@@ -490,15 +490,16 @@ async function handlePostData({
         ad_channel: data.ad_channel,
         ad_account: data.ad_account,
       });
-      if (data.spam) {
-        window.parent.location.replace(`${apis.habt.urlThankFake}?name=${Ten1}&phone=${Ten2}`);
-      } 
-      else if(data.suspect) {
-        window.parent.location.replace(`${apis.habt.urlConfirm}?lead_id=${data.lead_id}`); 
-      }
-      else{
-        window.parent.location.replace(`${apis.habt.urlThankReal}?name=${Ten1}&phone=${Ten2}`);
-      }
+      console.log('data', data)
+      // if (data.spam) {
+      //   window.parent.location.replace(`${apis.habt.urlThankFake}?name=${Ten1}&phone=${Ten2}`);
+      // } 
+      // else if(data.suspect) {
+      //   window.parent.location.replace(`${apis.habt.urlConfirm}?lead_id=${data.lead_id}`); 
+      // }
+      // else{
+      //   window.parent.location.replace(`${apis.habt.urlThankReal}?name=${Ten1}&phone=${Ten2}`);
+      // }
     })
     .catch(async function (error) {
       await syncToSheetServerFail({

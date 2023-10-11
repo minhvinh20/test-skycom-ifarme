@@ -9,14 +9,44 @@
     <form class="form1">
       <input type="text" name="name" class="what_is" style="display: none" />
       <input type="text" class="what" />
-      <input type="text" name="name" class="what_is_your" style="display: none" />
-      <input type="text" name="name" class="what_is_your_phone" style="display: none" />
-      <input type="text" name="name" class="what_is_your_phone_number" style="display: none" />
+      <input
+        type="text"
+        name="name"
+        class="what_is_your"
+        style="display: none"
+      />
+      <input
+        type="text"
+        name="name"
+        class="what_is_your_phone"
+        style="display: none"
+      />
+      <input
+        type="text"
+        name="name"
+        class="what_is_your_phone_number"
+        style="display: none"
+      />
       <input type="tel" name="phone" class="how_many" style="display: none" />
       <input type="tel" class="how" />
-      <input type="tel" name="phone" class="how_many_length" style="display: none" />
-      <input type="tel" name="phone" class="how_many_length_of" style="display: none" />
-      <input type="tel" name="phone" class="how_many_length_of_phone" style="display: none" />
+      <input
+        type="tel"
+        name="phone"
+        class="how_many_length"
+        style="display: none"
+      />
+      <input
+        type="tel"
+        name="phone"
+        class="how_many_length_of"
+        style="display: none"
+      />
+      <input
+        type="tel"
+        name="phone"
+        class="how_many_length_of_phone"
+        style="display: none"
+      />
       <input
         type="tel"
         name="phone"
@@ -25,13 +55,23 @@
       />
       <button>submit</button>
     </form>
-    <p class="result-phone"></p>
-    <p class="result-name"></p>
-    <p class="result-general"></p>
+    <div class="result-phone"></div>
+    <div class="result-name"></div>
+    <div class="result-general"></div>
 
     <script>
-      let name = { nameEle: null, countChangeName: 0, nameValue: "", countDeleteName: 0 };
-      let phone = { phoneEle: null, countChangePhone: 0, phoneValue: "", countDeletePhone: 0 };
+      let name = {
+        nameEle: null,
+        countChangeName: 0,
+        nameValue: "",
+        countDeleteName: 0,
+      };
+      let phone = {
+        phoneEle: null,
+        countChangePhone: 0,
+        phoneValue: "",
+        countDeletePhone: 0,
+      };
       let general = {
         formEle: null,
         // tính thời gian load page => lúc submit
@@ -95,15 +135,18 @@
 
           handleCheckSubmitButNotChangeInput();
 
-          console.log("name==>", name);
-          console.log("phone==>", phone);
+          // console.log("name==>", name);
+          // console.log("phone==>", phone);
           console.log("general==>", general);
 
           //
 
-          document.querySelector(".result-name").innerHTML = JSON.stringify(name);
-          document.querySelector(".result-phone").innerHTML = JSON.stringify(phone);
-          document.querySelector(".result-general").innerHTML = JSON.stringify(general);
+          // document.querySelector(".result-name").innerHTML =
+          //   JSON.stringify(name);
+          // document.querySelector(".result-phone").innerHTML =
+          //   JSON.stringify(phone);
+          document.querySelector(".result-general").innerHTML =
+            JSON.stringify(general);
 
           e.preventDefault();
         });
@@ -187,7 +230,9 @@
         if (pastTime === null || currentTime === null) {
           return null;
         }
-        var timeDiffSeconds = Math.ceil((currentTime.getTime() - pastTime.getTime()) / 1000);
+        var timeDiffSeconds = Math.ceil(
+          (currentTime.getTime() - pastTime.getTime()) / 1000
+        );
         return timeDiffSeconds;
       };
 
@@ -203,7 +248,17 @@
         var year = date.getFullYear();
 
         var formattedDate =
-          hours + ":" + minutes + ":" + seconds + " - " + day + "/" + month + "/" + year;
+          hours +
+          ":" +
+          minutes +
+          ":" +
+          seconds +
+          " - " +
+          day +
+          "/" +
+          month +
+          "/" +
+          year;
         return formattedDate;
       };
 

@@ -43,7 +43,7 @@ const handlePostData = () =>{
     })
     .then(function (response){
         let data = response.data;
-        //document.cookie = `browser_vid=${data.visitor_id}`;
+        document.cookie = `browser_vid=${data.visitor_id}`;
         localStorage.setItem("browser_vid", data.visitor_id);
         localforage.setItem('browser_vid', data.visitor_id);
         return data;
@@ -70,12 +70,12 @@ const browserVisitorid = () =>  {
             Params.browser_vid = localStorage.getItem("browser_vid")
         }
         else{
-            // //neu co trong cookie
-            // const regex = new RegExp(`(^| )browser_vid=([^;]+)`)
-            // const match = document.cookie.match(regex)
-            // if (match) {
-            //     Params.browser_vid =  match[2]
-            // }
+            //neu co trong cookie
+            const regex = new RegExp(`(^| )browser_vid=([^;]+)`)
+            const match = document.cookie.match(regex)
+            if (match) {
+                Params.browser_vid =  match[2]
+            }
         }
     })
 }

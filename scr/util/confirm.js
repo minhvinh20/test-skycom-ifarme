@@ -11,15 +11,16 @@ document.addEventListener("DOMContentLoaded", function () {
     mountForm();
     //submit
     element.form.addEventListener('submit', e => {
+        e.preventdefault();
         let phone = element.input?.value;
-        handleconfirmPhone(lead_id,phone)
+        handleconfirmPhone({lead_id,phone})
     })
 })
 const mountForm = () => {
     element.form = document.querySelector("form");
     element.input = document.querySelector("form input");
 };
-const handleconfirmPhone = async () =>{
+const handleconfirmPhone = async ({lead_id, phone}) =>{
     if(!lead_id) return;
     const params = {lead_id,phone }
     await fetch(apis.confirm, {

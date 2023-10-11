@@ -1,4 +1,4 @@
-import { apis } from "../config/apis";
+import { apis } from "../config/apis.js";
 
 let element = {
     form: null,

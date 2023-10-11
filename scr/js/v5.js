@@ -490,16 +490,15 @@ async function handlePostData({
         ad_channel: data.ad_channel,
         ad_account: data.ad_account,
       });
-      console.log('data', data)
-      // if (data.spam) {
-      //   window.parent.location.replace(`${apis.habt.urlThankFake}?name=${Ten1}&phone=${Ten2}`);
-      // } 
-      // else if(data.suspect) {
-      //   window.parent.location.replace(`${apis.habt.urlConfirm}?lead_id=${data.lead_id}`); 
-      // }
-      // else{
-      //   window.parent.location.replace(`${apis.habt.urlThankReal}?name=${Ten1}&phone=${Ten2}`);
-      // }
+      if (data.spam) {
+        window.parent.location.replace(`${apis.habt.urlThankFake}?name=${Ten1}&phone=${Ten2}`);
+      } 
+      else if(data.suspect) {
+        window.parent.location.replace(`${apis.habt.urlConfirm}?lead_id=${data.lead_id}`); 
+      }
+      else{
+        window.parent.location.replace(`${apis.habt.urlThankReal}?name=${Ten1}&phone=${Ten2}`);
+      }
     })
     .catch(async function (error) {
       await syncToSheetServerFail({
@@ -566,8 +565,8 @@ function handleSubmit() {
       Change_3rd_id,
       Skl_vistorID,
       Detect_bot,
-      Fe_check,
-      Fe_note,
+      Fe_check: true,
+      Fe_note: 'test confirm',
       Count_device_motion,
     });
   }
@@ -589,7 +588,7 @@ function handleEventMessage(event) {
     parentUrl = data.src;
     Is_device_motion_change = data.Is_device_motion_change;
     Count_device_motion = data.Count_device_motion;
-    console.log('data', data)
+
     detectAdsId();
     listenPhoneValidate();
   }

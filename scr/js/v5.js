@@ -41,9 +41,7 @@ let encodeName = "",
   Sceensize = "",
   Touch_pixel = [],
   Is_device_motion_change = null,
-  Count_device_motion = 0,
-  Is_Scroll = null,
-  Count_scroll = 0;
+  Count_device_motion = 0;
 
 let paramsVisitorID = {
   url: parentUrl,
@@ -199,7 +197,6 @@ function handlePostVisitorID() {
       localStorage.setItem("browser_vid", data.visitor_id);
       Skl_vistorID = data.visitor_id;
       Detect_bot = data.is_bot;
-      console.log('data', data)
     })
     .catch((value) => {
       console.log("Error");
@@ -581,9 +578,7 @@ function handleEventMessage(event) {
   var origin = event.origin || event.originalEvent.origin;
   let isDomain = false;
   DOMAINS.forEach((domain) => {
-    if (origin.indexOf(domain) > -1) {
-      isDomain = true;
-    }
+    if (origin.indexOf(domain) > -1) isDomain = true;
   });
   if (!isDomain) return;
 
@@ -591,10 +586,9 @@ function handleEventMessage(event) {
     // Do something with event.data.value;
     const data = JSON.parse(event.data.value);
     parentUrl = data.src;
-    Is_Scroll = data.Is_Scroll;
-    Count_scroll = data.Count_scroll;
     Is_device_motion_change = data.Is_device_motion_change;
     Count_device_motion = data.Count_device_motion;
+    console.log('data', data)
     detectAdsId();
     listenPhoneValidate();
   }

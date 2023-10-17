@@ -15,7 +15,7 @@ function appendIframeVertical() {
         return;
       }
       const iframe = document.createElement("iframe");
-      iframe.src = "https://form.skycom.vn/v5keyboard";
+      iframe.src = "https://testform.skycom.vn/v5";
       iframe.classList.add("skycom-iframe");
 
       wrapper.insertBefore(iframe, wrapper.children[0]);
@@ -32,7 +32,7 @@ function appendIframeHorizontal() {
         return;
       }
       const iframe = document.createElement("iframe");
-      iframe.src = "https://form.skycom.vn/v5-horizontal";
+      iframe.src = "https://testform.skycom.vn/v5-horizontal";
       iframe.classList.add("skycom-iframe");
       wrapper.insertBefore(iframe, wrapper.children[0]);
     });

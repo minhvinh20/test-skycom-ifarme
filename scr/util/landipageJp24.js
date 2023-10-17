@@ -4,7 +4,7 @@ let diff = 0,
     Is_device_motion_change = null, 
     Count_device_motion = 0, 
     device_motion_compare = 0, 
-    Skl_Visitor = null,
+    Skl_vistorID = null,
     Detect_bot = false,
     frames = [];
 
@@ -89,7 +89,7 @@ function sendMessage(frame) {
     src: window.location.href,
     Is_device_motion_change: Is_device_motion_change,
     Count_device_motion: Count_device_motion,
-    Skl_Visitor: paramsVisitorID.browser_vid,
+    Skl_vistorID: paramsVisitorID.browser_vid,
     Detect_bot: paramsVisitorID.is_bot,
   });
   frame.contentWindow.postMessage(

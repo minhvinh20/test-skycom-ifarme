@@ -13,6 +13,7 @@ export const apis = {
     urlThankFake: "https://sp.jp24.vn/cam-on",
     urlSyncGoogleSheetSpam:
       "https://script.google.com/macros/s/AKfycbyeXp1VU4IszPbKQcnwPoZQPW1qj5G8B6o2yeH-KQBT7XF790S4CwCDMOS8MzovTu7Efw/exec",
+    urlConfirm: "https://sp.jp24.vn/xac-nhan-thong-tin",
   },
   sago: {
     bareURL: "https://devsyncdata.skycom.vn/api/spam_check/form-spam-check",

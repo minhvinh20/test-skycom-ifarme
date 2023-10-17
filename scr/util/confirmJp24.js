@@ -1,4 +1,4 @@
-import { apis } from "../../config/apis.js";
+import { apis } from "../config/apis.js";
 
 
 let element = {
@@ -50,7 +50,7 @@ const handleconfirmPhone = async ({lead_id, phone}) =>{
         }
     })
     .catch(async (value) => {
-       console.log('error', error)
+       console.log('error', value)
     })
 }
 const syncToSheetConfirm = async ({ name, phone, passed }) => {    

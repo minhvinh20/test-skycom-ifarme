@@ -145,6 +145,7 @@ const handlePostDataVistor = () =>{
       document.cookie = `browser_vid=${data.visitor_id}`;
       localStorage.setItem("browser_vid", data.visitor_id);
       paramsVisitorID.browser_vid = data.visitor_id;
+      console.log('first', first)
       return data;
   })
   .catch((value) => {

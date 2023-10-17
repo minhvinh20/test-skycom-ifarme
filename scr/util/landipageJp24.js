@@ -1,3 +1,4 @@
+
 //config
 let diff = 0, 
     Is_device_motion_change = null, 
@@ -89,7 +90,7 @@ function sendMessage(frame) {
     Is_device_motion_change: Is_device_motion_change,
     Count_device_motion: Count_device_motion,
     Skl_Visitor: paramsVisitorID.browser_vid,
-    detectBot: paramsVisitorID.is_bot,
+    Detect_bot: paramsVisitorID.is_bot,
   });
   frame.contentWindow.postMessage(
     {
@@ -128,7 +129,7 @@ const detectBot = () => {
 }
 
 const handlePostDataVistor = () =>{
-  let result = fetch(apis.visitorID, {
+  let result = fetch('https://fingerprint.skycom.vn/api/v1/visits/', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -139,6 +140,7 @@ const handlePostDataVistor = () =>{
       return response.json();
   })
   .then(function (response){
+      console.log('response', response)
       let data = response.data;
       document.cookie = `browser_vid=${data.visitor_id}`;
       localStorage.setItem("browser_vid", data.visitor_id);

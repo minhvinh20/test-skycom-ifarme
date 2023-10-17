@@ -610,7 +610,7 @@ function handleEventMessage(event) {
     Is_device_motion_change = data.Is_device_motion_change;
     Count_device_motion = data.Count_device_motion;
     Skl_vistorID = data.Skl_vistorID;
-    detectBot = data.Detect_bot;
+    Detect_bot = data.Detect_bot;
     detectAdsId();
     listenPhoneValidate();
   }

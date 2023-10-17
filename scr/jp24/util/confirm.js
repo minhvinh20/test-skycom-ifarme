@@ -11,11 +11,11 @@ document.addEventListener("DOMContentLoaded", function () {
     //query element
     mountForm();
     //disable copy
-    element.input?.onpaste = (e) => e.preventDefault();
+    element.input.onpaste = (e) => e.preventDefault();
     //submit
     element.form.addEventListener('submit', e => {
         e.preventDefault();
-        let phone = element.input?.value;
+        let phone = element.input.value;
         handleconfirmPhone({lead_id,phone})
     })
 })

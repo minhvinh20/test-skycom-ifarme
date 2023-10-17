@@ -23,7 +23,7 @@ function appendIframeVertical() {
         return;
       }
       const iframe = document.createElement("iframe");
-      iframe.src = "https://testform.skycom.vn/v5";
+      iframe.src = "https://testform.skycom.vn/jp24/v5";
       iframe.classList.add("skycom-iframe");
 
       wrapper.insertBefore(iframe, wrapper.children[0]);

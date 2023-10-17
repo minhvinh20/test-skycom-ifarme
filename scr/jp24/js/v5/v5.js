@@ -584,8 +584,8 @@ function handleSubmit() {
       Is_device_motion_change,
       Count_3rd_id,
       Change_3rd_id,
-      Skl_vistorID : paramsVisitorID.browser_vid,
-      Detect_bot: paramsVisitorID.is_bot,
+      Skl_vistorID ,
+      Detect_bot,
       Fe_check,
       Fe_note,
       Count_device_motion,
@@ -609,7 +609,8 @@ function handleEventMessage(event) {
     parentUrl = data.src;
     Is_device_motion_change = data.Is_device_motion_change;
     Count_device_motion = data.Count_device_motion;
-
+    Skl_vistorID = data.Skl_vistorID;
+    detectBot = data.Detect_bot;
     detectAdsId();
     listenPhoneValidate();
   }

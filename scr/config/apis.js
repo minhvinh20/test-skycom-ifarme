@@ -23,5 +23,5 @@ export const apis = {
       "https://script.google.com/macros/s/AKfycbxLfcxEvDuRrXtifkRBMz2wNMsW9nc041FCB0i6Zn_xn1EkdPqHT69DsfrkEYbD49Lf/exec",
   },
   visitorID : "https://fingerprint.skycom.vn/api/v1/visits/",
-  confirm: 'http://backendsyncdata.skycom.vn/api/spam_check/cf-phone-numbers'
+  confirm: 'https://devsyncdata.skycom.vn/api/spam_check/cf-phone-numbers'
 };

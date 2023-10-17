@@ -634,3 +634,6 @@ form.addEventListener("submit", function (e) {
   e.preventDefault();
   handleSubmit();
 });
+
+
+console.log('paramForm', paramForm);

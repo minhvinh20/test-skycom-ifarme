@@ -37,6 +37,7 @@ const handleconfirmPhone = async ({lead_id, phone}) =>{
         return response.json();
     })
     .then(async (data) => {
+        const name = data.name;
         await syncToSheetConfirm({
             name:  data.name,
             phone: data.phone,
@@ -44,9 +45,9 @@ const handleconfirmPhone = async ({lead_id, phone}) =>{
         });
 
         if( data.passed) {
-            window.parent.location.replace(`${apis.jp24.urlThankReal}?name=${data.name}&phone=${data.phone}`);
+            window.location.href = `${apis.jp24.urlThankReal}?name=${data.name}&phone=${data.phone}`;
         }else{
-            window.parent.location.replace(`${apis.jp24.urlThankFake}?name=${data.name}&phone=${phone}`);
+            window.location.href = `${apis.jp24.urlThankFake}?name=${name}&phone=${phone}`;
         }
     })
     .catch(async (value) => {

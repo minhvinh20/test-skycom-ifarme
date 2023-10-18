@@ -149,82 +149,6 @@ function checkTouchSupport() {
 }
 checkTouchSupport();
 
-// ===============================CREATE SKL VISITORID================================
-// const getComponentsFingerVisitorId = ()  => {
-//   let fingerPromise = FingerprintJS.load();
-//   fingerPromise.then( (fp) =>  fp.get())
-//   .then(function (result) {
-//     paramsVisitorID.components = result.components;
-//   })
-//   .then((response) => {
-//       detectBot();
-//   })
-//   .then((response) => {
-//     handlePostDataVistor();
-//   })
-//   .catch((value) => {
-//     console.log("error visitorID");
-//   })
-// }
-// const detectBot = () => {
-//   let botDetectPromise = import( "https://testform.skycom.vn/util/fingerdetectbot.min.js").then( (Botd) =>  Botd.load());
-//   botDetectPromise.then((botd) =>  botd.detect()) 
-//   .then((result)  => {
-//     paramsVisitorID.is_bot = result.bot;
-//   })
-//   .catch((value) => {
-//     console.log("error detect bot");
-//   });
-// }
-
-// const handlePostDataVistor = () =>{
-//   let result = fetch(apis.visitorID, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(paramsVisitorID),
-//   })
-//   .then(function (response) {
-//       return response.json();
-//   })
-//   .then(function (response){
-//       let data = response.data;
-//       document.cookie = `browser_vid=${data.visitor_id}`;
-//       localStorage.setItem("browser_vid", data.visitor_id);
-//       localforage.setItem('browser_vid', data.visitor_id);
-//       return data;
-//   })
-//   .catch((value) => {
-//       console.log("Error Call API visitor");
-//   });
-// }
-
-// const browserVisitorid = () =>  {
-//   localforage.getItem('browser_vid').then((value) => {
-//       if (value) {
-//           //neu co trong indexDB 
-//           paramsVisitorID.browser_vid = value;
-//       }
-//       else if(localStorage.getItem("browser_vid")){
-//           //neu co trong localstorage
-//           paramsVisitorID.browser_vid = localStorage.getItem("browser_vid")
-//       }
-//       else{
-//           //neu co trong cookie
-//           const regex = new RegExp(`(^| )browser_vid=([^;]+)`)
-//           const match = document.cookie.match(regex)
-//           if (match) {
-//             paramsVisitorID.browser_vid =  match[2]
-//           }
-//       }
-//   })
-// }
-
-// browserVisitorid();
-// getComponentsFingerVisitorId();
-
-
 // ===============================COUNT 3RD VIEW================================
 
 function detectAdsId() {
@@ -634,6 +558,3 @@ form.addEventListener("submit", function (e) {
   e.preventDefault();
   handleSubmit();
 });
-
-
-console.log('paramForm', paramForm);

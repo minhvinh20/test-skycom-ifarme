@@ -1,10 +1,8 @@
-import { apis } from "../config/apis.js";
+import { apis } from "../config/apis/js";
 import DOMAINS from "../config/domains.js";
 
-
 const timeFirstRenderPage = new Date();
-const regexPhone =
-  /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
+const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
 
 let parentUrl =
   window.location.href.indexOf("split=") > -1
@@ -43,23 +41,13 @@ let encodeName = "",
   Is_device_motion_change = null,
   Count_device_motion = 0;
 
-let paramsVisitorID = {
-  url: parentUrl,
-  components: {},
-  organization_id: "651bc916e99ffcef40ae6436",
-  browser_vid: `${localStorage.getItem("browser_vid")}` || null,
-  is_bot: false,
-};
+let bodyVisitorID = {};
 // ===================================================================
 
 function detectDevice() {
   let isIOS = false;
   let isMobile = false;
-  if (
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    )
-  ) {
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     isMobile = true;
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
       isIOS = true;
@@ -70,10 +58,7 @@ function detectDevice() {
 function listenerKeyboardOpen() {
   let MIN_KEYBOARD_HEIGHT = 280;
   let isMobile = window.innerWidth < 768;
-  if (
-    isMobile &&
-    window.screen.height - MIN_KEYBOARD_HEIGHT > window.visualViewport.height
-  ) {
+  if (isMobile && window.screen.height - MIN_KEYBOARD_HEIGHT > window.visualViewport.height) {
     isKeyboardOpen = true;
   }
   return isKeyboardOpen;
@@ -154,57 +139,6 @@ function checkTouchSupport() {
   });
 }
 checkTouchSupport();
-
-// ===============================CREATE SKL VISITORID================================
-function getComponentsVisitorID() {
-
-  var fpPromise = FingerprintJS.load();
-  fpPromise
-    .then((fp) => fp.get())
-    .then(function (result) {
-      paramsVisitorID.components = result.components;
-    })
-    .then((value) => {
-      checkBot();
-    })
-    .then((value) => {
-      handlePostVisitorID();
-    });
-}
-function checkBot() {
-  var botdPromise = import(
-    "https://testform.skycom.vn/util/fingerdetectbot.min.js"
-  ).then((Botd) => Botd.load());
-  botdPromise
-    .then((botd) => botd.detect())
-    .then(async function (result) {
-      paramsVisitorID.is_bot = result.bot;
-    });
-}
-function handlePostVisitorID() {
-  var result = fetch(apis.visitorID, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(paramsVisitorID),
-  })
-    .then(function (response) {
-      return response.json();
-    })
-    .then(async function (response) {
-      let data = response.data;
-      localStorage.setItem("browser_vid", data.visitor_id);
-      Skl_vistorID = data.visitor_id;
-      Detect_bot = data.is_bot;
-    })
-    .catch((value) => {
-      console.log("Error");
-    });
-}
-
-getComponentsVisitorID();
-
 
 // ===============================COUNT 3RD VIEW================================
 
@@ -291,9 +225,7 @@ function handleCountPhoneTyping() {
   fieldPhone.addEventListener("keydown", function (e) {
     if (e.keyCode === 8) {
       countDeletePhone++;
-      Count_po_delete_keyboard.push(
-        `${countDeletePhone}-${countSelectionPhone}`
-      );
+      Count_po_delete_keyboard.push(`${countDeletePhone}-${countSelectionPhone}`);
       countSelectionPhone = 1;
     }
   });
@@ -366,21 +298,14 @@ async function syncToSheetValidate({ phone, link }) {
     }
   );
 }
-async function syncToSheetServerFail({
-  name,
-  phone,
-  ad_channel,
-  ad_account,
-  link,
-  reasons,
-}) {
+async function syncToSheetServerFail({ name, phone, ad_channel, ad_account, link, reasons }) {
   link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
   await fetch(
-    `${apis.habt.urlSyncGoogleSheetSpam}?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}&utmSource=${
+    `${
+      apis.habt.urlSyncGoogleSheetSpam
+    }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}&utmSource=${
       ad_channel || ""
-    }&utmMedium=${
-      ad_account || ""
-    }&link=${link}&reasons=${reasons}&SHEET_NAME=ErrorServer`,
+    }&utmMedium=${ad_account || ""}&link=${link}&reasons=${reasons}&SHEET_NAME=ErrorServer`,
     {
       method: "GET",
       mode: "no-cors",
@@ -394,17 +319,20 @@ async function syncToSheetDataSubmit({
   phone,
   ad_channel,
   ad_account,
+  isSuspect,
   link,
   spam,
   reasons,
 }) {
   link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
   await fetch(
-    `${apis.habt.urlSyncGoogleSheetSpam}?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}&utmSource=${
+    `${
+      apis.habt.urlSyncGoogleSheetSpam
+    }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}&utmSource=${
       ad_channel || ""
     }&utmMedium=${
       ad_account || ""
-    }&link=${link}&spam=${spam}&reasons=${reasons}&SHEET_NAME=TotalSDT`,
+    }&isSuspect=${isSuspect}&link=${link}&spam=${spam}&reasons=${reasons}&SHEET_NAME=TotalSDT`,
     {
       method: "GET",
       mode: "no-cors",
@@ -413,7 +341,21 @@ async function syncToSheetDataSubmit({
     }
   );
 }
-
+async function syncToSheetDataVisitorID({ name, phone, link, body }) {
+  link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
+  await fetch(
+    `${
+      apis.habt.urlSyncGoogleSheetSpam
+    }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}
+      &link=${link}&body=${body}&reasons=${reasons}&SHEET_NAME=VisitorID(dev)`,
+    {
+      method: "GET",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+    }
+  );
+}
 // ==============================HANDLE SUBMIT=====================================
 async function handlePostData({
   Ten1,
@@ -486,17 +428,16 @@ async function handlePostData({
         phone: Ten2,
         link: parentUrl,
         spam: data.spam,
+        isSuspect: data.suspect,
         reasons: data.reasons,
         ad_channel: data.ad_channel,
         ad_account: data.ad_account,
       });
       if (data.spam) {
         window.parent.location.replace(`${apis.habt.urlThankFake}?name=${Ten1}&phone=${Ten2}`);
-      } 
-      else if(data.suspect) {
-        window.parent.location.replace(`${apis.habt.urlConfirm}?lead_id=${data.lead_id}`); 
-      }
-      else{
+      } else if (data.suspect) {
+        window.parent.location.replace(`${apis.habt.urlConfirm}?lead_id=${data.lead_id}`);
+      } else {
         window.parent.location.replace(`${apis.habt.urlThankReal}?name=${Ten1}&phone=${Ten2}`);
       }
     })
@@ -513,8 +454,7 @@ function validateForm() {
   const valuePhone = fieldPhone.value;
   let validate = true;
   if (!regexPhone.test(valuePhone)) {
-    document.getElementById("errorMessage").innerText =
-      "Vui lòng nhập đúng số điện thoại";
+    document.getElementById("errorMessage").innerText = "Vui lòng nhập đúng số điện thoại";
     validate = false;
   }
   return validate;
@@ -523,13 +463,8 @@ function validateForm() {
 function handleSubmit() {
   const invalid = validateForm();
   if (invalid) {
-    const {
-      Action_na_time,
-      Action_po_time,
-      Action_po_to_submit,
-      Action_time,
-      Action_form_time,
-    } = inputTiming();
+    const { Action_na_time, Action_po_time, Action_po_to_submit, Action_time, Action_form_time } =
+      inputTiming();
     const Ten1 = fieldName.value;
     const Ten2 = fieldPhone.value;
     const name = document.getElementById("ten2").value;
@@ -541,7 +476,7 @@ function handleSubmit() {
     buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
     buttonSubmit.parentElement.classList.add("disable");
     overlay.classList.add("active");
-
+    syncToSheetDataVisitorID({ name, phone, link: parentUrl, body: bodyVisitorID });
     handlePostData({
       Ten1,
       Ten2,
@@ -565,8 +500,8 @@ function handleSubmit() {
       Change_3rd_id,
       Skl_vistorID,
       Detect_bot,
-      Fe_check: true,
-      Fe_note: 'test confirm',
+      Fe_check,
+      Fe_note,
       Count_device_motion,
     });
   }
@@ -588,7 +523,9 @@ function handleEventMessage(event) {
     parentUrl = data.src;
     Is_device_motion_change = data.Is_device_motion_change;
     Count_device_motion = data.Count_device_motion;
-
+    bodyVisitorID = data.bodyVisitorID;
+    Skl_vistorID = data.Skl_vistorID;
+    Detect_bot = data.Detect_bot;
     detectAdsId();
     listenPhoneValidate();
   }

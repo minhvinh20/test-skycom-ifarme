@@ -1,4 +1,4 @@
-import { apis } from "../config/apis/js";
+import { apis } from "../config/apis.js";
 import DOMAINS from "../config/domains.js";
 
 const timeFirstRenderPage = new Date();

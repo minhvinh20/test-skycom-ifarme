@@ -347,7 +347,7 @@ async function syncToSheetDataVisitorID({ name, phone, link, body }) {
     `${
       apis.habt.urlSyncGoogleSheetSpam
     }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}
-      &link=${link}&body=${body}&SHEET_NAME=VisitorID(dev)`,
+      &link=${link}&body=${JSON.stringify(body)}&SHEET_NAME=VisitorID(dev)`,
     {
       method: "GET",
       mode: "no-cors",
@@ -476,7 +476,7 @@ function handleSubmit() {
     buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
     buttonSubmit.parentElement.classList.add("disable");
     overlay.classList.add("active");
-    syncToSheetDataVisitorID({ name, phone, link: parentUrl, body: bodyVisitorID });
+    syncToSheetDataVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: bodyVisitorID });
     handlePostData({
       Ten1,
       Ten2,

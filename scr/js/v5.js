@@ -347,7 +347,9 @@ async function syncToSheetDataVisitorID({ name, phone, link, body }) {
     `${
       apis.habt.urlSyncGoogleSheetSpam
     }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}
-      &link=${link}&body=${JSON.stringify(body)}&SHEET_NAME=VisitorID(dev)`,
+      body&link=${link}&body=${body.browser_vid}-${body.is_bot}-${
+      body.components.length > 0 ? true : false
+    }&SHEET_NAME=VisitorID(dev)`,
     {
       method: "GET",
       mode: "no-cors",

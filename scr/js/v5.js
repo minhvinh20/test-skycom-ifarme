@@ -1,5 +1,5 @@
-import { apis } from "../../config/apis.js";
-import DOMAINS from "../../config/domains.js";
+import { apis } from "../config/apis.js";
+import DOMAINS from "../config/domains.js";
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;

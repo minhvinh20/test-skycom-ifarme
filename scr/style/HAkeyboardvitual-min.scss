@@ -1,0 +1,346 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap");
+.hidden,
+.grecaptcha-badge {
+    display: none !important;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+form {
+    font-size: 20px;
+    line-height: 1.6;
+    color: rgb(0, 0, 0);
+    letter-spacing: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    .form-control {
+        padding-right: 10px;
+        height: 46px;
+        font-size: 14px;
+        margin-bottom: 10px;
+        background-color: rgb(255, 255, 255);
+        border-radius: 4px;
+        border-width: 1px;
+        border-radius: 5px;
+        border-style: solid;
+        border-color: rgb(237, 48, 81);
+        box-shadow: rgb(0, 0, 0) 0 15px 16px -18px;
+        .input-cache {
+            display: flex;
+        }
+        span {
+            width: 50px;
+            border-right: 1px solid #ed3051;
+            height: 46px;
+            display: inline-block;
+            svg {
+                width: 50px;
+                height: 20px;
+                padding-top: 13px;
+            }
+        }
+        input {
+            background-color: transparent;
+            width: 100%;
+            height: 45px;
+            padding-left: 10px;
+            border: none;
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+    .form-submit {
+        color: initial;
+        font-size: initial;
+        font-weight: initial;
+        text-transform: initial;
+        text-decoration: initial;
+        font-style: initial;
+        text-align: initial;
+        letter-spacing: initial;
+        line-height: initial;
+        transition: all 150ms linear 0s;
+        .button-wrapper {
+            width: 80%;
+            margin: auto;
+            transition: all 150ms linear 0s;
+            background-color: rgb(211, 40, 92);
+            border: 0;
+            border-radius: 50px;
+            &:not(.disable) {
+                animation-name: pulse;
+                animation-delay: 0s;
+                animation-duration: 1s;
+                animation-iteration-count: infinite;
+            }
+            &.disable {
+                pointer-events: none;
+            }
+            button {
+                width: 100%;
+                font-size: 26px;
+                font-weight: bold;
+                line-height: 1.6;
+                background: transparent;
+                text-align: center;
+                cursor: pointer;
+                user-select: none;
+                color: rgb(255, 255, 255);
+                display: table-cell;
+                vertical-align: middle;
+                border: none;
+                height: 54px;
+                cursor: pointer;
+            }
+        }
+    }
+}
+.form-horizontal {
+    width: 95%;
+    margin: auto;
+    height: 100%;
+    top: 10px;
+    position: relative;
+    .group-horizontal {
+        display: flex;
+        gap: 1px;
+        .form-control {
+            width: 50%;
+            padding-right: 0;
+            height: 35px;
+            input {
+                height: 30px;
+            }
+        }
+    }
+    .form-submit {
+        .button-wrapper {
+            border-radius: 10px;
+            width: 90%;
+            transition: all 20ms linear 0s;
+            animation-duration: 1.5s;
+            button {
+                font-size: 20px;
+                height: 45px;
+            }
+        }
+    }
+}
+#skycomkeyboard {
+    position: fixed;
+    width: 100%;
+    max-width: 450px;
+    z-index: 999999099;
+    bottom: 10px;
+    transform: translate(0, 110%);
+    opacity: 0;
+    margin: 0 auto;
+    visibility: hidden;
+    pointer-events: none;
+    user-select: none;
+    &.active {
+        display: block;
+        transform: translate(0, 5%);
+        transition: transform 0.1s;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+    }
+    &.keyboard-android {
+        .keyboard-bar {
+            display: none;
+        }
+        .simple-keyboard {
+            &.hg-theme-default {
+                background-color: #d6d9de;
+                padding: 10px 0 20px 0;
+            }
+            .hg-button {
+                border-radius: 15px;
+                box-shadow: none;
+                color: #000;
+                font-family: "Roboto", sans-serif;
+                font-weight: 300;
+                justify-content: flex-start;
+                padding-left: 15px;
+                figure {
+                    display: inline;
+                    vertical-align: middle;
+                    margin-left: 10px;
+                    text-align: right;
+                    font-weight: 300;
+                    color: rgb(102 102 102 / 66%);
+                    font-size: 12px;
+                    letter-spacing: -1px;
+                }
+                svg {
+                    width: 25px;
+                    height: 25px;
+                }
+            }
+            .hg-button[data-skbtnuid="default-r1b3"] {
+                span {
+                    font-size: 22px;
+                    color: blue;
+                }
+            }
+            .hg-button[data-skbtn="{shift}"] {
+                opacity: 0.4;
+                pointer-events: none;
+                svg {
+                    width: 60px;
+                    .cls-1 {
+                        stroke-width: 3px;
+                    }
+                }
+            }
+        }
+    }
+    &:not(.keyboard-android) {
+        .keyboard-bar {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            text-align: right;
+            gap: 15px;
+            padding: 5px 15px;
+            height: 40px;
+            box-shadow: 1px -1px 20px rgb(0 0 0 / 11%);
+            color: #1f1fd9db;
+            font-size: 20px;
+            font-family: system-ui;
+            background: #fff;
+            position: relative;
+            bottom: -2px;
+            div {
+                svg {
+                    path {
+                        fill: #6666668f;
+                    }
+                }
+            }
+            #button-focusText {
+                svg {
+                    path {
+                        fill: blue;
+                    }
+                }
+            }
+            #button-done {
+                cursor: pointer;
+            }
+        }
+        .simple-keyboard {
+            .hg-button[data-skbtn="{bksp}"] {
+                background: transparent;
+                box-shadow: none;
+                border: none;
+            }
+            .hg-button[data-skbtn="{shift}"] {
+                background: transparent;
+                box-shadow: none;
+                border: none;
+                svg {
+                    width: 60px;
+                    .cls-1 {
+                        stroke-width: 3px;
+                    }
+                }
+            }
+        }
+    }
+    .simple-keyboard {
+        touch-action: manipulation !important;
+        &.hg-theme-default {
+            background-color: #fff;
+            padding-bottom: 40px;
+        }
+        .hg-rows {
+            background-color: #d6d9de;
+            padding-top: 5px;
+        }
+        .hg-button {
+            font-size: 24px !important;
+            touch-action: manipulation !important;
+            box-shadow: 1px 1px 1px #00000057;
+            text-align: center;
+            span {
+                font-size: 32px;
+                figure {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #000;
+                    display: block;
+                    margin: 0;
+                    font-size: 9px;
+                }
+            }
+        }
+        .hg-button[data-skbtn="{bksp}"] {
+            svg {
+                width: 40px;
+                .cls-1 {
+                    stroke-width: 4.68px;
+                }
+            }
+        }
+        .hg-activeButton {
+            background-color: rgb(102, 102, 102) !important;
+        }
+    }
+}
+#overlay {
+    display: none;
+    &.active {
+        display: block;
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #6666669e;
+        left: 0;
+        pointer-events: none;
+        z-index: 99999999999;
+    }
+    svg {
+        width: 50px;
+        height: 50px;
+        top: 35%;
+        left: 45%;
+        position: absolute;
+        animation-name: spin;
+        animation: spin 1.5s linear infinite;
+    }
+}
+@keyframes pulse {
+    0% {
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.numeric[readonly="readonly"] {
+    caret-color: red;
+}

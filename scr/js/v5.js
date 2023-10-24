@@ -1,5 +1,5 @@
-import { apis } from "../config/apis.js";
-import DOMAINS from "../config/domains.js";
+import { apis } from "../../config/apis.js";
+import DOMAINS from "../../config/domains.js";
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
@@ -345,11 +345,10 @@ async function syncToSheetDataVisitorID({ name, phone, link, body }) {
   link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
   await fetch(
     `${
-      apis.habt.urlSyncGoogleSheetSpam
-    }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&name=${name}&phone=${phone}
-      body&link=${link}&body=${body.browser_vid}-${body.is_bot}-${
-      body.components.fonts.value
-    }&SHEET_NAME=VisitorID(dev)`,
+      apis.urlSyncGoogleSheetVisitorID
+    }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}
+      &name=${name}&phone=${phone}&link=${link}&body= visitorId:   ${body.browser_vid  ? body.browser_vid : 'null'} - 
+      is_bot: ${ body.is_bot ? body.is_bot : 'null'} - components: ${body.components ? body.components.fonts.value : 'null'}&SHEET_NAME=VisitorID(dev)`,
     {
       method: "GET",
       mode: "no-cors",
@@ -478,7 +477,9 @@ function handleSubmit() {
     buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
     buttonSubmit.parentElement.classList.add("disable");
     overlay.classList.add("active");
+
     syncToSheetDataVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: bodyVisitorID });
+
     handlePostData({
       Ten1,
       Ten2,

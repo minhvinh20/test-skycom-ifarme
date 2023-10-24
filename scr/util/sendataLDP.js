@@ -5,13 +5,14 @@ let diff = 0,
   device_motion_compare = 0,
   Skl_vistorID = null,
   Detect_bot = false,
+  bodyVisitorID = {},
   frames = [];
 
 let paramsVisitorID = {
   url: window.location.href,
   components: {},
   organization_id: "651bc916e99ffcef40ae6436",
-  browser_vid: `${localStorage.getItem("browser_vid")}` || null,
+  browser_vid: null,
   is_bot: false,
 };
 
@@ -76,6 +77,7 @@ function sendMessage(frame) {
     Skl_vistorID: paramsVisitorID.browser_vid,
     Detect_bot: paramsVisitorID.is_bot,
   });
+  console.log('message', message)
   frame.contentWindow.postMessage(
     {
       call: "skylink_event",

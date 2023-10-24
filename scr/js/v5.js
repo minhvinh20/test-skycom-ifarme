@@ -347,8 +347,7 @@ async function syncToSheetDataVisitorID({ name, phone, link, body }) {
     `${
       apis.urlSyncGoogleSheetVisitorID
     }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}
-      &name=${name}&phone=${phone}&link=${link}&body= visitorId:   ${body.browser_vid  ? body.browser_vid : 'null'} - 
-      is_bot: ${ body.is_bot ? body.is_bot : 'null'} - components: ${body.components ? body.components.fonts.value : 'null'}&SHEET_NAME=VisitorID(dev)`,
+      &name=${name}&phone=${phone}&link=${link}&body=${JSON.stringify(body)}&SHEET_NAME=VisitorID(dev)`,
     {
       method: "GET",
       mode: "no-cors",
@@ -481,35 +480,35 @@ function handleSubmit() {
     
     console.log('bodyVisitorID', bodyVisitorID)
   
-    //syncToSheetDataVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: bodyVisitorID });
+    syncToSheetDataVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: bodyVisitorID });
 
-    // handlePostData({
-    //   Ten1,
-    //   Ten2,
-    //   name,
-    //   phone,
-    //   Count_na_keyboard,
-    //   Action_na_time,
-    //   Is_open_na_keyboard,
-    //   Count_na_delete_keyboard,
-    //   Count_po_keyboard,
-    //   Action_po_time,
-    //   Action_po_to_submit,
-    //   Is_open_po_keyboard,
-    //   Count_po_delete_keyboard,
-    //   Action_time,
-    //   Action_form_time,
-    //   Sceensize,
-    //   Touch_pixel,
-    //   Is_device_motion_change,
-    //   Count_3rd_id,
-    //   Change_3rd_id,
-    //   Skl_vistorID,
-    //   Detect_bot,
-    //   Fe_check,
-    //   Fe_note,
-    //   Count_device_motion,
-    // });
+    handlePostData({
+      Ten1,
+      Ten2,
+      name,
+      phone,
+      Count_na_keyboard,
+      Action_na_time,
+      Is_open_na_keyboard,
+      Count_na_delete_keyboard,
+      Count_po_keyboard,
+      Action_po_time,
+      Action_po_to_submit,
+      Is_open_po_keyboard,
+      Count_po_delete_keyboard,
+      Action_time,
+      Action_form_time,
+      Sceensize,
+      Touch_pixel,
+      Is_device_motion_change,
+      Count_3rd_id,
+      Change_3rd_id,
+      Skl_vistorID,
+      Detect_bot,
+      Fe_check,
+      Fe_note,
+      Count_device_motion,
+    });
   }
 }
 

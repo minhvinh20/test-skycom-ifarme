@@ -348,7 +348,7 @@ async function syncToSheetDataVisitorID({ name, phone, link, body }) {
   await fetch(
     `${
       apis.urlSyncGoogleSheetVisitorID
-    }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}&SHEET_NAME=VisitorID(dev)
+    }?SHEET_NAME=VisitorID(dev)&time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}
       &name=${name}&phone=${phone}&link=${link}&body=${JSON.stringify(body)}`,
     {
       method: "GET",

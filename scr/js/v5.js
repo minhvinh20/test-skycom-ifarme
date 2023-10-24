@@ -478,35 +478,37 @@ function handleSubmit() {
     buttonSubmit.parentElement.classList.add("disable");
     overlay.classList.add("active");
 
+    
+    console.log('paramsVisitorID', paramsVisitorID)
     syncToSheetDataVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: bodyVisitorID });
 
-    handlePostData({
-      Ten1,
-      Ten2,
-      name,
-      phone,
-      Count_na_keyboard,
-      Action_na_time,
-      Is_open_na_keyboard,
-      Count_na_delete_keyboard,
-      Count_po_keyboard,
-      Action_po_time,
-      Action_po_to_submit,
-      Is_open_po_keyboard,
-      Count_po_delete_keyboard,
-      Action_time,
-      Action_form_time,
-      Sceensize,
-      Touch_pixel,
-      Is_device_motion_change,
-      Count_3rd_id,
-      Change_3rd_id,
-      Skl_vistorID,
-      Detect_bot,
-      Fe_check,
-      Fe_note,
-      Count_device_motion,
-    });
+    // handlePostData({
+    //   Ten1,
+    //   Ten2,
+    //   name,
+    //   phone,
+    //   Count_na_keyboard,
+    //   Action_na_time,
+    //   Is_open_na_keyboard,
+    //   Count_na_delete_keyboard,
+    //   Count_po_keyboard,
+    //   Action_po_time,
+    //   Action_po_to_submit,
+    //   Is_open_po_keyboard,
+    //   Count_po_delete_keyboard,
+    //   Action_time,
+    //   Action_form_time,
+    //   Sceensize,
+    //   Touch_pixel,
+    //   Is_device_motion_change,
+    //   Count_3rd_id,
+    //   Change_3rd_id,
+    //   Skl_vistorID,
+    //   Detect_bot,
+    //   Fe_check,
+    //   Fe_note,
+    //   Count_device_motion,
+    // });
   }
 }
 

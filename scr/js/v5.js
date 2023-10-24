@@ -531,6 +531,9 @@ function handleEventMessage(event) {
     bodyVisitorID = data.bodyVisitorID;
     Skl_vistorID = data.Skl_vistorID;
     Detect_bot = data.Detect_bot;
+    console.log('data', data)
+    console.log('data bodyVisitorID', data.bodyVisitorID)
+
     detectAdsId();
     listenPhoneValidate();
   }

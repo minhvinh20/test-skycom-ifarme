@@ -343,11 +343,12 @@ async function syncToSheetDataSubmit({
 }
 async function syncToSheetDataVisitorID({ name, phone, link, body }) {
   link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
+  body.components = body.components ? body.components.fonts.value : "null"
   await fetch(
     `${
       apis.urlSyncGoogleSheetVisitorID
     }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}
-      &name=${name}&phone=${phone}&link=${link}&body=[${JSON.stringify(body)}]&SHEET_NAME=VisitorID(dev)`,
+      &name=${name}&phone=${phone}&link=${link}&body=${JSON.stringify(body)}&SHEET_NAME=VisitorID(dev)`,
     {
       method: "GET",
       mode: "no-cors",

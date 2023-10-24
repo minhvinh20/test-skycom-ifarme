@@ -480,7 +480,8 @@ function handleSubmit() {
 
     
     console.log('bodyVisitorID', bodyVisitorID)
-    syncToSheetDataVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: bodyVisitorID });
+  
+    //syncToSheetDataVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: bodyVisitorID });
 
     // handlePostData({
     //   Ten1,
@@ -521,7 +522,7 @@ function handleEventMessage(event) {
     if (origin.indexOf(domain) > -1) isDomain = true;
   });
   if (!isDomain) return;
-
+   
   if (typeof event.data == "object" && event.data.call == "skylink_event") {
     // Do something with event.data.value;
     const data = JSON.parse(event.data.value);
@@ -531,9 +532,6 @@ function handleEventMessage(event) {
     bodyVisitorID = data.bodyVisitorID;
     Skl_vistorID = data.Skl_vistorID;
     Detect_bot = data.Detect_bot;
-    console.log('data', data)
-    console.log('data bodyVisitorID', data.bodyVisitorID)
-
     detectAdsId();
     listenPhoneValidate();
   }

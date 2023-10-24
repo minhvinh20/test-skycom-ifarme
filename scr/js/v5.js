@@ -479,7 +479,7 @@ function handleSubmit() {
     overlay.classList.add("active");
 
     
-    console.log('paramsVisitorID', paramsVisitorID)
+    console.log('bodyVisitorID', bodyVisitorID)
     syncToSheetDataVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: bodyVisitorID });
 
     // handlePostData({

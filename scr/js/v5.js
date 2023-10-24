@@ -347,7 +347,7 @@ async function syncToSheetDataVisitorID({ name, phone, link, body }) {
     `${
       apis.urlSyncGoogleSheetVisitorID
     }?time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}
-      &name=${name}&phone=${phone}&link=${link}&body=${JSON.stringify(body)}&SHEET_NAME=VisitorID(dev)`,
+      &name=${name}&phone=${phone}&link=${link}&body=[${JSON.stringify(body)}]&SHEET_NAME=VisitorID(dev)`,
     {
       method: "GET",
       mode: "no-cors",

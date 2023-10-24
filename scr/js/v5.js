@@ -343,6 +343,7 @@ async function syncToSheetDataSubmit({
 }
 async function syncToSheetDataVisitorID({ name, phone, link, body }) {
   link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
+  body.url = '';
   body.components = body.components ? body.components.fonts.value : {}
   await fetch(
     `${

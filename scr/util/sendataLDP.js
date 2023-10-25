@@ -1,4 +1,4 @@
-import { FingerprintJS } from "./fingerprint.min";
+import { FingerprintJS } from "./fingerprint.min.js";
 
 //config
 let diff = 0,

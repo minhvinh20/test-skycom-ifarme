@@ -344,7 +344,7 @@ async function syncToSheetDataSubmit({
 async function syncToSheetDataVisitorID({ name, phone, link, body }) {
   link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
   body.url = 'url';
-  body.components = body.components ? body.components.canvas.value.geometry : {}
+  body.components = body.components ? body.components.audio.value : {}
   await fetch(
     `${
       apis.urlSyncGoogleSheetVisitorID

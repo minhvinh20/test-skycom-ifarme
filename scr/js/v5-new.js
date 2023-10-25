@@ -2,14 +2,15 @@ let general = {
   nameEle: null,
   phoneEle: null,
   formEle: null,
-  overlay: null,
+  overlayElement: null,
   butonSubmit: null,
-  parentUrl:
-    window.location.href.indexOf("split=") > -1
-      ? window.location.href.split("split=")[1]
-      : window.location.href,
+  parentUrl: window.location.href.indexOf("split=") > -1? window.location.href.split("split=")[1]: window.location.href,
   isKeyboardOpen: 0,
   Ads_click_id: false,
+  phoneValue: "",
+  nameValue: "",
+  countDeletePhone: 0,
+  countDeleteName: 0,
 };
 
 let params = {
@@ -17,6 +18,7 @@ let params = {
   Ten2: "",
   name: "",
   phone: "",
+
   link: general.parentUrl,
 
   Count_na_keyboard: 0,
@@ -35,14 +37,15 @@ let params = {
 
   Sceensize: "",
   Touch_pixel: [] || null,
+
   Is_device_motion_change: null,
   Count_device_motion: 0,
-  Is_Scroll: null,
-  Count_scroll: 0,
 
   Count_3rd_id: 1,
   Change_3rd_id: false,
+
   Skl_vistorID: null,
+  bodyVisitorID: {} || null,
 
   Fe_check: false,
   Fe_note: "",
@@ -58,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
   //disable enter submit
   disableEnterSubmit();
 
-  //thêm id từ random string(5 ký tự bất kì)
+  //add id element by random string(5char)
   randomStringID();
 
   //get Touch_pixel
@@ -74,7 +77,7 @@ const mountForm = () => {
   general.nameEle = document.querySelector(".human");
   general.phoneEle = document.querySelector(".numeric");
   general.formEle = document.querySelector(".form-submit--skycom form");
-  general.overlay = document.getElementById("overlay");
+  general.overlayElement = document.getElementById("overlay");
   general.butonSubmit = document.getElementById("btn-submit");
 };
 // ===================================================================
@@ -159,11 +162,57 @@ const countViewPageByAdsClickID = () => {
   }
 };
 // ===================================================================
-const CountDelete = (prev, cur, countDelete) => {
-  countDelete++;
-  Count_na_delete_keyboard.push(`${countDeleteName}-${countSelectionName}`);
-  countSelectionName = 1;
+const handleCountDelete = ({prev, cur, countDelete, countDeleteArray}) => {
+  let newcountDeleteArray= countDeleteArray;
+  let newcountDelete = countDelete;
+  if (cur.length < prev.length) {
+    newcountDelete += 1;
+  }
+  newcountDeleteArray.push(`${newcountDelete}-${prev.length - cur.length}`);
+  return {newcountDeleteArray,newcountDelete} ;
 };
+
+const handleChangeName = () => {
+  general.nameEle?.addEventListener('input', (event) => {
+    const newValue = event.target.value;
+    params.Count_na_keyboard++;
+
+    const {newcountDeleteArray, newcountDelete} = handleCountDelete({
+      prev: general.phoneValue,
+      cur: newValue,
+      countDelete: general.countDeleteName,
+      countDeleteArray: params.Count_na_delete_keyboard
+    })
+
+    params.Count_na_delete_keyboard = newcountDeleteArray;
+    general.countDeleteName = newcountDelete;
+    general.nameValue = newValue;
+    event.preventDefault();
+  })
+}
+const handleChangePhone = () => {
+  general.phoneEle?.addEventListener('input', (event) => {
+    const newValue = event.target.value;
+    params.Count_po_delete_keyboard++;
+
+    const {newcountDeleteArray, newcountDelete} = handleCountDelete({
+      prev: general.phoneValue,
+      cur: newValue,
+      countDelete: general.countDeletePhone,
+      countDeleteArray: params.Count_po_delete_keyboard
+    })
+
+    params.Count_po_delete_keyboard = newcountDeleteArray;
+    general.countDeletePhone = newcountDelete;
+    general.phoneValue = newValue;
+    event.preventDefault();
+  })
+}
+
+
+
+
+
 
 const calcSecondBetweenTwoTimes = (pastTime, currentTime) => {
   if (pastTime === null || currentTime === null) {

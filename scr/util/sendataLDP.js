@@ -1,3 +1,5 @@
+import { FingerprintJS } from "./fingerprint.min";
+
 //config
 let diff = 0,
   Is_device_motion_change = null,
@@ -77,7 +79,6 @@ function sendMessage(frame) {
     Skl_vistorID: paramsVisitorID.browser_vid,
     Detect_bot: paramsVisitorID.is_bot,
   });
-  console.log('message', message)
   frame.contentWindow.postMessage(
     {
       call: "skylink_event",
@@ -88,21 +89,27 @@ function sendMessage(frame) {
 }
 
 const getComponentsFingerVisitorId = () => {
-  let fingerPromise = FingerprintJS.load();
-  fingerPromise
-    .then((fp) => fp.get())
-    .then(function (result) {
-      paramsVisitorID.components = result.components;
-    })
-    .then((response) => {
-      detectBot();
-    })
-    .then((response) => {
-      handlePostDataVistor();
-    })
-    .catch((value) => {
-      console.log("error visitorID");
-    });
+  if(FingerprintJS) {
+    let fingerPromise = FingerprintJS.load()
+    fingerPromise
+      .then((fp) => fp.get())
+      .then(function (result) {
+        console.log('result', result)
+        paramsVisitorID.components = result.components;
+      })
+      .then((response) => {
+        detectBot();
+      })
+      .then((response) => {
+        handlePostDataVistor();
+      })
+      .catch((value) => {
+        console.log("error visitorID");
+      });
+  }
+  else{
+    handlePostDataVistor();
+  }
 };
 const detectBot = () => {
   let botDetectPromise = import("https://testform.skycom.vn/util/fingerdetectbot.min.js").then(

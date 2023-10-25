@@ -1,5 +1,3 @@
-import { FingerprintJS } from "./fingerprint.min.js";
-
 //config
 let diff = 0,
   Is_device_motion_change = null,

@@ -349,6 +349,8 @@ async function syncToSheetDataVisitorID({ name, phone, link, body }) {
     method: 'POST', 
     body: JSON.stringify(requestBody),
     headers: { "Content-Type": "application/json" },
+    mode: "no-cors",
+    redirect: "follow",
   });
 }
 // ==============================HANDLE SUBMIT=====================================

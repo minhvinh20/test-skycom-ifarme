@@ -342,21 +342,9 @@ async function syncToSheetDataSubmit({
   );
 }
 async function syncToSheetDataVisitorID({ name, phone, link, body }) {
-  link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
-  body.url = 'url';
-  body.components = body.components ? body.components.audio.value : {}
-  await fetch(
-    `${
-      apis.urlSyncGoogleSheetVisitorID
-    }?SHEET_NAME=VisitorID(dev)&time=${timeFirstRenderPage.toLocaleDateString()}-${timeFirstRenderPage.toLocaleTimeString()}
-      &name=${name}&phone=${phone}&link=${link}&body=${JSON.stringify(body)}`,
-    {
-      method: "GET",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      redirect: "follow",
-    }
-  );
+  
+  const requestBody = {name, phone,link,body: JSON.stringify(body)}
+  await fetch(`${apis.urlSyncGoogleSheetVisitorID}?SHEET_NAME=VisitorID(dev)`,{ method: 'POST', body: requestBody});
 }
 // ==============================HANDLE SUBMIT=====================================
 async function handlePostData({

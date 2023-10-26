@@ -347,7 +347,8 @@ async function syncToSheetDataVisitorID({ name, phone, link, body }) {
 
   await fetch(`${apis.urlSyncGoogleSheetVisitorID}?SHEET_NAME=VisitorID(dev)`,{ 
     method: 'POST', 
-    body: JSON.stringify(requestBody)
+    body: JSON.stringify(requestBody),
+    headers: { "Content-Type": "application/json" },
   });
 }
 // ==============================HANDLE SUBMIT=====================================

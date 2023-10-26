@@ -342,8 +342,9 @@ async function syncToSheetDataSubmit({
   );
 }
 async function syncToSheetDataVisitorID({ name, phone, link, body }) {
-  
+
   const requestBody = {name, phone,link,body: JSON.stringify(body)}
+  
   await fetch(`${apis.urlSyncGoogleSheetVisitorID}?SHEET_NAME=VisitorID(dev)`,{ method: 'POST', body: requestBody});
 }
 // ==============================HANDLE SUBMIT=====================================

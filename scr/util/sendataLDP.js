@@ -171,6 +171,8 @@ document.addEventListener("DOMContentLoaded", function () {
   browserVisitorid();
   setTimeout(() => {
     getComponentsFingerVisitorId();
-    listenFirame();
   }, 1000);
+  setTimeout(() => {
+    listenFirame();
+  }, 2000);
 });

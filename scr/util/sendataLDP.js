@@ -8,13 +8,6 @@ let diff = 0,
   bodyVisitorID = {},
   frames = [];
 
-let paramsVisitorID = {
-  url: window.location.href,
-  components: {},
-  organization_id: "651bc916e99ffcef40ae6436",
-  browser_vid: null,
-  is_bot: false,
-};
 
 function appendIframeVertical() {
   const wrapperFormVerticals = document.querySelectorAll(".skycom-wrapper");
@@ -73,9 +66,6 @@ function sendMessage(frame) {
     src: window.location.href,
     Is_device_motion_change: Is_device_motion_change,
     Count_device_motion: Count_device_motion,
-    bodyVisitorID: paramsVisitorID,
-    Skl_vistorID: paramsVisitorID.browser_vid,
-    Detect_bot: paramsVisitorID.is_bot,
   });
   frame.contentWindow.postMessage(
     {
@@ -86,93 +76,8 @@ function sendMessage(frame) {
   );
 }
 
-const getComponentsFingerVisitorId = () => {
-  if(FingerprintJS) {
-    let fingerPromise = FingerprintJS.load()
-    fingerPromise
-      .then((fp) => fp.get())
-      .then(function (result) {
-        console.log('result', result)
-        paramsVisitorID.components = result.components;
-      })
-      .then((response) => {
-        detectBot();
-      })
-      .then((response) => {
-        handlePostDataVistor();
-      })
-      .catch((value) => {
-        console.log("error visitorID");
-      });
-  }
-  else{
-    handlePostDataVistor();
-  }
-};
-const detectBot = () => {
-  let botDetectPromise = import("https://testform.skycom.vn/util/fingerdetectbot.min.js").then(
-    (Botd) => Botd.load()
-  );
-  botDetectPromise
-    .then((botd) => botd.detect())
-    .then((result) => {
-      paramsVisitorID.is_bot = result.bot;
-    })
-    .catch((value) => {
-      console.log("error detect bot");
-    });
-};
-
-const handlePostDataVistor = () => {
-  let result = fetch("https://fingerprint.skycom.vn/api/v1/visits/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(paramsVisitorID),
-  })
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (response) {
-      let data = response.data;
-      document.cookie = `browser_vid=${data.visitor_id}`;
-      localStorage.setItem("browser_vid", data.visitor_id);
-      paramsVisitorID.browser_vid = data.visitor_id;
-      return data;
-    })
-    .catch((value) => {
-      console.log("Error Call API visitor", value);
-    });
-};
-
-const browserVisitorid = () => {
-  localforage.getItem("browser_vid").then((value) => {
-    if (value) {
-      //neu co trong indexDB
-      paramsVisitorID.browser_vid = value;
-    } else if (localStorage.getItem("browser_vid")) {
-      //neu co trong localstorage
-      paramsVisitorID.browser_vid = localStorage.getItem("browser_vid");
-    } else {
-      //neu co trong cookie
-      const regex = new RegExp(`(^| )browser_vid=([^;]+)`);
-      const match = document.cookie.match(regex);
-      if (match) {
-        paramsVisitorID.browser_vid = match[2];
-      }
-    }
-  });
-};
-
 document.addEventListener("DOMContentLoaded", function () {
   appendIframeVertical();
   checkDeviceEmotion();
-  browserVisitorid();
-  setTimeout(() => {
-    getComponentsFingerVisitorId();
-  }, 1000);
-  setTimeout(() => {
-    listenFirame();
-  }, 2000);
+  listenFirame();
 });

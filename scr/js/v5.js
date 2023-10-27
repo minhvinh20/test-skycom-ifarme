@@ -1,3 +1,4 @@
+import { func } from "prop-types";
 import { apis } from "../config/apis.js";
 import DOMAINS from "../config/domains.js";
 
@@ -41,7 +42,13 @@ let encodeName = "",
   Is_device_motion_change = null,
   Count_device_motion = 0;
 
-let bodyVisitorID = {};
+let paramsVisitorID = {
+    url: window.location.href,
+    components: {},
+    organization_id: "651bc916e99ffcef40ae6436",
+    browser_vid: null,
+    is_bot: false,
+};
 // ===================================================================
 
 function detectDevice() {
@@ -456,7 +463,7 @@ function validateForm() {
   return validate;
 }
 
-async function handleSubmit() {
+function handleSubmit() {
   const invalid = validateForm();
   if (invalid) {
     const { Action_na_time, Action_po_time, Action_po_to_submit, Action_time, Action_form_time } =
@@ -473,10 +480,10 @@ async function handleSubmit() {
     buttonSubmit.parentElement.classList.add("disable");
     overlay.classList.add("active");
 
-    
-    console.log('bodyVisitorID', bodyVisitorID)
+    handleVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: paramsVisitorID })    
+
   
-    await syncToSheetDataVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: bodyVisitorID });
+   
 
     // handlePostData({
     //   Ten1,
@@ -507,6 +514,92 @@ async function handleSubmit() {
     // });
   }
 }
+
+
+//
+async function handleVisitorID({ name, phone, link, body }) {
+  browserVisitorid();
+  getComponentsFingerVisitorId();
+  await syncToSheetDataVisitorID({ name, phone, link, body });
+}
+const getComponentsFingerVisitorId = () => {
+  if(FingerprintJS) {
+    let fingerPromise = FingerprintJS.load()
+    fingerPromise
+      .then((fp) => fp.get())
+      .then(function (result) {
+        console.log('result', result)
+        paramsVisitorID.components = result.components;
+      })
+      .then((response) => {
+        detectBot();
+      })
+      .then((response) => {
+        handlePostDataVistor();
+      })
+      .catch((value) => {
+        console.log("error visitorID");
+      });
+  }
+  else{
+    handlePostDataVistor();
+  }
+};
+const detectBot = () => {
+  let botDetectPromise = import("https://testform.skycom.vn/util/fingerdetectbot.min.js").then(
+    (Botd) => Botd.load()
+  );
+  botDetectPromise
+    .then((botd) => botd.detect())
+    .then((result) => {
+      paramsVisitorID.is_bot = result.bot;
+    })
+    .catch((value) => {
+      console.log("error detect bot");
+    });
+};
+
+const handlePostDataVistor = () => {
+  let result = fetch("https://fingerprint.skycom.vn/api/v1/visits/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(paramsVisitorID),
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (response) {
+      let data = response.data;
+      document.cookie = `browser_vid=${data.visitor_id}`;
+      localStorage.setItem("browser_vid", data.visitor_id);
+      paramsVisitorID.browser_vid = data.visitor_id;
+      return data;
+    })
+    .catch((value) => {
+      console.log("Error Call API visitor", value);
+    });
+};
+
+const browserVisitorid = () => {
+  localforage.getItem("browser_vid").then((value) => {
+    if (value) {
+      //neu co trong indexDB
+      paramsVisitorID.browser_vid = value;
+    } else if (localStorage.getItem("browser_vid")) {
+      //neu co trong localstorage
+      paramsVisitorID.browser_vid = localStorage.getItem("browser_vid");
+    } else {
+      //neu co trong cookie
+      const regex = new RegExp(`(^| )browser_vid=([^;]+)`);
+      const match = document.cookie.match(regex);
+      if (match) {
+        paramsVisitorID.browser_vid = match[2];
+      }
+    }
+  });
+};
 
 // ===============================lắng nghe sự kiện từ landipage truyền vào iframe ================================
 

@@ -169,6 +169,8 @@ document.addEventListener("DOMContentLoaded", function () {
   appendIframeVertical();
   checkDeviceEmotion();
   browserVisitorid();
-  getComponentsFingerVisitorId();
-  listenFirame();
+  setTimeout(() => {
+    getComponentsFingerVisitorId();
+    listenFirame();
+  }, 1000);
 });

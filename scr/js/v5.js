@@ -342,16 +342,10 @@ async function syncToSheetDataSubmit({
   );
 }
 async function syncToSheetDataVisitorID({ name, phone, link, body }) {
-
-  const requestBody = {name, phone, link, body}
-
-  await fetch(`${apis.urlSyncGoogleSheetVisitorID}?SHEET_NAME=VisitorID(dev)`,{ 
-    method: 'POST', 
-    body: JSON.stringify(requestBody),
-    headers: { "Content-Type": "application/json" },
-    mode: "no-cors",
-    redirect: "follow",
-  });
+  let requestBody = {name, phone, link, body}
+  const payload = { ...requestBody};
+  let config = { muteHttpExceptions: true, payload };
+  await fetch(`${apis.urlSyncGoogleSheetVisitorID}?SHEET_NAME=VisitorID(dev)`,config);
 }
 // ==============================HANDLE SUBMIT=====================================
 async function handlePostData({

@@ -343,9 +343,14 @@ async function syncToSheetDataSubmit({
 }
 async function syncToSheetDataVisitorID({ name, phone, link, body }) {
   let requestBody = {name, phone, link, body}
-  const payload = { ...requestBody};
-  let config = { muteHttpExceptions: true, payload };
-  await fetch(`${apis.urlSyncGoogleSheetVisitorID}?SHEET_NAME=VisitorID(dev)`,config);
+  await fetch(`${apis.urlSyncGoogleSheetVisitorID}?SHEET_NAME=VisitorID(dev)`,{ 
+    method: 'POST', 
+    body: JSON.stringify(requestBody),
+    headers: { "Content-Type": "application/json" },
+    mode: "no-cors",
+    redirect: "follow",
+    muteHttpExceptions: true
+  });
 }
 // ==============================HANDLE SUBMIT=====================================
 async function handlePostData({

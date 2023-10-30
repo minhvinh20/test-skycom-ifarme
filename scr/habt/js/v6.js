@@ -388,6 +388,7 @@ async function handleSubmit() {
     overlay.classList.add("active");
 
     handleSkintype();
+
     handlePostData({
       Ten2,
       name,

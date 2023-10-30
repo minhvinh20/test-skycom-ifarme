@@ -36,7 +36,8 @@ let encodePhone = "",
   Sceensize = "",
   Touch_pixel = [],
   Is_device_motion_change = null,
-  Count_device_motion = 0;
+  Count_device_motion = 0,
+  Skin_type = "";
 
 let paramsVisitorID = {
   url: window.location.href,
@@ -379,7 +380,6 @@ async function handleSubmit() {
     const Ten2 = phoneEle.value;
     const name = document.getElementById("ten2").value;
     const phone = document.getElementById("sdt2").value;
-    const Skin_type = document.querySelector('input[name="skin"]:checked').value;
 
     Sceensize = `${window.screen.width} x ${window.screen.height}`;
     Count_3rd_id = localStorage.getItem("Count_3rd_id");
@@ -388,6 +388,7 @@ async function handleSubmit() {
     buttonSubmit.parentElement.classList.add("disable");
     overlay.classList.add("active");
 
+    handleSkintype();
     handlePostData({
       Ten2,
       name,
@@ -497,6 +498,18 @@ const browserVisitorid = () => {
 };
 browserVisitorid();
 getComponentsFingerVisitorId();
+
+const handleSkintype = () => {
+  for (var i = 1; i < 9; i++) {
+    let value = document.querySelector(`input[name="skin_${i}"]:checked`)
+      ? document.querySelector(`input[name="skin_${i}"]:checked`).value
+      : "";
+    if (value) {
+      Skin_type += `${value}, `;
+    }
+  }
+};
+
 // ===============================lắng nghe sự kiện từ landipage truyền vào iframe ================================
 
 function handleEventMessage(event) {

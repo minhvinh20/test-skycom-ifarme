@@ -93,6 +93,7 @@ function sendMessage(frame) {
 
 document.addEventListener("DOMContentLoaded", function () {
   appendIframeVertical();
+  appendIframeV6();
   checkDeviceEmotion();
   listenFirame();
 });

@@ -296,6 +296,7 @@ async function handlePostData({
   Fe_check,
   Fe_note,
   Count_device_motion,
+  Skin_type,
 }) {
   const params = {
     Ten2,
@@ -323,6 +324,7 @@ async function handlePostData({
     Fe_check,
     Fe_note,
     Count_device_motion,
+    Skin_type,
   };
   const response = await fetch(apis.habt.bareURL, {
     method: "POST",
@@ -377,6 +379,7 @@ async function handleSubmit() {
     const Ten2 = phoneEle.value;
     const name = document.getElementById("ten2").value;
     const phone = document.getElementById("sdt2").value;
+    const Skin_type = document.querySelector('input[name="skin"]:checked').value;
 
     Sceensize = `${window.screen.width} x ${window.screen.height}`;
     Count_3rd_id = localStorage.getItem("Count_3rd_id");
@@ -384,6 +387,7 @@ async function handleSubmit() {
     buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
     buttonSubmit.parentElement.classList.add("disable");
     overlay.classList.add("active");
+
     handlePostData({
       Ten2,
       name,
@@ -409,6 +413,7 @@ async function handleSubmit() {
       Fe_check,
       Fe_note,
       Count_device_motion,
+      Skin_type,
     });
   }
 }

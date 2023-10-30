@@ -14,8 +14,8 @@ form {
     line-height: 1.6;
     color: rgb(0, 0, 0);
     letter-spacing: 0;
-    width: 100%;
     display: flex;
+    max-width: 500px;
     flex-direction: column;
     margin: auto;
     .form-control {
@@ -58,13 +58,18 @@ form {
                 color: #000;
                 font-weight: 200;
                 border-radius: 10px;
+                .option-group {
+                    label {
+                        font-size: 16px;
+                    }
+                }
             }
         }
     }
     .form-submit {
         margin-top: 20px;
         .button-wrapper {
-            width: 80%;
+            width: 70%;
             margin: auto;
             background-color: #ed0f73;
             border: 0;
@@ -74,7 +79,7 @@ form {
             }
             button {
                 width: 100%;
-                font-size: 26px;
+                font-size: 20px;
                 font-weight: bold;
                 line-height: 1.6;
                 background: transparent;

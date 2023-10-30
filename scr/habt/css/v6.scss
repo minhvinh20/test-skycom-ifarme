@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap");
+.hidden,
+.grecaptcha-badge {
+    display: none !important;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui;
+}
+form {
+    padding: 10px;
+    font-size: 20px;
+    line-height: 1.6;
+    color: rgb(0, 0, 0);
+    letter-spacing: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    .form-control {
+        margin: 1em auto 0 auto;
+        width: 70%;
+        height: 35px;
+        margin-bottom: 10px;
+        background-color: #f2a3bf;
+        border-radius: 4px;
+        border-width: 1px;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #f2a3bf;
+        box-shadow: rgb(0, 0, 0) 0 15px 16px -18px;
+        color: #000;
+        input {
+            background-color: transparent;
+            width: 100%;
+            height: 35px;
+            padding-left: 10px;
+            border: none;
+            font-size: 16px;
+            font-weight: 200;
+            &:focus {
+                outline: none;
+            }
+            &::placeholder {
+                color: #000;
+            }
+        }
+    }
+    .form-option {
+        .control-wrapper {
+            display: flex;
+            gap: 10px;
+
+            .option-group-wrapper {
+                width: calc(50% - 5px);
+                background-color: #f2a3bf;
+                color: #000;
+                font-weight: 200;
+                border-radius: 10px;
+            }
+        }
+    }
+    .form-submit {
+        margin-top: 20px;
+        .button-wrapper {
+            width: 80%;
+            margin: auto;
+            background-color: #ed0f73;
+            border: 0;
+            border-radius: 20px;
+            &.disable {
+                pointer-events: none;
+            }
+            button {
+                width: 100%;
+                font-size: 26px;
+                font-weight: bold;
+                line-height: 1.6;
+                background: transparent;
+                text-align: center;
+                cursor: pointer;
+                user-select: none;
+                color: rgb(255, 255, 255);
+                display: table-cell;
+                vertical-align: middle;
+                border: none;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+#overlay {
+    display: none;
+    &.active {
+        display: block;
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #6666669e;
+        left: 0;
+        pointer-events: none;
+        z-index: 99999999999;
+    }
+    svg {
+        width: 50px;
+        height: 50px;
+        top: 35%;
+        left: 45%;
+        position: absolute;
+        animation-name: spin;
+        animation: spin 1.5s linear infinite;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.numeric[readonly="readonly"] {
+    caret-color: red;
+}

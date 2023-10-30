@@ -6,6 +6,8 @@ export const apis = {
     urlSyncGoogleSheetSpam:
       "https://script.google.com/macros/s/AKfycbzS2nq5H7R8gf8LV_IB4GEqNABUi1LPpvYsME_RS8uD88JXwQ1_WKSg8FGCzuSjYHyt/exec",
     urlConfirm: "https://hoaianbeauty.com/pages/xac-nhan-thong-tin",
+    urlV6:
+      "https://script.google.com/macros/s/AKfycbz1CeCe8HG_SH1_ci8txtPvAPs_aBfczFk-IewUO4STPXLEKFBtAOM88kgbimXEkd9f/exec",
   },
   jp24: {
     bareURL: "https://devsyncdata.skycom.vn/api/spam_check/form-spam-check",

@@ -1,5 +1,5 @@
-import { apis } from "../config/apis.js";
-import DOMAINS from "../config/domains.js";
+import { apis } from "../../config/apis.js";
+import DOMAINS from "../../config/domains.js";
 
 const timeFirstRenderPage = new Date();
 const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/;
@@ -7,13 +7,12 @@ const regexPhone = /^(0|\+84)(9[0-9]|3[2-9]|7[06-9]|5[6-9]|8[1-9]|2[0-9])\d{7}$/
 let parentUrl =
   window.location.href.indexOf("split=") > -1 ? window.location.href.split("split=")[1] : window.location.href;
 
-let elInputs = document.querySelectorAll(".input-cache input");
+let phoneEle = document.querySelector(".input-cache input");
 let form = document.querySelector(".form-submit--skycom form");
 let overlay = document.getElementById("overlay");
 let buttonSubmit = document.getElementById("btn-submit");
 
-let encodeName = "",
-  encodePhone = "",
+let encodePhone = "",
   isKeyboardOpen = 0,
   Count_na_keyboard = 0,
   Count_na_delete_keyboard = [],
@@ -77,35 +76,23 @@ function textEnpty(e) {
   return _str.repeat(e);
 }
 function encryptionIDFileds() {
-  elInputs.forEach((element, index) => {
-    const randomString = (Math.random() + 1).toString(36).slice(2, 7);
-    if (index === 0) {
-      encodeName = randomString;
-    }
-    if (index === 1) {
-      encodePhone = randomString;
-    }
-    let placeholder = element.getAttribute("placeholder");
-    placeholder +=
-      textEnpty(100) +
-      randomString +
-      "-" +
-      randomString +
-      textEnpty(getRandomInt(20)) +
-      randomString +
-      "-" +
-      randomString;
-    element.setAttribute("id", randomString);
-    element.setAttribute("name", randomString);
-    element.setAttribute("placeholder", placeholder);
-  });
+  const randomString = (Math.random() + 1).toString(36).slice(2, 7);
+  let placeholder = phoneEle.getAttribute("placeholder");
+  placeholder +=
+    textEnpty(100) +
+    randomString +
+    "-" +
+    randomString +
+    textEnpty(getRandomInt(20)) +
+    randomString +
+    "-" +
+    randomString;
+  encodePhone = randomString;
+  phoneEle.setAttribute("id", randomString);
+  phoneEle.setAttribute("name", randomString);
+  phoneEle.setAttribute("placeholder", placeholder);
 }
 encryptionIDFileds();
-
-// ===========================QUERY INPUT FIELDS ========================================
-
-const fieldName = document.getElementById(encodeName);
-const fieldPhone = document.getElementById(encodePhone);
 
 // ===================================================================
 
@@ -122,10 +109,7 @@ disableEnterSubmit();
 // ===================================================================
 
 function disableCopy() {
-  fieldName.onpaste = function (e) {
-    e.preventDefault();
-  };
-  fieldPhone.onpaste = function (e) {
+  phoneEle.onpaste = function (e) {
     e.preventDefault();
   };
 }
@@ -186,33 +170,13 @@ countViewPage();
 
 // ===================================================================
 function listenPhoneValidate() {
-  fieldPhone.addEventListener("input", (e) => {
+  phoneEle.addEventListener("input", (e) => {
+    console.log("test");
     if (regexPhone.test(e.target.value)) {
       syncToSheetValidate({ phone: e.target.value, link: parentUrl });
     }
   });
 }
-// ==============================HANDLE INPUT NAME=====================================
-
-function handleCountNameTyping() {
-  var countDeleteName = 0;
-  var countSelectionName = 0;
-  fieldName.addEventListener("input", function (e) {
-    Count_na_keyboard++;
-  });
-  fieldName.addEventListener("keydown", function (e) {
-    if (e.keyCode === 8) {
-      countDeleteName++;
-      Count_na_delete_keyboard.push(`${countDeleteName}-${countSelectionName}`);
-      countSelectionName = 1;
-    }
-  });
-  fieldName.addEventListener("mouseup", function (e) {
-    countSelectionName = e.target.selectionEnd - e.target.selectionStart;
-    if (countSelectionName == 0) countSelectionName = 1;
-  });
-}
-handleCountNameTyping();
 
 // ==============================HANDLE INPUT PHONE=====================================
 
@@ -220,17 +184,17 @@ function handleCountPhoneTyping() {
   var countDeletePhone = 0;
   var countSelectionPhone = 0;
 
-  fieldPhone.addEventListener("input", function (e) {
+  phoneEle.addEventListener("input", function (e) {
     Count_po_keyboard += 1;
   });
-  fieldPhone.addEventListener("keydown", function (e) {
+  phoneEle.addEventListener("keydown", function (e) {
     if (e.keyCode === 8) {
       countDeletePhone++;
       Count_po_delete_keyboard.push(`${countDeletePhone}-${countSelectionPhone}`);
       countSelectionPhone = 1;
     }
   });
-  fieldPhone.addEventListener("mouseup", function (e) {
+  phoneEle.addEventListener("mouseup", function (e) {
     countSelectionPhone = e.target.selectionEnd - e.target.selectionStart;
     if (countSelectionPhone == 0) countSelectionPhone = 1;
   });
@@ -239,43 +203,28 @@ handleCountPhoneTyping();
 
 // ==============================TIMER TIMING=====================================
 
-var timeNaIn = 0,
-  timePoIn = 0,
-  timeNaOut = 0,
-  timePoOut = 0,
-  timeAdIn = 0,
-  timeAdOut = 0;
+var timePoIn = 0,
+  timePoOut = 0;
 function setTimer() {
-  fieldName?.addEventListener("click", function (e) {
-    if (!timeNaIn) timeNaIn = new Date();
-    //check keyboard open
-    window.visualViewport.addEventListener("resize", listenerKeyboardOpen);
-  });
-  fieldName?.addEventListener("focusout", function (e) {
-    timeNaOut = new Date();
-  });
-  fieldPhone?.addEventListener("click", function (e) {
+  phoneEle?.addEventListener("click", function (e) {
     if (!timePoIn) timePoIn = new Date();
     //check keyboard open
     window.visualViewport.addEventListener("resize", listenerKeyboardOpen);
   });
-  fieldPhone?.addEventListener("focusout", function (e) {
+  phoneEle?.addEventListener("focusout", function (e) {
     timePoOut = new Date();
   });
 }
 setTimer();
 
 function inputTiming() {
-  Action_na_time = Math.abs(timeNaOut - timeNaIn) / 1000;
   Action_po_time = Math.abs(timePoOut - timePoIn) / 1000;
   Action_po_to_submit = Math.abs((+new Date() - +timePoOut) / 1000);
   Action_time = Math.abs(new Date() - timeFirstRenderPage) / 1000;
-  Action_form_time =
-    timeNaIn < timePoIn ? Math.abs(new Date() - timeNaIn) / 1000 : Math.abs(new Date() - timePoIn) / 1000;
+  Action_form_time = Math.abs(new Date() - timePoIn) / 1000;
 
   return {
     Action_po_time,
-    Action_na_time,
     Action_po_to_submit,
     Action_time,
     Action_form_time,
@@ -287,8 +236,7 @@ function inputTiming() {
 async function syncToSheetValidate({ phone, link }) {
   link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
   let requestBody = { phone, link };
-
-  await fetch(`${apis.habt.urlSyncGoogleSheetSpam}?SHEET_NAME=SDTValidate`, {
+  await fetch(`${apis.habt.urlV6}?SHEET_NAME=PhoneValidate`, {
     method: "POST",
     body: JSON.stringify(requestBody),
     headers: { "Content-Type": "application/json" },
@@ -297,11 +245,11 @@ async function syncToSheetValidate({ phone, link }) {
     muteHttpExceptions: true,
   });
 }
-async function syncToSheetServerFail({ name, phone, ad_channel, ad_account, link, reasons }) {
+async function syncToSheetServerFail({ phone, ad_channel, ad_account, link, reasons }) {
   link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
-  let requestBody = { name, phone, ad_channel, ad_account, link, reasons };
+  let requestBody = { phone, ad_channel, ad_account, link, reasons };
 
-  await fetch(`${apis.habt.urlSyncGoogleSheetSpam}?SHEET_NAME=ErrorServer`, {
+  await fetch(`${apis.habt.urlV6}?SHEET_NAME=ServerFail`, {
     method: "POST",
     body: JSON.stringify(requestBody),
     headers: { "Content-Type": "application/json" },
@@ -310,22 +258,10 @@ async function syncToSheetServerFail({ name, phone, ad_channel, ad_account, link
     muteHttpExceptions: true,
   });
 }
-async function syncToSheetDataSubmit({ name, phone, ad_channel, ad_account, isSuspect, link, spam, reasons }) {
+async function syncToSheetDataSubmit({ phone, ad_channel, ad_account, isSuspect, link, spam, reasons }) {
   link = link.indexOf("&") > -1 ? link.replaceAll("&", "_SKYCOM_") : link;
-  let requestBody = { name, phone, ad_channel, ad_account, isSuspect, link, spam, reasons };
-
-  await fetch(`${apis.habt.urlSyncGoogleSheetSpam}?SHEET_NAME=TotalSDT`, {
-    method: "POST",
-    body: JSON.stringify(requestBody),
-    headers: { "Content-Type": "application/json" },
-    mode: "no-cors",
-    redirect: "follow",
-    muteHttpExceptions: true,
-  });
-}
-async function syncToSheetDataVisitorID({ name, phone, link, body }) {
-  let requestBody = { name, phone, link, body };
-  await fetch(`${apis.urlSyncGoogleSheetVisitorID}?SHEET_NAME=VisitorID(dev)`, {
+  let requestBody = { phone, ad_channel, ad_account, isSuspect, link, spam, reasons };
+  await fetch(`${apis.habt.urlV6}?SHEET_NAME=Total`, {
     method: "POST",
     body: JSON.stringify(requestBody),
     headers: { "Content-Type": "application/json" },
@@ -336,7 +272,6 @@ async function syncToSheetDataVisitorID({ name, phone, link, body }) {
 }
 // ==============================HANDLE SUBMIT=====================================
 async function handlePostData({
-  Ten1,
   Ten2,
   name,
   phone,
@@ -363,7 +298,6 @@ async function handlePostData({
   Count_device_motion,
 }) {
   const params = {
-    Ten1,
     Ten2,
     name,
     phone,
@@ -402,7 +336,6 @@ async function handlePostData({
     })
     .then(async function (data) {
       await syncToSheetDataSubmit({
-        name: Ten1,
         phone: Ten2,
         link: parentUrl,
         spam: data.spam,
@@ -412,16 +345,15 @@ async function handlePostData({
         ad_account: data.ad_account,
       });
       if (data.spam) {
-        window.parent.location.replace(`${apis.habt.urlThankFake}?name=${Ten1}&phone=${Ten2}`);
+        window.parent.location.replace(`${apis.habt.urlThankFake}?phone=${Ten2}`);
       } else if (data.suspect) {
         window.parent.location.replace(`${apis.habt.urlConfirm}?lead_id=${data.lead_id}`);
       } else {
-        window.parent.location.replace(`${apis.habt.urlThankReal}?name=${Ten1}&phone=${Ten2}`);
+        window.parent.location.replace(`${apis.habt.urlThankReal}?phone=${Ten2}`);
       }
     })
     .catch(async function (error) {
       await syncToSheetServerFail({
-        name: Ten1,
         phone: Ten2,
         link: parentUrl,
         reason: error.message,
@@ -429,7 +361,7 @@ async function handlePostData({
     });
 }
 function validateForm() {
-  const valuePhone = fieldPhone.value;
+  const valuePhone = phoneEle.value;
   let validate = true;
   if (!regexPhone.test(valuePhone)) {
     document.getElementById("errorMessage").innerText = "Vui lòng nhập đúng số điện thoại";
@@ -442,8 +374,7 @@ async function handleSubmit() {
   const invalid = validateForm();
   if (invalid) {
     const { Action_na_time, Action_po_time, Action_po_to_submit, Action_time, Action_form_time } = inputTiming();
-    const Ten1 = fieldName.value;
-    const Ten2 = fieldPhone.value;
+    const Ten2 = phoneEle.value;
     const name = document.getElementById("ten2").value;
     const phone = document.getElementById("sdt2").value;
 
@@ -453,11 +384,7 @@ async function handleSubmit() {
     buttonSubmit.innerText = "ĐANG XỬ LÝ!!!";
     buttonSubmit.parentElement.classList.add("disable");
     overlay.classList.add("active");
-
-    await syncToSheetDataVisitorID({ name: Ten1, phone: Ten2, link: parentUrl, body: paramsVisitorID });
-
     handlePostData({
-      Ten1,
       Ten2,
       name,
       phone,
@@ -485,7 +412,6 @@ async function handleSubmit() {
     });
   }
 }
-
 // ==============================VisitorID=====================================
 const getComponentsFingerVisitorId = () => {
   if (FingerprintJS) {
@@ -595,7 +521,7 @@ buttonSubmit.addEventListener("click", function (e) {
   if (action_time > 10) {
     return;
   }
-  if (fieldName.value.trim() == "" && fieldPhone.value.trim() == "") {
+  if (phoneEle.value.trim() == "") {
     Fe_check = true;
     Fe_note = "nhấn submit quá nhiều lần (Action_time < 10s)";
   }

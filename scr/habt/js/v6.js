@@ -172,7 +172,6 @@ countViewPage();
 // ===================================================================
 function listenPhoneValidate() {
   phoneEle.addEventListener("input", (e) => {
-    console.log("test");
     if (regexPhone.test(e.target.value)) {
       syncToSheetValidate({ phone: e.target.value, link: parentUrl });
     }

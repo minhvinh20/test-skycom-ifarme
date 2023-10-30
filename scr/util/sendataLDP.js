@@ -8,7 +8,6 @@ let diff = 0,
   bodyVisitorID = {},
   frames = [];
 
-
 function appendIframeVertical() {
   const wrapperFormVerticals = document.querySelectorAll(".skycom-wrapper");
   if (wrapperFormVerticals.length > 0) {
@@ -18,6 +17,22 @@ function appendIframeVertical() {
       }
       const iframe = document.createElement("iframe");
       iframe.src = "https://testform.skycom.vn/v5";
+      iframe.classList.add("skycom-iframe");
+
+      wrapper.insertBefore(iframe, wrapper.children[0]);
+    });
+  }
+}
+
+function appendIframeV6() {
+  const wrapperFormVerticals = document.querySelectorAll(".skycom-v6");
+  if (wrapperFormVerticals.length > 0) {
+    wrapperFormVerticals.forEach(function (wrapper) {
+      if (!wrapper) {
+        return;
+      }
+      const iframe = document.createElement("iframe");
+      iframe.src = "https://testform.skycom.vn/habt/v6";
       iframe.classList.add("skycom-iframe");
 
       wrapper.insertBefore(iframe, wrapper.children[0]);

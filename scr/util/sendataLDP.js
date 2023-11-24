@@ -109,6 +109,7 @@ const bareURL = "https://form.skycom.vn";
 
 const appenIframe = (className, endpoin) => {
   const wrapperForm = document.querySelectorAll(className);
+  console.log("wrapperForm", wrapperForm);
   if (wrapperForm.length > 0) {
     wrapperForm.forEach(function (wrapper) {
       if (!wrapper) {

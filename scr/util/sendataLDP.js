@@ -109,7 +109,6 @@ const bareURL = "https://form.skycom.vn";
 
 const appenIframe = (className, endpoin) => {
   const wrapperForm = document.querySelectorAll(className);
-  console.log("wrapperForm", wrapperForm);
   if (wrapperForm.length > 0) {
     wrapperForm.forEach(function (wrapper) {
       if (!wrapper) {
@@ -174,10 +173,10 @@ function sendMessage(frame) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  appenIframe("skycom-wrapper", "/habt/v5");
-  appenIframe("skycom-wrapper--horizontal", "/habt/v5-horizontal");
-  appenIframe("skycom-v6", "/habt/v6");
-  appenIframe("skycom-ryusui--1", "/ryusui/v1");
+  appenIframe(".skycom-wrapper", "/habt/v5");
+  appenIframe(".skycom-wrapper--horizontal", "/habt/v5-horizontal");
+  appenIframe(".skycom-v6", "/habt/v6");
+  appenIframe(".skycom-ryusui--1", "/ryusui/v1");
 
   checkDeviceEmotion();
   listenFirame();

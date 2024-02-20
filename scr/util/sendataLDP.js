@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
   appenIframe(".skycom-wrapper", "/v5");
   appenIframe(".skycom-v6", "/habt/v6");
   appenIframe(".skycom-ryusui-v1", "/ryusui/v1");
+  appenIframe(".skycom-ryusui-v2", "/ryusui/v2");
   checkDeviceEmotion();
   listenFirame();
 });

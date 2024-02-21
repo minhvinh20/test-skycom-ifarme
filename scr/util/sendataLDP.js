@@ -3,9 +3,6 @@ let diff = 0,
   Is_device_motion_change = null,
   Count_device_motion = 0,
   device_motion_compare = 0,
-  Skl_vistorID = null,
-  Detect_bot = false,
-  bodyVisitorID = {},
   frames = [];
 const bareURL = "https://testform.skycom.vn";
 //

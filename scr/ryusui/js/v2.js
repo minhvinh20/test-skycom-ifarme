@@ -28,8 +28,6 @@ let encodeName = "",
   Count_po_delete_keyboard = [],
   Action_time = 0,
   Action_form_time = 0,
-  Skl_vistorID = null,
-  Detect_bot = false,
   adsClickId = "",
   third_id = 0,
   Count_3rd_id = 1,
@@ -44,26 +42,8 @@ let encodeName = "",
   Hair_age = "",
   Hair_time = "";
 
-let paramsVisitorID = {
-  url: window.location.href,
-  components: {},
-  organization_id: "651bc916e99ffcef40ae6436",
-  browser_vid: null,
-  is_bot: false,
-};
 // ===================================================================
 
-function detectDevice() {
-  let isIOS = false;
-  let isMobile = false;
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    isMobile = true;
-    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      isIOS = true;
-    }
-  }
-  return { isIOS, isMobile };
-}
 function listenerKeyboardOpen() {
   let MIN_KEYBOARD_HEIGHT = 280;
   let isMobile = window.innerWidth < 768;
@@ -342,17 +322,6 @@ async function syncToSheetDataSubmit({
     muteHttpExceptions: true,
   });
 }
-async function syncToSheetDataVisitorID({ name, phone, link, body }) {
-  let requestBody = { name, phone, link, body };
-  await fetch(`${apis.urlSyncGoogleSheetVisitorID}?SHEET_NAME=VisitorID(dev)`, {
-    method: "POST",
-    body: JSON.stringify(requestBody),
-    headers: { "Content-Type": "application/json" },
-    mode: "no-cors",
-    redirect: "follow",
-    muteHttpExceptions: true,
-  });
-}
 // ==============================HANDLE SUBMIT=====================================
 async function handlePostData({
   Ten1,
@@ -375,8 +344,6 @@ async function handlePostData({
   Is_device_motion_change,
   Count_3rd_id,
   Change_3rd_id,
-  Skl_vistorID,
-  Detect_bot,
   Fe_check,
   Fe_note,
   Count_device_motion,
@@ -406,8 +373,6 @@ async function handlePostData({
     Is_device_motion_change,
     Count_3rd_id,
     Change_3rd_id,
-    Skl_vistorID,
-    Detect_bot,
     Fe_check,
     Fe_note,
     Count_device_motion,
@@ -480,13 +445,6 @@ async function handleSubmit() {
     buttonSubmit.parentElement.classList.add("disable");
     overlay.classList.add("active");
 
-    await syncToSheetDataVisitorID({
-      name: Ten1,
-      phone: Ten2,
-      link: parentUrl,
-      body: paramsVisitorID,
-    });
-
     Hair_time = getFormOptionValue("v2_time", Hair_time);
     Hair_age = getFormOptionValue("v2_age", Hair_age);
     handleHairtype();
@@ -512,8 +470,6 @@ async function handleSubmit() {
       Is_device_motion_change,
       Count_3rd_id,
       Change_3rd_id,
-      Skl_vistorID,
-      Detect_bot,
       Fe_check,
       Fe_note,
       Count_device_motion,
@@ -524,87 +480,6 @@ async function handleSubmit() {
   }
 }
 
-// ==============================VisitorID=====================================
-const getComponentsFingerVisitorId = () => {
-  if (FingerprintJS) {
-    let fingerPromise = FingerprintJS.load();
-    fingerPromise
-      .then((fp) => fp.get())
-      .then(function (result) {
-        paramsVisitorID.components = result.components;
-      })
-      .then((response) => {
-        detectBot();
-      })
-      .then((response) => {
-        handlePostDataVistor();
-      })
-      .catch((value) => {
-        console.log("error visitorID");
-      });
-  } else {
-    handlePostDataVistor();
-  }
-};
-const detectBot = () => {
-  let botDetectPromise = import("https://testform.skycom.vn/util/fingerdetectbot.min.js").then(
-    (Botd) => Botd.load()
-  );
-  botDetectPromise
-    .then((botd) => botd.detect())
-    .then((result) => {
-      paramsVisitorID.is_bot = result.bot;
-    })
-    .catch((value) => {
-      console.log("error detect bot");
-    });
-};
-
-const handlePostDataVistor = () => {
-  let result = fetch("https://fingerprint.skycom.vn/api/v1/visits/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(paramsVisitorID),
-  })
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (response) {
-      let data = response.data;
-      document.cookie = `browser_vid=${data.visitor_id}`;
-      localStorage.setItem("browser_vid", data.visitor_id);
-      paramsVisitorID.browser_vid = data.visitor_id;
-      Skl_vistorID = data.visitor_id;
-      Detect_bot = data.is_bot;
-      return data;
-    })
-    .catch((value) => {
-      console.log("Error Call API visitor", value);
-    });
-};
-
-const browserVisitorid = () => {
-  localforage.getItem("browser_vid").then((value) => {
-    if (value) {
-      //neu co trong indexDB
-      paramsVisitorID.browser_vid = value;
-    } else if (localStorage.getItem("browser_vid")) {
-      //neu co trong localstorage
-      paramsVisitorID.browser_vid = localStorage.getItem("browser_vid");
-    } else {
-      //neu co trong cookie
-      const regex = new RegExp(`(^| )browser_vid=([^;]+)`);
-      const match = document.cookie.match(regex);
-      if (match) {
-        paramsVisitorID.browser_vid = match[2];
-      }
-    }
-  });
-};
-browserVisitorid();
-getComponentsFingerVisitorId();
 // ===============================lắng nghe sự kiện từ landipage truyền vào iframe ================================
 
 function handleEventMessage(event) {
